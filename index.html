@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AKARI ITO | Stylist</title>
+  <meta name="description" content="スタイリスト AKARI ITO のポートフォリオ。雑誌・広告・作品撮りのスタイリングを手がけています。">
+  <meta property="og:title" content="AKARI ITO | Stylist">
+  <meta property="og:description" content="スタイリスト AKARI ITO のポートフォリオ">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- ===== ヘッダー ===== -->
+  <header class="site-header" id="header">
+    <a href="#top" class="logo">AKARI ITO</a>
+    <nav class="nav" aria-label="メインメニュー">
+      <a href="#profile">Profile</a>
+      <a href="#works">Works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== 1. トップ（メインビジュアル） =====
+         画像を差し替えるときは images/hero/ に画像を入れて、下の src を書き換えてください -->
+    <section class="hero" id="top">
+      <img class="hero__img" src="images/hero/hero.svg" alt="メインビジュアル">
+      <div class="hero__text">
+        <p class="hero__role">Stylist</p>
+        <h1 class="hero__name">Akari<br>Ito</h1>
+      </div>
+      <a href="#profile" class="hero__scroll" aria-label="下へスクロール">Scroll</a>
+    </section>
+
+    <!-- ===== 2. プロフィール =====
+         ※ 現在はダミー文です。本文が届いたら差し替えます -->
+    <section class="section profile" id="profile">
+      <p class="section__label">01 — Profile</p>
+      <div class="profile__grid">
+        <div class="profile__name">
+          <h2>伊藤 あかり<span>AKARI ITO</span></h2>
+          <p class="profile__role">Stylist</p>
+        </div>
+        <div class="profile__body">
+          <p>ダミーテキストです。〇〇出身。文化服装学院を卒業後、スタイリスト〇〇氏に師事。20XX年に独立し、雑誌・広告・カタログを中心に活動。</p>
+          <p>ダミーテキストです。ナチュラルでありながら芯のあるスタイリングを得意とし、ビューティー誌からライフスタイル誌まで幅広く手がける。</p>
+
+          <dl class="profile__list">
+            <div>
+              <dt>Specialty</dt>
+              <dd>ビューティー / ファッション / ライフスタイル / ブランドカタログ</dd>
+            </div>
+            <div>
+              <dt>Clients</dt>
+              <dd>美的、オレンジページ、glow、UNIQLO ほか</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. 作品（Works） =====
+         中身は data/works.js から自動で作られます。HTMLは触らなくてOK -->
+    <section class="section works" id="works">
+      <p class="section__label">02 — Works</p>
+      <ul class="works__grid" id="works-grid"></ul>
+      <p class="works__more">
+        <a href="https://www.tumblr.com/stylist-itoakari" target="_blank" rel="noopener">More on Tumblr <span aria-hidden="true">→</span></a>
+      </p>
+    </section>
+
+    <!-- ===== 4. お問い合わせ ===== -->
+    <section class="section contact" id="contact">
+      <p class="section__label">03 — Contact</p>
+      <p class="contact__lead">お仕事のご依頼・ご相談は<br class="sp">お気軽にご連絡ください。</p>
+      <a class="contact__mail" href="mailto:info@example.com">info@example.com</a>
+      <ul class="contact__sns">
+        <li><a href="https://www.tumblr.com/stylist-itoakari" target="_blank" rel="noopener">Tumblr</a></li>
+        <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> AKARI ITO</p>
+  </footer>
+
+  <!-- ===== 拡大表示（ライトボックス） ===== -->
+  <dialog class="lightbox" id="lightbox" aria-label="作品の拡大表示">
+    <button class="lightbox__close" type="button" aria-label="閉じる">Close</button>
+    <button class="lightbox__nav lightbox__prev" type="button" aria-label="前の作品">&larr;</button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" alt="">
+      <figcaption class="lightbox__caption"></figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__next" type="button" aria-label="次の作品">&rarr;</button>
+    <p class="lightbox__count"></p>
+  </dialog>
+
+  <script src="data/works.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
