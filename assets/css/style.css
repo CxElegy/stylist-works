@@ -65,6 +65,11 @@ ul { list-style: none; margin: 0; padding: 0; }
   object-fit: cover;
   animation: heroIn 2.4s cubic-bezier(.2,.7,.2,1) both;
 }
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 60%);
+}
+.hero__text, .hero__scroll { z-index: 1; }
 @keyframes heroIn { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
 .hero__text {
   position: absolute; left: var(--gutter); bottom: 72px;

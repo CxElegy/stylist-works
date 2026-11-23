@@ -35,7 +35,7 @@ assets/js/main.js   … 一覧表示と拡大表示の仕組み（通常は触�
 
 ## メインビジュアルを差し替える
 
-`images/hero/` に画像を入れ、`index.html` の `src="images/hero/hero.svg"` をそのファイル名に書き換えます。
+`images/hero/` に画像を入れ、`index.html` の `src="images/hero/hero.jpg"` をそのファイル名に書き換えます。
 縦長・横長どちらでも画面いっぱいにトリミングされて表示されます。
 
 ## 手元で確認する
