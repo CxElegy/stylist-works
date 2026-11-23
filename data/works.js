@@ -370,4 +370,470 @@ window.WORKS = [
     credit: "",
     link: ""
   },
+
+  /* ---- ここから下は Tumblr（stylist-itoakari）から取り込んだ作品 ---- */
+  {
+    image: "images/tumblr/01-uniqlo-01.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-02.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-03.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-04.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-05.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-06.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-07.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-08.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-09.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/01-uniqlo-10.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/works/baila-01.jpg",
+    page: "",
+    media: "BAILA",
+    title: "Sayuri current 松村沙友理の大人学",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/works/baila-02.jpg",
+    page: "",
+    media: "BAILA",
+    title: "Sayuri current 松村沙友理の大人学",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/02-baila-03.jpg",
+    page: "",
+    media: "BAILA",
+    title: "Sayuri current 松村沙友理の大人学",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/works/baila-04.jpg",
+    page: "",
+    media: "BAILA",
+    title: "Sayuri current 松村沙友理の大人学",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/02-baila-05.jpg",
+    page: "",
+    media: "BAILA",
+    title: "Sayuri current 松村沙友理の大人学",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/works/baila-06.jpg",
+    page: "",
+    media: "BAILA",
+    title: "毛穴もつらいよ、三十路編",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/03-mi-mollet-01.jpg",
+    page: "",
+    media: "mi-mollet",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/03-mi-mollet-02.jpg",
+    page: "",
+    media: "mi-mollet",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/03-mi-mollet-03.jpg",
+    page: "",
+    media: "mi-mollet",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/03-mi-mollet-04.jpg",
+    page: "",
+    media: "mi-mollet",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-01.jpg",
+    page: "",
+    media: "Elura",
+    title: "Elca jewelry × CALENDRIER",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-02.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-03.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-04.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-05.jpg",
+    page: "",
+    media: "Elura",
+    title: "Eluraではじめる温活 冬のあったかアイテム6",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-06.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-07.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-08.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/04-elura-09.jpg",
+    page: "",
+    media: "Elura",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-01.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-02.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-03.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-04.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-05.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-06.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-07.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/05-uniqlo-2-08.jpg",
+    page: "",
+    media: "UNIQLO",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-01.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "YURI HANAMORI meets GLOBAL WORK",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-02.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-03.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-04.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-05.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-06.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-07.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-08.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-09.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/06-kids-10.jpg",
+    page: "",
+    media: "Kids",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/07-global-work-01.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/07-global-work-02.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/07-global-work-03.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/07-global-work-04.jpg",
+    page: "",
+    media: "GLOBAL WORK",
+    title: "",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-02.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-04.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-06.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-07.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-08.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-09.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
+  {
+    image: "images/tumblr/08-test-shoot-10.jpg",
+    page: "",
+    media: "Personal Work",
+    title: "作品撮り",
+    credit: "",
+    link: ""
+  },
 ];
