@@ -308,7 +308,7 @@ body.in-detail #title{z-index:5}
   var loader = $('loader');
   function burst(done){
     setP(0); setBusy(true);
-    run(950, outQuart, setP, function(){ setP(1); setBusy(false); panOn = true; probe(false); if (done) done(); });
+    raf(function(){ run(950, outQuart, setP, function(){ setP(1); setBusy(false); panOn = true; probe(false); if (done) done(); }); });
   }
   function intro(){
     if (narrow() || calm()){
