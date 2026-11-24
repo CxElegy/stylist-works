@@ -80,7 +80,9 @@
   }
 
   function show(i) {
-    cur = (i + list.length) % list.length;
+    var next = (i + list.length) % list.length;
+    if (next !== cur) showPage = false; // 別の作品に移ったら「写真」表示に戻す
+    cur = next;
     var w = list[cur];
     lbImg.src = showPage && w.page ? w.page : w.image;
     lbImg.alt = label(w) || "作品";
@@ -118,18 +120,23 @@
      opts.grid    : 一覧を入れる要素のセレクタ
      opts.render  : function(work, index, total) → 要素（.js-open を付けた要素がクリック対象）
      opts.exclude : 一覧に出さない画像パス（トップ写真と同じものなど）
+     opts.columns : function(画面の幅) → 列の数。指定すると、番号順に「いちばん短い列」へ入れていく
+                    （横に読んでも順番どおりになり、列の長さもそろう）
   */
   function renderWorks(opts) {
     var grid = document.querySelector(opts.grid);
     if (!grid) return;
     var ex = opts.exclude || [];
     list = works.filter(function (w) { return ex.indexOf(w.image) === -1; });
+    var nodes = [];
     list.forEach(function (w, i) {
       var node = opts.render(w, i, list.length);
+      nodes.push(node);
+      node._ratio = 1.4;
       var img = node.querySelector("img");
       if (img) {
         var sz = (window.SIZES || {})[w.image];
-        if (sz) { img.width = sz[0]; img.height = sz[1]; }
+        if (sz) { img.width = sz[0]; img.height = sz[1]; node._ratio = sz[1] / sz[0]; }
         img.src = w.image;
         img.alt = label(w) || "作品";
         img.loading = i < 4 ? "eager" : "lazy";
@@ -139,11 +146,31 @@
       }
       var t = node.querySelector(".js-open") || node;
       t.addEventListener("click", function () { open(i); });
-      grid.appendChild(node);
+      if (!opts.columns) grid.appendChild(node);
     });
 
+    if (opts.columns) {
+      var curN = 0;
+      var layout = function () {
+        var n = opts.columns(window.innerWidth);
+        if (n === curN) return;
+        curN = n;
+        grid.innerHTML = "";
+        var cols = [], hs = [];
+        for (var k = 0; k < n; k++) { cols.push(grid.appendChild(el("div", "col"))); hs.push(0); }
+        nodes.forEach(function (node) {
+          var m = 0;
+          for (var k = 1; k < n; k++) if (hs[k] < hs[m] - 0.001) m = k;
+          cols[m].appendChild(node);
+          hs[m] += node._ratio + (opts.extra || 0.12); // 写真の高さ＋文字と余白のぶん（列の幅を1として）
+        });
+      };
+      layout();
+      window.addEventListener("resize", layout);
+    }
+
     // スクロールでふわっと表示
-    var items = grid.children;
+    var items = nodes;
     if ("IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });

@@ -14,19 +14,19 @@
 .lb__cap span { display: block; }
 .lb__media { font-weight: 700; letter-spacing: .08em; }
 .lb__title { opacity: .85; }
-.lb__credit { opacity: .6; font-size: 11px; }
+.lb__credit { opacity: .78; font-size: 13px; }
 .lb__links { margin-top: 10px; display: flex !important; gap: 20px; justify-content: center; }
 .lb button, .lb a { background: none; border: 0; color: inherit; cursor: pointer; font: inherit; text-decoration: none; }
-.lb__toggle { font-size: 12px; letter-spacing: .1em; border-bottom: 1px solid currentColor !important; padding: 2px 0; }
-.lb__nav { height: 100%; font-size: 22px; opacity: .6; transition: opacity .3s; }
+.lb__toggle { font-size: 13px; letter-spacing: .1em; border-bottom: 1px solid currentColor !important; padding: 2px 0; }
+.lb__nav { height: 60%; align-self: center; font-size: 22px; opacity: .6; transition: opacity .3s; }
 .lb__nav:hover { opacity: 1; }
-.lb__close, .lb__count { position: absolute; top: 16px; margin: 0; padding: 8px 0; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; }
+.lb__close, .lb__count { position: absolute; z-index: 2; top: 16px; margin: 0; padding: 8px 0; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
 .lb__close { right: 20px; }
 .lb__count { left: 20px; }
 @media (max-width: 767px) {
   .lb[open] { grid-template-columns: minmax(0, 1fr); }
   .lb__fig { padding: 0 12px; }
-  .lb__nav { position: absolute; bottom: 8px; height: 48px; width: 64px; }
+  .lb__nav { position: absolute; bottom: 8px; height: 48px; width: 64px; align-self: auto; }
   .lb__prev { left: 4px; }
   .lb__next { right: 4px; }
   .lb__img { max-height: 70dvh; }
