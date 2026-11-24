@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかりの作品集。">
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: "Archivo R1";
+  src: url(assets/fonts/archivo-var-latin.woff2) format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: block;
+}
+:root {
+  --paper: #F5F3F0;
+  --ink: #0C0C0C;
+  --big: clamp(36px, 5.5vw, 82px);
+  --mid: clamp(21px, 3.4vw, 44px);
+  --flip: cubic-bezier(.77, 0, .175, 1);
+  --veil-ease: cubic-bezier(.5, 0, .5, 1);
+  --veil-time: .49s;
+  --veil-delay: 0s;
+  --plus: 32px;
+  --plus-top: 16px;
+  --pad: 16px;
+}
+@media (max-width: 768px) {
+  :root { --plus: 24px; --plus-top: 12px; --pad: 12px; }
+}
+* { box-sizing: border-box; }
+html {
+  background: var(--paper);
+  scrollbar-width: none;
+  -webkit-text-size-adjust: 100%;
+  overflow-anchor: none;
+}
+html::-webkit-scrollbar { display: none; }
+html.is-locked { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Archivo R1", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+  font-weight: 800;
+  font-stretch: 74%;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.small {
+  font-family: Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+  font-weight: 400;
+  font-stretch: 100%;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+/* ---------- 写真の帯 ---------- */
+#track {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  overflow: clip;
+}
+#block { position: absolute; left: 0; top: 0; width: 100%; height: 0; }
+.ph {
+  position: absolute;
+  display: block;
+  margin: 0; padding: 0; border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ph img { display: block; width: 100%; height: 100%; }
+.ph[hidden] { display: none; }
+
+/* ---------- 真ん中の名前 ---------- */
+#center {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+}
+#name {
+  margin: 0;
+  font-size: var(--big);
+  font-weight: 800;
+  line-height: 1.2;
+  max-width: 65vw;
+  width: max-content;
+}
+#who {
+  position: absolute;
+  left: 50%; top: 100%;
+  margin: 2px 0 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+}
+.flip {
+  display: block;
+  transition: transform .79s var(--flip), filter .79s var(--flip), opacity .79s var(--flip);
+}
+.is-intro .flip {
+  transform: perspective(800px) translateY(50%) rotateX(-40deg);
+  filter: blur(12px);
+  opacity: 0;
+}
+.is-reveal .flip { transition-delay: .6s; }
+
+/* ---------- 加号 ---------- */
+#toggle {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--plus-top) - (44px - var(--plus)) / 2);
+  z-index: 50;
+  width: 44px; height: 44px;
+  margin: 0 0 0 -22px; padding: 0; border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid; place-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+#plus {
+  position: relative;
+  display: block;
+  width: var(--plus); height: var(--plus);
+  transition: transform .79s var(--flip), opacity .79s var(--flip);
+}
+#plus::before, #plus::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 100%; height: 3px;
+  margin-top: -1.5px;
+  background: var(--ink);
+}
+#plus::after { transform: rotate(90deg); }
+.menu-open #plus { transform: rotate(135deg); }
+.is-intro #plus { transform: rotate(-90deg) scale(.2); opacity: 0; }
+.is-reveal #plus { transition-delay: .6s; }
+.view-open #toggle { visibility: hidden; }
+
+/* ---------- ぼかし＋生成りの幕 ---------- */
+#veil {
+  position: fixed; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background-color: rgba(245, 243, 240, 0);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  transition: background-color var(--veil-time) var(--veil-ease) var(--veil-delay),
+              -webkit-backdrop-filter var(--veil-time) var(--veil-ease) var(--veil-delay),
+              backdrop-filter var(--veil-time) var(--veil-ease) var(--veil-delay);
+}
+.veil-on #veil {
+  background-color: rgba(245, 243, 240, 1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+.veil-idle #veil { -webkit-backdrop-filter: none; backdrop-filter: none; transition: none; }
+
+/* ---------- メニュー ---------- */
+#menu {
+  position: fixed; inset: 0;
+  z-index: 40;
+  display: flex; flex-direction: column;
+  padding: calc(var(--plus-top) + var(--plus) + 16px) var(--pad) var(--pad);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  visibility: hidden;
+  text-align: center;
+}
+.menu-open #menu, .menu-closing #menu { visibility: visible; }
+.m-items {
+  flex: 1 0 auto;
+  min-height: 34vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  margin: 0; padding: 0 0 2vh;
+  list-style: none;
+  font-size: var(--big);
+  line-height: 1;
+}
+.m-items li { margin: 0; padding: .04em 0; }
+.m-bio {
+  flex: 0 0 auto;
+  margin: 0 auto;
+  padding: 0 0 5vh;
+  max-width: 1360px;
+  font-size: var(--mid);
+  line-height: 1.25;
+}
+.m-bio p { margin: 0; }
+.m-bio p + p { margin-top: .6em; }
+.m-foot {
+  flex: 0 0 auto;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px;
+  font-size: var(--mid);
+  line-height: 1.2;
+}
+.m-foot a { display: inline-block; min-height: 32px; }
+.m-mail { text-transform: none; }
+.m-sns { display: flex; gap: .6em; }
+.m-copy {
+  position: absolute;
+  left: 50%; bottom: var(--pad);
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+  font-size: 11px;
+}
+#menu { position: fixed; }
+@media (max-width: 768px) {
+  .m-copy { position: static; transform: none; margin-top: 14px; }
+}
+.ln { display: block; }
+.ln-i {
+  display: block;
+  transform: perspective(800px) translateY(50%) rotateX(-40deg);
+  filter: blur(12px);
+  opacity: 0;
+  transition: none;
+}
+.menu-open .ln-i {
+  transform: none; filter: blur(0px); opacity: 1;
+  transition: transform .79s var(--flip) var(--d, 0s), filter .79s var(--flip) var(--d, 0s), opacity .79s var(--flip) var(--d, 0s);
+}
+.menu-closing .ln-i {
+  transform: perspective(800px) translateY(-50%) rotateX(40deg);
+  filter: blur(12px); opacity: 0;
+  transition: transform .79s var(--flip) var(--d, 0s), filter .79s var(--flip) var(--d, 0s), opacity .79s var(--flip) var(--d, 0s);
+}
+/* 下線：メニューの大きい字 4px（スマホ 3px）、その他のリンク 2px */
+#menu a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .12em; text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
+.m-items a { text-decoration-thickness: 4px; }
+@media (max-width: 768px) { .m-items a { text-decoration-thickness: 3px; } }
+#menu a:hover, #menu a:focus-visible, #menu a[aria-current] { text-decoration-color: currentColor; }
+
+/* ---------- 1枚だけ見る画面 ---------- */
+#view {
+  position: fixed; inset: 0;
+  z-index: 30;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity .45s var(--veil-ease), filter .45s var(--veil-ease), visibility 0s linear .45s;
+}
+#view.is-shown {
+  visibility: visible; opacity: 1; filter: blur(0px);
+  transition: opacity .45s var(--veil-ease), filter .45s var(--veil-ease), visibility 0s;
+}
+#view-img {
+  display: block;
+  max-width: calc(100vw - 32px);
+  max-height: 70vh;
+  width: auto; height: auto;
+}
+#view-back {
+  margin: 10px 0 0; padding: 10px 20px;
+  min-width: 44px; min-height: 36px;
+  border: 0; background: none; cursor: pointer;
+  font-size: 12px;
+}
+#view-back:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body class="is-intro veil-on">
+
+<button id="toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="メニューを開く"><span id="plus"></span></button>
+
+<div id="center">
+  <h1 id="name"><span class="flip" id="name-text"></span></h1>
+  <p id="who" class="small"><span class="flip" id="who-text"></span></p>
+</div>
+
+<main id="track" aria-label="作品">
+  <div id="block"></div>
+</main>
+
+<div id="veil"></div>
+
+<div id="view" role="dialog" aria-modal="true" aria-label="写真を大きく表示" aria-hidden="true">
+  <img id="view-img" alt="">
+  <button id="view-back" class="small" type="button">戻る</button>
+</div>
+
+<div id="menu" aria-hidden="true">
+  <ul class="m-items">
+    <li><a href="#" id="m-works" aria-current="page" data-split>作品</a></li>
+    <li id="m-contact-li"><a href="#" id="m-contact" data-split>連絡する</a></li>
+  </ul>
+  <div class="m-bio" id="m-bio"></div>
+  <div class="m-foot">
+    <a class="m-mail" id="m-mail" href="#" data-split></a>
+    <span class="m-sns" id="m-sns"></span>
+  </div>
+  <p class="m-copy small" id="m-copy" data-split></p>
+</div>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function () {
+  "use strict";
+  var doc = document, root = doc.documentElement, body = doc.body;
+  var SIZES = window.SIZES || {}, SEL = window.SELECTION || { lead: [], groups: [] }, PROFILE = window.PROFILE || {};
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return doc.getElementById(id); };
+
+  /* ---------- 写真の一覧（lead → 各グループの順） ---------- */
+  var photos = (SEL.lead || []).slice();
+  (SEL.groups || []).forEach(function (g) { photos = photos.concat(g.items || []); });
+  var N = photos.length;
+  var COLS = 5;
+  var ROWS_PER = N;                 // N枚×5回 = 5N マス = N 行 で必ず同じ並びに戻る
+  if (N % COLS === 0) ROWS_PER = N / COLS;
+  var CELLS_PER = ROWS_PER * COLS;  // 1周期のマス数
+  var COPIES = 3;
+  var TOTAL = CELLS_PER * COPIES;
+  var HEAD = 8;                     // 最初の 8 マスだけ、1周目は真ん中の列に空きを 2 つ作る
+  var PERIODS = 400;
+
+  /* ---------- 文字 ---------- */
+  $("name-text").textContent = PROFILE.nameEn || "";
+  $("who-text").textContent = (PROFILE.nameJa || "") + "｜スタイリスト";
+  var year = new Date().getFullYear();
+  $("m-copy").textContent = "© " + year + " " + (PROFILE.nameJa || "");
+  var bioBox = $("m-bio");
+  if (PROFILE.bio && PROFILE.bio.length) {
+    var p1 = doc.createElement("p"); p1.setAttribute("data-split", ""); p1.textContent = PROFILE.bio.join("");
+    bioBox.appendChild(p1);
+  }
+  if (PROFILE.specialty) {
+    var p2 = doc.createElement("p"); p2.setAttribute("data-split", ""); p2.textContent = PROFILE.specialty;
+    bioBox.appendChild(p2);
+  }
+  if (PROFILE.email) {
+    $("m-contact").href = "mailto:" + PROFILE.email;
+    $("m-mail").href = "mailto:" + PROFILE.email;
+    $("m-mail").textContent = PROFILE.email;
+  } else {
+    $("m-contact-li").remove(); $("m-mail").remove();
+  }
+  if (PROFILE.instagram) {
+    var ig = doc.createElement("a");
+    ig.href = /^https?:/.test(PROFILE.instagram) ? PROFILE.instagram : "https://www.instagram.com/" + String(PROFILE.instagram).replace(/^@/, "") + "/";
+    ig.target = "_blank"; ig.rel = "noopener";
+    ig.setAttribute("aria-label", "Instagram");
+    ig.setAttribute("data-split", "");
+    ig.textContent = "IG";
+    $("m-sns").appendChild(ig);
+  }
+
+  /* ---------- レイアウト ---------- */
+  var track = $("track"), block = $("block");
+  var M = {};
+  function measure() {
+    var VW = root.clientWidth, VH = window.innerHeight;
+    var m = { VW: VW, VH: VH, mobile: VW <= 768 };
+    if (m.mobile) {
+      m.gap = 16; m.gridW = VW; m.gridL = 0;
+      m.colW = (m.gridW - 4 * m.gap) / COLS;
+      m.cellH = 0.24 * VH; m.lift = 0.08 * VH;
+      m.boxW = m.colW * 1.6; m.boxH = m.cellH * 0.7;
+    } else {
+      m.gap = 0.06 * VW; m.gridW = 1.1 * VW; m.gridL = -0.05 * VW;
+      m.colW = (m.gridW - 4 * m.gap) / COLS;
+      m.cellH = VH * 0.8 / 3; m.lift = 0.12 * VH;
+      m.boxW = m.colW * 1.1; m.boxH = m.cellH * 1.2;
+    }
+    m.pitchX = m.colW + m.gap;
+    m.pitchY = m.cellH + 0.22 * VH;
+    m.y0 = m.cellH / 2 - m.lift;
+    m.P = ROWS_PER * m.pitchY;
+    return m;
+  }
+  // マス i に入る写真の番号（-1 = 空き）。k = 0 は読み込み直後の 1 周目
+  function photoAt(i, k) {
+    if (k === 0 && i < HEAD) {
+      if (i === 2 || i === 7) return -1;
+      return i < 2 ? i : i - 1;
+    }
+    return (((i - 2) % N) + N) % N;
+  }
+  var cells = [];
+  function build() {
+    var frag = doc.createDocumentFragment();
+    for (var i = 0; i < TOTAL; i++) {
+      var b = doc.createElement("button");
+      b.type = "button"; b.className = "ph";
+      var img = doc.createElement("img");
+      img.alt = ""; img.decoding = "async"; img.draggable = false;
+      b.appendChild(img);
+      frag.appendChild(b);
+      cells.push({ el: b, img: img, p: -2, i: i });
+    }
+    block.appendChild(frag);
+  }
+  function place(c) {
+    var p = c.p, el = c.el;
+    if (p < 0) { el.hidden = true; return; }
+    el.hidden = false;
+    var s = SIZES[photos[p]] || [3, 4];
+    var sc = Math.min(M.boxW / s[0], M.boxH / s[1]);
+    var w = s[0] * sc, h = s[1] * sc;
+    var r = Math.floor(c.i / COLS), j = c.i % COLS;
+    var cx = M.gridL + M.colW / 2 + j * M.pitchX;
+    var cy = M.y0 + r * M.pitchY + (j % 2 ? M.pitchY / 2 : 0);
+    c.cx = cx; c.cy = cy; c.w = w; c.h = h;
+    el.style.left = (cx - w / 2) + "px";
+    el.style.top = (cy - h / 2) + "px";
+    el.style.width = w + "px";
+    el.style.height = h + "px";
+  }
+  function assign(c, k) {
+    var p = photoAt(c.i, k);
+    if (p !== c.p) {
+      c.p = p;
+      if (p >= 0) {
+        c.img.src = photos[p];
+        var s = SIZES[photos[p]];
+        if (s) { c.img.width = s[0]; c.img.height = s[1]; }
+        c.el.setAttribute("aria-label", "作品写真 " + (p + 1) + " を大きく表示");
+        c.el.dataset.p = p;
+      }
+    }
+    place(c);
+  }
+  var curK = -1;
+  function setK(k) {
+    if (k === curK) return;
+    var headChange = (curK <= 0) !== (k <= 0) || curK < 0;
+    curK = k;
+    block.style.top = (k * M.P) + "px";
+    if (headChange) for (var i = 0; i < HEAD; i++) assign(cells[i], k);
+  }
+  function kFor(s) { return Math.max(0, Math.floor(s / M.P) - 1); }
+  function layout() {
+    M = measure();
+    track.style.height = (M.P * PERIODS) + "px";
+    var k = curK < 0 ? 0 : curK;
+    for (var i = 0; i < TOTAL; i++) assign(cells[i], k);
+    block.style.top = (k * M.P) + "px";
+  }
+
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  build();
+  M = measure();
+  curK = 0;
+  layout();
+  window.scrollTo(0, 0);
+
+  /* ---------- 終わりのないスクロール ---------- */
+  var idleT = 0;
+  function onScroll() {
+    var s = window.pageYOffset;
+    setK(kFor(s));
+    clearTimeout(idleT);
+    idleT = setTimeout(rewind, 220);
+  }
+  // 帯の終わりに近づいたら、止まっているときに周期の整数倍だけ巻き戻す（見た目は変わらない）
+  function rewind() {
+    var s = window.pageYOffset;
+    if (s > M.P * (PERIODS - 6)) {
+      var s2 = 2 * M.P + (s % M.P);
+      setK(kFor(s2));
+      window.scrollTo(0, s2);
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  var lastW = M.VW, lastH = M.VH, rT = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () {
+      var w = root.clientWidth, h = window.innerHeight;
+      // スマホのアドレスバーの出入り（幅は同じで高さだけ少し変わる）では並べ直さない
+      if (w === lastW && Math.abs(h - lastH) < 160 && w <= 768) return;
+      if (w === lastW && h === lastH) return;
+      var ratio = window.pageYOffset / M.P;
+      lastW = w; lastH = h;
+      layout();
+      var s = ratio * M.P;
+      curK = -1; setK(kFor(s));
+      for (var i = 0; i < HEAD; i++) assign(cells[i], curK);
+      window.scrollTo(0, s);
+      splitAll();
+    }, 120);
+  });
+
+  /* ---------- 開場 ---------- */
+  var introDone = false;
+  function finishIntro() {
+    introDone = true;
+    body.classList.remove("is-intro", "is-reveal", "veil-on");
+    body.classList.add("veil-idle");
+    root.style.removeProperty("--veil-delay");
+    cells.forEach(function (c) {
+      c.el.style.transform = ""; c.el.style.transition = ""; c.el.style.opacity = ""; c.el.style.zIndex = "";
+    });
+  }
+  function shuffle(n) {
+    var a = []; for (var i = 0; i < n; i++) a.push(i + 1);
+    for (var j = n - 1; j > 0; j--) { var r = Math.floor(Math.random() * (j + 1)); var t = a[j]; a[j] = a[r]; a[r] = t; }
+    return a;
+  }
+  function runIntro() {
+    if (reduce) { finishIntro(); return; }
+    var first = cells.filter(function (c) {
+      return c.p >= 0 && c.cy + c.h / 2 > 0 && c.cy - c.h / 2 < M.VH && c.cx + c.w / 2 > 0 && c.cx - c.w / 2 < M.VW;
+    });
+    var n = first.length, zs = shuffle(n), ds = shuffle(n);
+    var ease = "cubic-bezier(.77,0,.175,1)";
+    first.forEach(function (c, i) {
+      c.z = zs[i]; c.d = ds[i]; c.dur = 0.8 + Math.random() * 0.6;
+      c.el.style.transition = "none";
+      c.el.style.transform = "translate(" + (M.VW / 2 - c.cx) + "px," + (M.VH / 2 - c.cy) + "px)";
+      c.el.style.opacity = "0";
+      c.el.style.zIndex = String(c.z);
+    });
+    void block.offsetWidth;
+    // 1) 幕が溶ける（0.1 秒待って 0.49 秒）＋ 写真が重なり順に 0.1 秒おきに出る
+    root.style.setProperty("--veil-delay", ".1s");
+    body.classList.remove("veil-on");
+    first.forEach(function (c) {
+      c.el.style.transition = "opacity 0s linear " + (c.z * 0.1).toFixed(2) + "s";
+      c.el.style.opacity = "1";
+    });
+    var popEnd = n * 100 + 150;
+    // 2) それぞれのマスへ滑る ＋ 0.6 秒後に名前と加号
+    setTimeout(function () {
+      first.forEach(function (c) {
+        c.el.style.transition = "transform " + c.dur.toFixed(2) + "s " + ease + " " + (c.d * 0.01).toFixed(2) + "s";
+        c.el.style.transform = "translate(0px,0px)";
+      });
+      body.classList.add("is-reveal");
+      body.classList.remove("is-intro");
+      window.__introScatterAt = performance.now();
+      setTimeout(finishIntro, 1700);
+    }, popEnd);
+  }
+  function startWhenReady() {
+    var need = cells.filter(function (c) { return c.p >= 0 && c.cy - c.h / 2 < M.VH; }).map(function (c) { return c.img; });
+    var left = need.length, started = false;
+    function go() { if (started) return; started = true; requestAnimationFrame(function () { requestAnimationFrame(runIntro); }); }
+    function one() { if (--left <= 0) go(); }
+    need.forEach(function (im) {
+      if (im.complete) one(); else { im.addEventListener("load", one, { once: true }); im.addEventListener("error", one, { once: true }); }
+    });
+    var fr = doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve();
+    fr.then(splitAll);
+    setTimeout(go, 3000);
+  }
+
+  /* ---------- メニュー：行ごとに分ける ---------- */
+  var menu = $("menu"), toggle = $("toggle");
+  function splitAll() {
+    var groups = menu.querySelectorAll("[data-split]"), gi = 0;
+    Array.prototype.forEach.call(groups, function (el) {
+      var text = el.getAttribute("data-text");
+      if (text === null) { text = el.textContent; el.setAttribute("data-text", text); }
+      el.textContent = "";
+      var spans = [];
+      Array.from(text).forEach(function (ch) {
+        var s = doc.createElement("span"); s.textContent = ch; el.appendChild(s); spans.push(s);
+      });
+      var lines = [], top = null;
+      spans.forEach(function (s) {
+        var t = s.offsetTop;
+        if (top === null || Math.abs(t - top) > 2) { lines.push(""); top = t; }
+        lines[lines.length - 1] += s.textContent;
+      });
+      el.textContent = "";
+      lines.forEach(function (ln, li) {
+        var o = doc.createElement("span"); o.className = "ln";
+        var inr = doc.createElement("span"); inr.className = "ln-i";
+        inr.style.setProperty("--d", (gi * 0.06 + li * 0.015).toFixed(3) + "s");
+        inr.textContent = ln;
+        o.appendChild(inr); el.appendChild(o);
+      });
+      gi++;
+    });
+  }
+
+  var menuOpen = false, closeT = 0;
+  function setInert(el, on) { if (on) el.setAttribute("inert", ""); else el.removeAttribute("inert"); }
+  setInert(menu, true);
+  function openMenu() {
+    if (menuOpen || viewState !== "closed" || !introDone) return;
+    menuOpen = true;
+    clearTimeout(closeT);
+    root.style.setProperty("--veil-time", ".49s");
+    body.classList.remove("veil-idle", "menu-closing");
+    void menu.offsetWidth;
+    body.classList.add("menu-open", "veil-on");
+    root.classList.add("is-locked");
+    menu.setAttribute("aria-hidden", "false"); setInert(menu, false);
+    setInert(track, true);
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "メニューを閉じる");
+  }
+  function closeMenu() {
+    if (!menuOpen) return;
+    menuOpen = false;
+    body.classList.remove("menu-open", "veil-on");
+    body.classList.add("menu-closing");
+    menu.setAttribute("aria-hidden", "true"); setInert(menu, true);
+    setInert(track, false);
+    root.classList.remove("is-locked");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "メニューを開く");
+    closeT = setTimeout(function () {
+      body.classList.remove("menu-closing");
+      body.classList.add("veil-idle");
+    }, reduce ? 0 : 1100);
+  }
+  toggle.addEventListener("click", function () { if (menuOpen) closeMenu(); else openMenu(); });
+  $("m-works").addEventListener("click", function (e) { e.preventDefault(); closeMenu(); toggle.focus(); });
+  // メニューが開いている間、後ろのページは動かさない
+  function blockScroll(e) {
+    if (!menuOpen && viewState === "closed") return;
+    if (menuOpen && menu.scrollHeight > menu.clientHeight + 1 && menu.contains(e.target)) return;
+    e.preventDefault();
+  }
+  window.addEventListener("wheel", blockScroll, { passive: false });
+  window.addEventListener("touchmove", blockScroll, { passive: false });
+
+  /* ---------- 写真をクリック：1枚だけ見る ---------- */
+  var view = $("view"), viewImg = $("view-img"), viewBack = $("view-back");
+  var viewState = "closed", lastBtn = null, vT = [];
+  var T_FADE = reduce ? 0 : 450, T_BLANK = reduce ? 0 : 850;
+  function later(fn, ms) { vT.push(setTimeout(fn, ms)); }
+  function openView(p, btn) {
+    if (viewState !== "closed" || menuOpen || !introDone) return;
+    viewState = "opening"; lastBtn = btn;
+    var s = SIZES[photos[p]];
+    if (s) { viewImg.width = s[0]; viewImg.height = s[1]; }
+    viewImg.src = photos[p];
+    viewImg.alt = "作品写真 " + (p + 1);
+    root.style.setProperty("--veil-time", ".45s");
+    body.classList.remove("veil-idle");
+    void body.offsetWidth;
+    body.classList.add("veil-on", "view-open");
+    root.classList.add("is-locked");
+    setInert(track, true);
+    try { history.pushState({ r1view: p }, ""); } catch (e) {}
+    later(function () {
+      view.classList.add("is-shown");
+      view.setAttribute("aria-hidden", "false");
+      viewBack.focus({ preventScroll: true });
+      later(function () { viewState = "open"; }, T_FADE);
+    }, T_FADE + T_BLANK);
+  }
+  function closeView(fromPop) {
+    if (viewState === "closed" || viewState === "closing") return;
+    vT.forEach(clearTimeout); vT = [];
+    viewState = "closing";
+    if (!fromPop && history.state && history.state.r1view !== undefined) { try { history.back(); } catch (e) {} }
+    view.classList.remove("is-shown");
+    view.setAttribute("aria-hidden", "true");
+    later(function () {
+      root.style.setProperty("--veil-time", ".45s");
+      body.classList.remove("veil-on", "view-open");
+      root.classList.remove("is-locked");
+      setInert(track, false);
+      if (lastBtn && lastBtn.focus) lastBtn.focus({ preventScroll: true });
+      later(function () { body.classList.add("veil-idle"); viewState = "closed"; }, T_FADE + 30);
+    }, T_FADE + T_BLANK);
+  }
+  setInert(view, false);
+  block.addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".ph") : null;
+    if (!b) return;
+    openView(parseInt(b.dataset.p, 10), b);
+  });
+  viewBack.addEventListener("click", function () { closeView(false); });
+  view.addEventListener("click", function (e) { if (e.target === view) closeView(false); });
+  window.addEventListener("popstate", function () { if (viewState !== "closed") closeView(true); });
+  doc.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" || e.key === "Esc") {
+      if (menuOpen) { closeMenu(); toggle.focus(); }
+      else if (viewState !== "closed") closeView(false);
+    }
+  });
+
+  window.__r1 = { metrics: function () { return M; }, photos: N, state: function () { return { k: curK, view: viewState, menu: menuOpen, intro: introDone }; } };
+  startWhenReady();
+})();
+</script>
+</body>
+</html>
