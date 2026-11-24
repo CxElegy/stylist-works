@@ -95,21 +95,27 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
 }
 #name {
   margin: 0;
-  font-size: var(--big);
+  font-size: max(36px, min(10vw, 15.5vh));   /* 横幅のおよそ 40%。上下の写真に当たらないよう高さでも抑える */
   font-weight: 800;
   letter-spacing: .02em;
-  line-height: 1.2;
-  max-width: 65vw;
+  line-height: 1;
+  max-width: 90vw;
   width: max-content;
+}
+#name .w { display: inline-block; }
+@media (max-width: 768px) {
+  #name { font-size: max(36px, min(21vw, 12.5vh)); }   /* スマホは 2 行（左右の写真に当たらない幅で、できるだけ大きく） */
+  #name .w { display: block; }
 }
 #who {
   position: absolute;
   left: 50%; top: 100%;
-  margin: 2px 0 0;
+  margin: 8px 0 0;
   transform: translateX(-50%);
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 13px;
 }
+@media (max-width: 768px) { #who { margin-top: 6px; font-size: 12px; } }
 .flip {
   display: block;
   transition: transform .79s var(--flip), filter .79s var(--flip), opacity .79s var(--flip);
@@ -336,21 +342,130 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (id) { return doc.getElementById(id); };
 
-  /* ---------- 写真の一覧（lead → 各グループの順） ---------- */
+  /* ---------- 写真の一覧 ----------
+     1 周目の前半：SELECTION の順（lead → 各グループ）。そのあと：下の EXTRA をページを開くたびに
+     ランダムに並べて続ける。全部で 1 周期になり、あとは同じ順で繰り返す。
+     クラス（写っている人の大きさをそろえるための表示サイズ）：
+       F = 顔のアップ / B = 胸から上 / H = 半身〜ひざ上・座り / L = 全身                              */
+  var SEL_CLASS = {
+    "images/works/personal-01.jpg": "L",
+    "images/works/biteki-portrait-03.jpg": "F",
+    "images/tumblr/08-test-shoot-02.jpg": "H",
+    "images/works/personal-04.jpg": "L",
+    "images/works/biteki-neo-nude-eye.jpg": "F",
+    "images/works/biteki-portrait-01.jpg": "F",
+    "images/works/biteki-portrait-02.jpg": "F",
+    "images/works/biteki-glow-cream.jpg": "F",
+    "images/works/biteki-spring-cosme-2026.jpg": "F",
+    "images/tumblr/01-uniqlo-01.jpg": "L",
+    "images/tumblr/01-uniqlo-04.jpg": "H",
+    "images/tumblr/01-uniqlo-10.jpg": "L",
+    "images/tumblr/05-uniqlo-2-02.jpg": "L",
+    "images/tumblr/05-uniqlo-2-01.jpg": "L",
+    "images/tumblr/07-global-work-01.jpg": "L",
+    "images/tumblr/07-global-work-02.jpg": "L",
+    "images/tumblr/04-elura-06.jpg": "H",
+    "images/works/glow-lesson-1b.jpg": "L",
+    "images/tumblr/03-mi-mollet-01.jpg": "L",
+    "images/tumblr/04-elura-07.jpg": "L",
+    "images/works/orangepage-04.jpg": "B",
+    "images/tumblr/04-elura-03.jpg": "B",
+    "images/works/orangepage-05.jpg": "B",
+    "images/tumblr/03-mi-mollet-04.jpg": "B",
+    "images/tumblr/03-mi-mollet-03.jpg": "B",
+    "images/tumblr/06-kids-04.jpg": "L",
+    "images/tumblr/06-kids-06.jpg": "L",
+    "images/tumblr/06-kids-08.jpg": "L",
+    "images/tumblr/06-kids-09.jpg": "L",
+    "images/tumblr/06-kids-10.jpg": "H",
+    "images/works/personal-02.jpg": "B",
+    "images/works/personal-09.jpg": "L",
+    "images/tumblr/08-test-shoot-10.jpg": "H",
+    "images/tumblr/08-test-shoot-07.jpg": "H",
+    "images/tumblr/08-test-shoot-04.jpg": "L"
+  };
+  // 追加で流す写真（目で見て選んだもの。文字・ロゴ・誌面レイアウト・小さすぎる画像・同じ写真は入れていない）
+  var EXTRA = {
+    "images/works/uniqlo-01.jpg": "L",
+    "images/works/orangepage-01.jpg": "B",
+    "images/works/uniqlo-02.jpg": "L",
+    "images/works/orangepage-03.jpg": "B",
+    "images/works/biteki-dark-fig.jpg": "F",
+    "images/works/personal-03.jpg": "H",
+    "images/works/uniqlo-03.jpg": "L",
+    "images/works/orangepage-02.jpg": "B",
+    "images/works/biteki-best-answer-01.jpg": "F",
+    "images/works/uniqlo-04.jpg": "L",
+    "images/works/personal-05.jpg": "L",
+    "images/works/uniqlo-05.jpg": "L",
+    "images/works/orangepage-06.jpg": "B",
+    "images/works/personal-06.jpg": "L",
+    "images/works/uniqlo-06.jpg": "L",
+    "images/works/personal-07.jpg": "L",
+    "images/works/uniqlo-07.jpg": "L",
+    "images/works/biteki-korea-beauty-talk.jpg": "F",
+    "images/works/personal-08.jpg": "L",
+    "images/works/uniqlo-08.jpg": "L",
+    "images/works/biteki-cherry.jpg": "F",
+    "images/works/uniqlo-09.jpg": "L",
+    "images/works/biteki-best-answer-02.jpg": "B",
+    "images/works/uniqlo-10.jpg": "L",
+    "images/works/uniqlo-11.jpg": "L",
+    "images/works/biteki-best-answer-03.jpg": "H",
+    "images/works/uniqlo-12.jpg": "L",
+    "images/works/uniqlo-13.jpg": "L",
+    "images/tumblr/01-uniqlo-02.jpg": "L",
+    "images/tumblr/01-uniqlo-03.jpg": "L",
+    "images/tumblr/01-uniqlo-05.jpg": "L",
+    "images/tumblr/01-uniqlo-06.jpg": "L",
+    "images/tumblr/01-uniqlo-07.jpg": "L",
+    "images/tumblr/01-uniqlo-08.jpg": "L",
+    "images/tumblr/01-uniqlo-09.jpg": "L",
+    "images/tumblr/03-mi-mollet-02.jpg": "L",
+    "images/tumblr/04-elura-02.jpg": "B",
+    "images/tumblr/04-elura-04.jpg": "B",
+    "images/tumblr/04-elura-08.jpg": "H",
+    "images/tumblr/04-elura-09.jpg": "H",
+    "images/tumblr/06-kids-05.jpg": "L",
+    "images/tumblr/06-kids-07.jpg": "L",
+    "images/tumblr/08-test-shoot-06.jpg": "H",
+    "images/tumblr/08-test-shoot-08.jpg": "H",
+    "images/tumblr/08-test-shoot-09.jpg": "B"
+  };
+  var K_DESK = { F: 0.72, B: 0.88, H: 1.0, L: 1.22 };
+  var K_MOB = { F: 0.72, B: 0.88, H: 1.0, L: 1.18 };
+  var COLS = 5;
   var photos = (SEL.lead || []).slice();
   (SEL.groups || []).forEach(function (g) { photos = photos.concat(g.items || []); });
+  var N_SEL = photos.length;
+  var classOf = {};
+  photos.forEach(function (p) { classOf[p] = SEL_CLASS[p] || "H"; });
+  (function () {
+    var extra = Object.keys(EXTRA).filter(function (p) { return !(p in classOf) && SIZES[p]; });
+    for (var j = extra.length - 1; j > 0; j--) {   // このページを開いている間は同じ順
+      var r = Math.floor(Math.random() * (j + 1)); var t = extra[j]; extra[j] = extra[r]; extra[r] = t;
+    }
+    // 5 列でちょうど割り切れる枚数にする（余りは今回は出さない。どれが外れるかも毎回変わる）
+    var over = (photos.length + extra.length) % COLS;
+    if (over <= extra.length) extra.length -= over;
+    extra.forEach(function (p) { classOf[p] = EXTRA[p]; photos.push(p); });
+  })();
   var N = photos.length;
-  var COLS = 5;
-  var ROWS_PER = N;                 // N枚×5回 = 5N マス = N 行 で必ず同じ並びに戻る
+  var ROWS_PER = N;                 // N が 5 で割り切れないときは 5 周で元の並びに戻る
   if (N % COLS === 0) ROWS_PER = N / COLS;
   var CELLS_PER = ROWS_PER * COLS;  // 1周期のマス数
-  var COPIES = 3;
+  var COPIES = 2;
   var TOTAL = CELLS_PER * COPIES;
   var HEAD = 8;                     // 最初の 8 マスだけ、1周目は真ん中の列に空きを 2 つ作る
-  var PERIODS = 400;
+  var PERIODS = 200;
 
   /* ---------- 文字 ---------- */
-  $("name-text").textContent = PROFILE.nameEn || "";
+  String(PROFILE.nameEn || "").split(/\s+/).forEach(function (wd) {
+    if (!wd) return;
+    var sp = doc.createElement("span"); sp.className = "w"; sp.textContent = wd;
+    if ($("name-text").firstChild) $("name-text").appendChild(doc.createTextNode(" "));
+    $("name-text").appendChild(sp);
+  });
   $("who-text").textContent = (PROFILE.nameJa || "") + "｜スタイリスト";
   var year = new Date().getFullYear();
   $("m-copy").textContent = "© " + year + " " + (PROFILE.nameJa || "");
@@ -391,11 +506,13 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
       m.colW = (m.gridW - 4 * m.gap) / COLS;
       m.cellH = 0.24 * VH; m.lift = 0.08 * VH;
       m.boxW = m.colW * 1.6; m.boxH = m.cellH * 0.7;
+      m.capW = m.boxW * 1.22;
     } else {
       m.gap = 0.06 * VW; m.gridW = 1.1 * VW; m.gridL = -0.05 * VW;
       m.colW = (m.gridW - 4 * m.gap) / COLS;
       m.cellH = VH * 0.8 / 3; m.lift = 0.12 * VH;
       m.boxW = m.colW * 1.1; m.boxH = m.cellH * 1.2;
+      m.capW = m.boxW;
     }
     m.pitchX = m.colW + m.gap;
     m.pitchY = Math.round(m.cellH + 0.22 * VH);   // 整数にしておくと、周期もぴったり整数になる
@@ -412,6 +529,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     return (((i - 2) % N) + N) % N;
   }
   var cells = [];
+  var ready = {};   // 写真番号 → もう読み込みを始めてよい
   function build() {
     var frag = doc.createDocumentFragment();
     for (var i = 0; i < TOTAL; i++) {
@@ -430,7 +548,9 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     if (p < 0) { el.hidden = true; return; }
     el.hidden = false;
     var s = SIZES[photos[p]] || [3, 4];
-    var sc = Math.min(M.boxW / s[0], M.boxH / s[1]);
+    // 高さ ＝ 基準の箱の高さ × クラスの係数。横は上限まで（はみ出すときは同じ比率のまま縮める）
+    var kk = (M.mobile ? K_MOB : K_DESK)[classOf[photos[p]]] || 1;
+    var sc = Math.min(M.capW / s[0], M.boxH * kk / s[1]);
     var w = s[0] * sc, h = s[1] * sc;
     var r = Math.floor(c.i / COLS), j = c.i % COLS;
     var cx = M.gridL + M.colW / 2 + j * M.pitchX;
@@ -446,7 +566,8 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     if (p !== c.p) {
       c.p = p;
       if (p >= 0) {
-        c.img.src = photos[p];
+        c.img.removeAttribute("src");
+        if (ready[p]) c.img.src = photos[p];
         var s = SIZES[photos[p]];
         if (s) { c.img.width = s[0]; c.img.height = s[1]; }
         c.el.setAttribute("aria-label", "作品写真 " + (p + 1) + " を大きく表示");
@@ -463,7 +584,31 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     block.style.top = (k * M.P) + "px";
     if (headChange) for (var i = 0; i < HEAD; i++) assign(cells[i], k);
   }
-  function kFor(s) { return Math.max(0, Math.floor(s / M.P) - 1); }
+  // 2 周期ぶんの帯を、画面がいつもその真ん中あたりに来るように周期単位でずらす
+  function kFor(s) { return Math.max(0, Math.floor((s - M.P / 2) / M.P)); }
+  /* 画像は近いものから読む：画面の前後 3 画面ぶんはすぐ、残りは開場のあと順番に全部 */
+  function show(p) {
+    if (ready[p]) return;
+    ready[p] = true;
+    for (var i = 0; i < TOTAL; i++) if (cells[i].p === p && !cells[i].img.getAttribute("src")) cells[i].img.src = photos[p];
+  }
+  function ensureNear() {
+    var top = window.pageYOffset - curK * M.P, lo = top - 3 * M.VH, hi = top + 4 * M.VH;
+    for (var i = 0; i < TOTAL; i++) { var c = cells[i]; if (c.p >= 0 && !ready[c.p] && c.cy + c.h / 2 > lo && c.cy - c.h / 2 < hi) show(c.p); }
+  }
+  var bgAt = 0, bgBusy = 0;
+  function loadRest() {
+    while (bgBusy < 3 && bgAt < N) {
+      var p = bgAt++;
+      if (ready[p]) continue;
+      bgBusy++;
+      (function (p) {
+        var im = new Image();
+        im.onload = im.onerror = function () { bgBusy--; show(p); loadRest(); };
+        im.src = photos[p];
+      })(p);
+    }
+  }
   function layout() {
     M = measure();
     track.style.height = (M.P * PERIODS) + "px";
@@ -477,6 +622,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   M = measure();
   curK = 0;
   layout();
+  ensureNear();
   window.scrollTo(0, 0);
 
   /* ---------- 終わりのないスクロール ---------- */
@@ -484,6 +630,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   function onScroll() {
     var s = window.pageYOffset;
     setK(kFor(s));
+    ensureNear();
     clearTimeout(idleT);
     idleT = setTimeout(rewind, 220);
   }
@@ -521,6 +668,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   var introDone = false;
   function finishIntro() {
     introDone = true;
+    loadRest();
     body.classList.remove("is-intro", "is-reveal", "veil-on");
     body.classList.add("veil-idle");
     root.style.removeProperty("--veil-delay");
@@ -712,7 +860,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     }
   });
 
-  window.__r1 = { metrics: function () { return M; }, photos: N, state: function () { return { k: curK, view: viewState, menu: menuOpen, intro: introDone }; } };
+  window.__r1 = { metrics: function () { return M; }, photos: N, selected: N_SEL, order: photos, classOf: classOf, loaded: function () { return Object.keys(ready).length; }, state: function () { return { k: curK, view: viewState, menu: menuOpen, intro: introDone }; } };
   startWhenReady();
 })();
 </script>
