@@ -12,23 +12,26 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  # 「まとめる」と「公開する」を別の仕事に分ける
+  # （1つにまとめると、アップロード直後にファイルが見つからず失敗することがあった）
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Collect site files
+        run: |
+          mkdir _site
+          cp -r index.html v2.html a-bold.html b-cool.html c-simple.html assets data images _site/
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Collect site files
-        run: |
-          mkdir _site
-          cp -r index.html v2.html a-bold.html b-cool.html c-simple.html assets data images _site/
-          touch _site/.nojekyll
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
