@@ -16,7 +16,7 @@ window.PROFILE = {
   ],
 
   specialty: "ビューティー / ファッション / ライフスタイル / ブランドカタログ",
-  clients: ["美的", "オレンジページ", "glow", "UNIQLO"],
+  clients: ["美的", "BAILA", "オレンジページ", "glow", "mi-mollet", "UNIQLO", "GLOBAL WORK", "Elura"],
 
   // 連絡先（空 "" にするとその項目は表示されません）
   email: "info@example.com",

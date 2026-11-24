@@ -3,106 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AKARI ITO | Stylist</title>
-  <meta name="description" content="スタイリスト AKARI ITO のポートフォリオ。雑誌・広告・作品撮りのスタイリングを手がけています。">
-  <meta property="og:title" content="AKARI ITO | Stylist">
-  <meta property="og:description" content="スタイリスト AKARI ITO のポートフォリオ">
-  <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <title>デザイン案を選ぶ | Akari Ito</title>
+  <meta name="robots" content="noindex">
+  <style>
+    /* 3案を見比べて選ぶためのページ（公開前の確認用） */
+    :root { --bg: #ffffff; --ink: #111111; --muted: #6b6b6b; --line: #dddddd;
+      --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", Meiryo, sans-serif; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.8; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; height: auto; }
+    .wrap { max-width: 1320px; margin: 0 auto; padding: 40px 20px 64px; }
+    h1 { margin: 0; font-size: 24px; line-height: 1.3; }
+    .lead { margin: 8px 0 32px; color: var(--muted); }
+    .plans { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px 24px; }
+    @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .plan a { display: block; }
+    .plan__shots { display: grid; grid-template-columns: 1400fr 390fr; gap: 8px; align-items: start; border: 1px solid var(--line); padding: 8px; }
+    .plan__id { margin: 16px 0 0; font-size: 32px; font-weight: 700; line-height: 1; }
+    .plan__name { margin: 8px 0 0; font-size: 16px; font-weight: 700; }
+    .plan__desc { margin: 4px 0 0; color: var(--muted); }
+    .plan__go { display: inline-block; margin-top: 12px; border-bottom: 1px solid currentColor; }
+    .plan a:hover .plan__go, .plan a:focus-visible .plan__go { opacity: .5; }
+  </style>
 </head>
 <body>
-
-  <!-- ===== ヘッダー ===== -->
-  <header class="site-header" id="header">
-    <a href="#top" class="logo">AKARI ITO</a>
-    <nav class="nav" aria-label="メインメニュー">
-      <a href="#profile">Profile</a>
-      <a href="#works">Works</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main>
-    <!-- ===== 1. トップ（メインビジュアル） =====
-         画像を差し替えるときは images/hero/ に画像を入れて、下の src を書き換えてください -->
-    <section class="hero" id="top">
-      <img class="hero__img" src="images/hero/hero.jpg" alt="メインビジュアル">
-      <div class="hero__text">
-        <p class="hero__role">Stylist</p>
-        <h1 class="hero__name">Akari<br>Ito</h1>
-      </div>
-      <a href="#profile" class="hero__scroll" aria-label="下へスクロール">Scroll</a>
-    </section>
-
-    <!-- ===== 2. プロフィール =====
-         ※ 現在はダミー文です。本文が届いたら差し替えます -->
-    <section class="section profile" id="profile">
-      <p class="section__label">01 — Profile</p>
-      <div class="profile__grid">
-        <div class="profile__name">
-          <h2>伊藤 あかり<span>AKARI ITO</span></h2>
-          <p class="profile__role">Stylist</p>
-        </div>
-        <div class="profile__body">
-          <p>ダミーテキストです。〇〇出身。文化服装学院を卒業後、スタイリスト〇〇氏に師事。20XX年に独立し、雑誌・広告・カタログを中心に活動。</p>
-          <p>ダミーテキストです。ナチュラルでありながら芯のあるスタイリングを得意とし、ビューティー誌からライフスタイル誌まで幅広く手がける。</p>
-
-          <dl class="profile__list">
-            <div>
-              <dt>Specialty</dt>
-              <dd>ビューティー / ファッション / ライフスタイル / ブランドカタログ</dd>
-            </div>
-            <div>
-              <dt>Clients</dt>
-              <dd>美的、オレンジページ、glow、UNIQLO ほか</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 3. 作品（Works） =====
-         中身は data/works.js から自動で作られます。HTMLは触らなくてOK -->
-    <section class="section works" id="works">
-      <p class="section__label">02 — Works</p>
-      <ul class="works__grid" id="works-grid"></ul>
-      <p class="works__more">
-        <a href="https://www.tumblr.com/stylist-itoakari" target="_blank" rel="noopener">More on Tumblr <span aria-hidden="true">→</span></a>
-      </p>
-    </section>
-
-    <!-- ===== 4. お問い合わせ ===== -->
-    <section class="section contact" id="contact">
-      <p class="section__label">03 — Contact</p>
-      <p class="contact__lead">お仕事のご依頼・ご相談は<br class="sp">お気軽にご連絡ください。</p>
-      <a class="contact__mail" href="mailto:info@example.com">info@example.com</a>
-      <ul class="contact__sns">
-        <li><a href="https://www.tumblr.com/stylist-itoakari" target="_blank" rel="noopener">Tumblr</a></li>
-        <li><a href="#" target="_blank" rel="noopener">Instagram</a></li>
-      </ul>
-    </section>
+  <main class="wrap">
+    <h1>デザイン案を選んでください</h1>
+    <p class="lead">作品・プロフィールの中身は3案とも同じです。画像を押すと実際のページが開きます（左がパソコン、右がスマホの見え方）。</p>
+    <ul class="plans">
+      <li class="plan"><a href="a-bold.html">
+        <div class="plan__shots"><img src="images/preview/a-1400.jpg" width="1400" height="900" alt="1A パソコンでの見え方"><img src="images/preview/a-390.jpg" width="390" height="780" alt="1A スマホでの見え方"></div>
+        <p class="plan__id">1A</p><p class="plan__name">大胆</p>
+        <p class="plan__desc">黒地に大きな名前。作品は2列で大きく、番号つき。印象に残したい人向け。</p>
+        <span class="plan__go">1A を開く →</span></a></li>
+      <li class="plan"><a href="b-cool.html">
+        <div class="plan__shots"><img src="images/preview/b-1400.jpg" width="1400" height="900" alt="1B パソコンでの見え方"><img src="images/preview/b-390.jpg" width="390" height="780" alt="1B スマホでの見え方"></div>
+        <p class="plan__id">1B</p><p class="plan__name">シンプルにかっこいい</p>
+        <p class="plan__desc">白地・太字の名前・左に縦のメニュー。作品を3列で一度にたくさん見せる。</p>
+        <span class="plan__go">1B を開く →</span></a></li>
+      <li class="plan"><a href="c-simple.html">
+        <div class="plan__shots"><img src="images/preview/c-1400.jpg" width="1400" height="900" alt="1C パソコンでの見え方"><img src="images/preview/c-390.jpg" width="390" height="780" alt="1C スマホでの見え方"></div>
+        <p class="plan__id">1C</p><p class="plan__name">いちばんシンプル</p>
+        <p class="plan__desc">白地に写真を1列で並べるだけ。1枚ずつゆっくり見せる。</p>
+        <span class="plan__go">1C を開く →</span></a></li>
+    </ul>
   </main>
-
-  <footer class="site-footer">
-    <p>&copy; <span id="year"></span> AKARI ITO</p>
-  </footer>
-
-  <!-- ===== 拡大表示（ライトボックス） ===== -->
-  <dialog class="lightbox" id="lightbox" aria-label="作品の拡大表示">
-    <button class="lightbox__close" type="button" aria-label="閉じる">Close</button>
-    <button class="lightbox__nav lightbox__prev" type="button" aria-label="前の作品">&larr;</button>
-    <figure class="lightbox__figure">
-      <img class="lightbox__img" alt="">
-      <figcaption class="lightbox__caption"></figcaption>
-    </figure>
-    <button class="lightbox__nav lightbox__next" type="button" aria-label="次の作品">&rarr;</button>
-    <p class="lightbox__count"></p>
-  </dialog>
-
-  <script src="data/works.js"></script>
-  <script src="assets/js/main.js"></script>
 </body>
 </html>

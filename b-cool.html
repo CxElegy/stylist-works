@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Akari Ito | Stylist</title>
   <meta name="description" content="スタイリスト 伊藤あかり のポートフォリオ">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
     /* ===== B案：シンプルにかっこいい（参照ページ系） ===== */
     :root {
       --bg: #ffffff; --ink: #000000; --muted: #8c8c8c;
-      --sans: "Helvetica Neue", Helvetica, "Inter", Arial, "Noto Sans JP", sans-serif;
+      --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", Meiryo, sans-serif;
       --side: 120px; --gap: 40px;
       --lb-bg: #ffffff; --lb-fg: #000000; --lb-font: var(--sans);
     }
@@ -30,10 +27,9 @@
       display: flex; flex-direction: column; align-items: center; padding: 56px 0 48px;
     }
     .side a, .side p { writing-mode: vertical-rl; margin: 0; }
-    .side__logo { font-size: 24px; font-weight: 700; letter-spacing: .02em; }
-    .side__nav { display: flex; flex-direction: column; align-items: center; gap: 44px; margin-top: 72px; font-size: 20px; }
+    .side__nav { display: flex; flex-direction: column; align-items: center; gap: 44px; margin-top: 8px; font-size: 20px; }
     .side__nav a:hover { opacity: .5; }
-    .side__copy { margin-top: auto !important; font-size: 11px; }
+    .side__copy { margin-top: auto !important; font-size: 13px; }
 
     main { margin-left: var(--side); padding: 48px 80px 120px 30px; max-width: 1360px; }
     .name { margin: 0; font-size: clamp(44px, 5.4vw, 64px); font-weight: 700; letter-spacing: -.01em; line-height: 1.1; }
@@ -48,10 +44,12 @@
     .profile p { margin: 0; }
     .profile__ja { margin-bottom: 12px !important; }
     .profile dl { margin: 24px 0 0; }
-    .profile dt { color: var(--muted); font-size: 12px; margin-top: 12px; }
+    .profile dt { color: var(--muted); font-size: 13px; margin-top: 12px; }
     .profile dd { margin: 0; }
 
     /* 3列の写真グリッド（高さは写真に合わせる） */
+    /* 作品が並ぶ前に下の文章が先に見えて、あとで押し下げられるのを防ぐ */
+    .grid:empty { min-height: 100svh; }
     .grid { columns: 3; column-gap: var(--gap); margin-top: 88px; }
     .work { break-inside: avoid; margin-bottom: var(--gap); opacity: 0; transition: opacity .8s; }
     .work.is-in { opacity: 1; }
@@ -71,17 +69,13 @@
 
     /* スマホ：参照ページと同じく1列。写真の下に小さく媒体名 */
     @media (max-width: 899px) {
-      :root { --side: 56px; }
-      .side { position: absolute; padding: 32px 0 0; }
-      .side__nav, .side__copy { display: none; }
-      .side__logo { font-size: 20px; }
-      main { padding: 32px 0 80px 0; }
-      .head { padding-right: 20px; }
-      .grid { columns: 1; margin: 64px 0 0 calc(-1 * var(--side)); }
+      .side { display: none; }
+      main { margin-left: 0; padding: 32px 0 80px; }
+      .head, .contact { padding: 0 20px; }
+      .grid { columns: 1; margin-top: 64px; }
       .work { margin-bottom: 48px; }
       .work__over { display: none; }
-      .work__cap { display: block; text-align: center; margin-top: 16px; font-size: 13px; }
-      .contact { padding-right: 20px; }
+      .work__cap { display: block; text-align: center; margin: 16px 0 0; font-size: 13px; }
     }
     @media (min-width: 900px) and (max-width: 1100px) { .grid { columns: 2; } }
     @media (prefers-reduced-motion: reduce) { .work { opacity: 1; transition: none; } html { scroll-behavior: auto; } }
@@ -89,7 +83,6 @@
 </head>
 <body>
   <aside class="side">
-    <a class="side__logo" href="#top">akari ito</a>
     <nav class="side__nav" aria-label="メニュー">
       <a href="#works">works</a>
       <a href="#profile" data-open-profile>profile</a>
@@ -131,6 +124,7 @@
   </main>
 
   <script src="data/works.js"></script>
+  <script src="data/sizes.js"></script>
   <script src="data/profile.js"></script>
   <script src="assets/js/portfolio.js"></script>
   <script>

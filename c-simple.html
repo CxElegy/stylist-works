@@ -5,15 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Akari Ito — Stylist</title>
   <meta name="description" content="スタイリスト 伊藤あかり のポートフォリオ">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
     /* ===== C案：最もシンプル ===== 白地・小さな文字・写真を1列に並べるだけ */
     :root {
       --bg: #ffffff; --ink: #111111; --muted: #9a9a9a;
-      --sans: "Inter", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+      --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", Meiryo, sans-serif;
       --lb-bg: #ffffff; --lb-fg: #111111; --lb-font: var(--sans);
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -25,7 +22,6 @@
     img { display: block; max-width: 100%; height: auto; }
 
     .head {
-      position: sticky; top: 0; z-index: 5; background: rgba(255,255,255,.94);
       display: flex; justify-content: space-between; padding: 20px 24px;
     }
     .head h1 { margin: 0; font-size: 13px; font-weight: 500; }
@@ -33,6 +29,8 @@
     .head nav { display: flex; gap: 20px; }
 
     .wrap { max-width: 600px; margin: 0 auto; padding: 48px 24px 120px; }
+    /* 作品が並ぶ前に下の文章が先に見えて、あとで押し下げられるのを防ぐ */
+    .works:empty { min-height: 100svh; }
     .works li { margin-bottom: 96px; opacity: 0; transition: opacity 1s; }
     .works li.is-in { opacity: 1; }
     .work__btn { display: block; width: 100%; padding: 0; border: 0; background: #f4f4f4; cursor: zoom-in; }
@@ -47,7 +45,7 @@
     .block dt { color: var(--muted); }
     .block dd { margin: 0; }
     .block a { border-bottom: 1px solid currentColor; }
-    .foot { padding: 24px; text-align: center; color: var(--muted); font-size: 11px; }
+    .foot { padding: 24px; text-align: center; color: var(--muted); font-size: 13px; }
     @media (prefers-reduced-motion: reduce) { .works li { opacity: 1; transition: none; } html { scroll-behavior: auto; } }
   </style>
 </head>
@@ -82,6 +80,7 @@
   <footer class="foot">© <span data-year></span> Akari Ito</footer>
 
   <script src="data/works.js"></script>
+  <script src="data/sizes.js"></script>
   <script src="data/profile.js"></script>
   <script src="assets/js/portfolio.js"></script>
   <script>

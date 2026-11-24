@@ -128,6 +128,8 @@
       var node = opts.render(w, i, list.length);
       var img = node.querySelector("img");
       if (img) {
+        var sz = (window.SIZES || {})[w.image];
+        if (sz) { img.width = sz[0]; img.height = sz[1]; }
         img.src = w.image;
         img.alt = label(w) || "作品";
         img.loading = i < 4 ? "eager" : "lazy";

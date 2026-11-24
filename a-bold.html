@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AKARI ITO | Stylist</title>
   <meta name="description" content="スタイリスト 伊藤あかり のポートフォリオ">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@1&family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
     /* ===== A案：大胆 =====
        配色は「2＋1」：墨黒の地＋クリームの文字、焦橙はお問い合わせボタンだけ */
+    /* 見出し用の2書体だけサイトに同梱（Google Fonts より。SIL Open Font License） */
+    @font-face { font-family: "Anton"; src: url(assets/fonts/anton-latin.woff2) format("woff2"); font-display: block; }
+    @font-face { font-family: "Instrument Serif"; font-style: italic; src: url(assets/fonts/instrument-serif-italic-latin.woff2) format("woff2"); font-display: block; }
     :root {
       --ink: #111111; --cream: #F3EEE3; --muted: #8f8a80; --accent: #D9541E;
       --display: "Anton", "Impact", sans-serif;
-      --sans: "Inter", "Noto Sans JP", sans-serif;
+      --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", Meiryo, sans-serif;
       --serif: "Instrument Serif", Georgia, serif;
       --g: 20px;
       --lb-bg: #111111; --lb-fg: #F3EEE3; --lb-font: var(--sans);
@@ -29,27 +30,28 @@
     img { display: block; max-width: 100%; height: auto; }
 
     .bar {
-      position: fixed; inset: 0 0 auto 0; z-index: 20; display: flex; justify-content: space-between; align-items: center;
-      padding: 16px var(--g); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; mix-blend-mode: difference; color: #fff;
+      position: absolute; inset: 0 0 auto 0; z-index: 20; display: flex; justify-content: flex-end; align-items: center;
+      padding: 16px var(--g); font-size: 13px; letter-spacing: .16em; text-transform: uppercase;
     }
     .bar nav { display: flex; gap: 20px; }
 
-    /* ---- ヒーロー：巨大な名前の間に写真を差し込む ---- */
-    .hero { position: relative; min-height: 100svh; padding: 72px var(--g) 40px; overflow: hidden; display: grid; align-content: center; }
-    .hero__word {
-      font-family: var(--display); text-transform: uppercase; line-height: .82; margin: 0; letter-spacing: -.01em;
-      font-size: clamp(96px, 31vw, 420px); font-weight: 400;
+    /* ---- ヒーロー：巨大な名前と写真を並べる（重ねない） ---- */
+    .hero { min-height: 100svh; padding: 72px var(--g) 40px; display: grid; gap: 32px; align-content: center; }
+    .hero__name {
+      font-family: var(--display); text-transform: uppercase; line-height: 1.02; margin: 0; letter-spacing: -.01em;
+      font-size: clamp(96px, 37vw, 300px); font-weight: 400;
     }
-    .hero__word--1 { position: relative; z-index: 1; }
-    .hero__word--2 { position: relative; z-index: 3; text-align: right; mix-blend-mode: difference; color: #fff; margin-top: -0.32em; }
-    .hero__photo { position: relative; z-index: 2; width: min(62vw, 440px); margin: -0.9em auto 0; font-size: clamp(96px, 31vw, 420px); }
-    .hero__photo img { width: 100%; aspect-ratio: 960 / 1440; object-fit: cover; }
-    .hero__line {
-      position: relative; z-index: 4; display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-top: 24px;
-      font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
-    }
-    .hero__catch { font-family: var(--sans); font-weight: 500; font-size: clamp(22px, 4vw, 40px); letter-spacing: -.01em; text-transform: none; line-height: 1.15; margin: 0; }
+    .hero__name span { display: block; }
+    .hero__photo img { width: 100%; }
+    .hero__line { display: flex; flex-direction: column; gap: 12px; margin-top: 32px; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+    .hero__catch { font-family: var(--sans); font-weight: 500; font-size: clamp(20px, 2.6vw, 36px); letter-spacing: -.01em; text-transform: none; line-height: 1.15; margin: 0; }
     .hero__catch em { font-family: var(--serif); font-weight: 400; font-style: italic; }
+    @media (min-width: 900px) {
+      .hero__line { flex-direction: row; justify-content: space-between; align-items: end; gap: 16px; }
+      .hero { grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 56px; }
+      .hero__name { font-size: clamp(160px, 19vw, 320px); }
+      .hero__photo img { width: auto; height: min(calc(100svh - 112px), 46vw * 1.5); }
+    }
 
     /* ---- 媒体名が流れる帯 ---- */
     .marquee { background: var(--cream); color: var(--ink); overflow: hidden; white-space: nowrap; border-block: 1px solid var(--ink); }
@@ -62,22 +64,21 @@
     .sec { padding: 120px var(--g); }
     .sec__head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--muted); padding-bottom: 12px; margin-bottom: 56px; }
     .sec__title { font-family: var(--display); font-weight: 400; font-size: clamp(56px, 12vw, 160px); line-height: .9; margin: 0; text-transform: uppercase; }
-    .sec__note { font-size: 12px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+    .sec__note { font-size: 13px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
 
+    /* 作品が並ぶ前に下の文章が先に見えて、あとで押し下げられるのを防ぐ */
+    .works:empty { min-height: 100svh; }
     .works { columns: 1; column-gap: 56px; }
     @media (min-width: 768px) { .works { columns: 2; } .works > li:nth-child(2) { margin-top: 200px; } }
     .work { break-inside: avoid; margin-bottom: 72px; opacity: 0; transform: translateY(40px); transition: opacity .9s, transform .9s cubic-bezier(.2,.7,.2,1); }
     .work.is-in { opacity: 1; transform: none; }
-    .work__btn { display: block; width: 100%; padding: 0; border: 0; background: #1d1d1d; cursor: zoom-in; overflow: hidden; position: relative; }
-    .work__btn img { width: 100%; transition: transform 1.2s cubic-bezier(.2,.7,.2,1), filter .6s; filter: grayscale(.15); }
-    .work__btn:hover img { transform: scale(1.04); filter: none; }
-    .work__num {
-      position: absolute; left: -4px; bottom: -14px; z-index: 2; font-family: var(--display); font-size: clamp(64px, 10vw, 120px); line-height: 1;
-      color: var(--cream); mix-blend-mode: difference; pointer-events: none;
-    }
-    .work__meta { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: 12px; }
+    .work__btn { display: block; width: 100%; padding: 0; border: 0; background: #1d1d1d; cursor: zoom-in; }
+    .work__btn img { width: 100%; transition: opacity .4s; }
+    .work__btn:hover img { opacity: .82; }
+    .work__num { font-family: var(--display); font-size: 28px; line-height: 1; }
+    .work__meta { display: flex; align-items: baseline; gap: 16px; margin-top: 14px; font-size: 13px; }
     .work__media { font-weight: 700; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
-    .work__title { color: var(--muted); text-align: right; }
+    .work__title { color: var(--muted); margin-left: auto; text-align: right; }
 
     /* ---- プロフィール ---- */
     .profile { display: grid; gap: 40px; }
@@ -85,8 +86,6 @@
     .profile__ja { font-size: 28px; font-weight: 700; letter-spacing: .12em; margin: 0; }
     .profile__en { font-family: var(--serif); font-style: italic; font-size: 32px; margin: 0; color: var(--muted); }
     .profile__bio p { margin: 0 0 1em; }
-    .clients { margin-top: 40px; border-top: 1px solid var(--muted); }
-    .clients li { font-family: var(--display); font-size: clamp(40px, 7vw, 88px); line-height: 1.1; text-transform: uppercase; border-bottom: 1px solid var(--muted); padding: 8px 0; }
 
     /* ---- お問い合わせ ---- */
     .contact { text-align: center; padding-bottom: 160px; }
@@ -97,9 +96,9 @@
       font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; transition: transform .3s;
     }
     .btn:hover { transform: translateY(-3px); }
-    .contact__sns { display: flex; justify-content: center; gap: 28px; margin-top: 40px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; }
+    .contact__sns { display: flex; justify-content: center; gap: 28px; margin-top: 40px; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
     .contact__sns a { border-bottom: 1px solid currentColor; }
-    .foot { padding: 24px var(--g); font-size: 11px; color: var(--muted); letter-spacing: .14em; display: flex; justify-content: space-between; }
+    .foot { padding: 24px var(--g); font-size: 13px; color: var(--muted); letter-spacing: .14em; display: flex; justify-content: space-between; }
 
     @media (prefers-reduced-motion: reduce) {
       .marquee__track { animation: none; } .work { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; }
@@ -108,19 +107,19 @@
 </head>
 <body>
   <header class="bar">
-    <a href="#top">Akari Ito</a>
     <nav aria-label="メニュー"><a href="#works">Works</a><a href="#profile">Profile</a><a href="#contact">Contact</a></nav>
   </header>
 
   <main>
     <section class="hero" id="top">
-      <p class="hero__word hero__word--1" aria-hidden="true">Akari</p>
-      <div class="hero__photo"><img src="images/hero/hero.jpg" alt="伊藤あかり スタイリング作品" width="960" height="1440"></div>
-      <h1 class="hero__word hero__word--2"><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">伊藤あかり Akari </span>Ito</h1>
-      <div class="hero__line">
-        <p class="hero__catch">Styling that <em>speaks</em>.</p>
-        <span>Stylist / Tokyo</span>
+      <div>
+        <h1 class="hero__name" aria-label="伊藤あかり Akari Ito"><span>Akari</span><span>Ito</span></h1>
+        <div class="hero__line">
+          <p class="hero__catch">Styling that <em>speaks</em>.</p>
+          <span>Stylist / Tokyo</span>
+        </div>
       </div>
+      <div class="hero__photo"><img src="images/hero/hero.jpg" alt="伊藤あかり スタイリング作品" width="960" height="1440"></div>
     </section>
 
     <div class="marquee" aria-hidden="true">
@@ -141,7 +140,6 @@
         </div>
         <div>
           <div class="profile__bio" data-p="bio"></div>
-          <ul class="clients" id="clients"></ul>
         </div>
       </div>
     </section>
@@ -159,6 +157,7 @@
   <footer class="foot"><span>© <span data-year></span> Akari Ito</span><span>Stylist</span></footer>
 
   <script src="data/works.js"></script>
+  <script src="data/sizes.js"></script>
   <script src="data/profile.js"></script>
   <script src="assets/js/portfolio.js"></script>
   <script>
@@ -172,9 +171,9 @@
         var b = E("button", "work__btn js-open"); b.type = "button";
         b.setAttribute("aria-label", Portfolio.label(w) + " を拡大表示");
         b.appendChild(E("img"));
-        b.appendChild(E("span", "work__num", Portfolio.pad(i + 1)));
         li.appendChild(b);
         var m = E("div", "work__meta");
+        m.appendChild(E("span", "work__num", Portfolio.pad(i + 1)));
         if (w.media) m.appendChild(E("span", "work__media", w.media));
         if (w.title) m.appendChild(E("span", "work__title", w.title));
         li.appendChild(m);
@@ -185,8 +184,6 @@
     // 流れる帯：取引先の名前（2回並べて途切れなくする）
     var mq = document.getElementById("mq"), names = P.clients.concat(["Personal Work"]);
     for (var r = 0; r < 4; r++) names.forEach(function (n) { mq.appendChild(E("span", "", n)); });
-    var cl = document.getElementById("clients");
-    P.clients.forEach(function (n) { cl.appendChild(E("li", "", n)); });
     var mail = document.querySelector("[data-p-mail]");
     if (P.email) mail.href = "mailto:" + P.email; else mail.remove();
   </script>
