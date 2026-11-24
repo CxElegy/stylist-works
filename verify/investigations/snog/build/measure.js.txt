@@ -1,0 +1,266 @@
+const {chromium}=require('playwright');
+const fs=require('fs');
+const U='http://localhost:8774/r4-snog.html';
+const R={};const errs=[],failed=[];
+function hook(p){p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});p.on('pageerror',e=>errs.push('PAGE '+e.message));p.on('requestfailed',r=>failed.push(r.url()));p.on('response',r=>{if(r.status()>=400)failed.push(r.status()+' '+r.url())});}
+const rects=()=>[...document.querySelectorAll('.tile')].map(a=>{const r=a.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height,z:+getComputedStyle(a).zIndex}});
+(async()=>{
+const b=await chromium.launch();
+/* ============ desktop, real time ============ */
+let ctx=await b.newContext({viewport:{width:1440,height:900}});
+let p=await ctx.newPage();hook(p);
+const tNav=Date.now();
+await p.goto(U);
+// M1 real time: when does the loader go
+R.M1_real=await p.evaluate(()=>new Promise(res=>{const l=document.getElementById('loader');const w=l.querySelector('.wm').getBoundingClientRect().width;(function f(){if(getComputedStyle(l).display==='none')res({loaderGoneAt_ms:performance.now(),wmWidthAtSample:w,vw:innerWidth});else requestAnimationFrame(f)})()}));
+await p.waitForTimeout(2500);
+// S1
+await p.mouse.move(5,890);
+for(let i=0;i<10;i++){await p.mouse.wheel(0,300);await p.mouse.wheel(300,0);}
+await p.waitForTimeout(300);
+R.S1=await p.evaluate(()=>({scrollY,scrollX,docH:document.documentElement.scrollHeight,docW:document.documentElement.scrollWidth,vh:innerHeight,vw:innerWidth}));
+await p.mouse.move(720,450);await p.waitForTimeout(1500); // pan to 0 (centre), may hover nothing?
+R.hotAtCentre=await p.evaluate(()=>!!document.querySelector('.tile.hot'));
+// fresh page without mouse for rest-state measures
+await p.close();
+p=await ctx.newPage();hook(p);await p.goto(U);await p.waitForTimeout(3300);
+R.S2=await p.evaluate(()=>{
+  const vis=e=>{const cs=getComputedStyle(e);if(cs.display==='none'||cs.visibility==='hidden'||+cs.opacity===0)return false;const r=e.getBoundingClientRect();return r.width>0&&r.height>0;};
+  const chainVis=e=>{for(let n=e;n&&n.nodeType===1;n=n.parentElement){const cs=getComputedStyle(n);if(cs.display==='none'||cs.visibility==='hidden'||+cs.opacity===0)return false}return true};
+  const tiles=[...document.querySelectorAll('a.tile')].filter(a=>vis(a)&&a.querySelector('img').complete&&a.querySelector('img').naturalWidth>0);
+  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);const texts=[];let n;
+  while(n=w.nextNode()){if(!n.textContent.trim())continue;const pe=n.parentElement;if(['SCRIPT','STYLE'].includes(pe.tagName))continue;if(!chainVis(pe))continue;const r=pe.getBoundingClientRect();if(!r.width)continue;texts.push({t:n.textContent.trim(),inNav:!!pe.closest('#nav')});}
+  return {tileLinks:tiles.length,navTexts:texts.filter(t=>t.inNav).map(t=>t.t),otherTexts:texts.filter(t=>!t.inNav).map(t=>t.t)};
+});
+R.S3=await p.evaluate(()=>({bodyBg:getComputedStyle(document.body).backgroundColor,htmlBg:getComputedStyle(document.documentElement).backgroundColor,
+  imgs:[...document.querySelectorAll('.tile, .tile img')].map(e=>{const c=getComputedStyle(e);return [c.borderRadius,c.boxShadow,c.borderTopWidth,c.backgroundColor].join('|')}).filter((v,i,a)=>a.indexOf(v)===i)}));
+const r1=await p.evaluate(rects);
+const L1r=[r1];
+for(let i=0;i<3;i++){await p.reload();await p.waitForTimeout(3300);L1r.push(await p.evaluate(rects));}
+let maxd=0;for(const rr of L1r)rr.forEach((r,i)=>{for(const k of['x','y','w','h','z'])maxd=Math.max(maxd,Math.abs(r[k]-r1[i][k]))});
+R.L1={reloadMaxDiffPx:maxd};
+const pct=(rr,vw,vh)=>rr.map(r=>({x:((r.x+r.w/2)-vw/2)/vw*100,y:((r.y+r.h/2)-vh/2)/vh*100,h:r.h/vh*100}));
+const A=pct(r1,1440,900);
+const p2=await (await b.newContext({viewport:{width:1920,height:1080}})).newPage();await p2.goto(U);await p2.waitForTimeout(3300);
+const B=pct(await p2.evaluate(rects),1920,1080);await p2.close();
+R.L1.slots1440=A.map(o=>[+o.x.toFixed(2),+o.y.toFixed(2),+o.h.toFixed(2)]);R.L1.slots1920=B.map(o=>[+o.x.toFixed(2),+o.y.toFixed(2),+o.h.toFixed(2)]);
+R.L1.maxPctDiff=Math.max(...A.map((o,i)=>Math.max(Math.abs(o.x-B[i].x),Math.abs(o.y-B[i].y),Math.abs(o.h-B[i].h))));
+const hs=A.map(o=>o.h);R.L2={maxH:Math.max(...hs),minH:Math.min(...hs),ratio:Math.max(...hs)/Math.min(...hs)};
+const ORIG=[[-42,2,36],[39,-26,20],[-3,-18,44],[34,8,29.6],[-32,44,37.6],[50,44,32],[-29,-15,28],[0,42,48]];
+R.D3=await p.evaluate(()=>{const b=e=>{const r=document.getElementById(e).getBoundingClientRect();return [Math.round(r.width),Math.round(r.height),r.top>=0&&r.bottom<=innerHeight]};return {who:b('who'),mail:b('mail'),about:b('openAbout')}});
+R.D5_slotsTooClose=A.filter(o=>ORIG.some(g=>Math.abs(o.x-g[0])<2&&Math.abs(o.y-g[1])<2&&Math.abs(o.h-g[2])<2)).length;
+R.L3=await p.evaluate(()=>[...document.querySelectorAll('.tile img')].map(im=>{const r=im.getBoundingClientRect();const cs=getComputedStyle(im);return {disp:r.width/r.height,nat:im.naturalWidth/im.naturalHeight,errPct:Math.abs(r.width/r.height/(im.naturalWidth/im.naturalHeight)-1)*100,fit:cs.objectFit,ov:getComputedStyle(im.closest('.tile')).overflow}}));
+// L4
+R.L4=r1.map(r=>{const vx=Math.max(0,Math.min(1440,r.x+r.w)-Math.max(0,r.x)),vy=Math.max(0,Math.min(900,r.y+r.h)-Math.max(0,r.y));const out=r.x<0||r.y<0||r.x+r.w>1440||r.y+r.h>900;return {out,visiblePct:+(vx*vy/(r.w*r.h)*100).toFixed(1)}});
+// L5: covered area per tile (pairwise; union approximated by grid sampling)
+const order=r1.map((r,i)=>({i,z:r.z})).sort((a,b)=>a.z-b.z||a.i-b.i).map(o=>o.i); // paint order low→high
+const pairs=[];const covered=r1.map(()=>0);
+r1.forEach((r,i)=>{let cnt=0,tot=0;for(let sx=0;sx<60;sx++)for(let sy=0;sy<60;sy++){const X=r.x+(sx+.5)/60*r.w,Y=r.y+(sy+.5)/60*r.h;tot++;if(r1.some((q,j)=>j!==i&&order.indexOf(j)>order.indexOf(i)&&X>=q.x&&X<=q.x+q.w&&Y>=q.y&&Y<=q.y+q.h))cnt++;}covered[i]=+(cnt/tot*100).toFixed(1);
+ r1.forEach((q,j)=>{if(j>i){const ox=Math.min(r.x+r.w,q.x+q.w)-Math.max(r.x,q.x),oy=Math.min(r.y+r.h,q.y+q.h)-Math.max(r.y,q.y);if(ox>0&&oy>0)pairs.push([i+1,j+1])}})});
+R.L5={pairs,coveredPct:covered};
+R.L6={z:r1.map(r=>r.z),zAfterReloads:L1r.map(rr=>rr.map(r=>r.z).join(','))};
+await p.screenshot({path:'rest.png'});
+// T1
+R.T1=await p.evaluate(()=>{const fam=new Set();const small=[];const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+ // include hidden bits too: every element that holds text
+ while(n=w.nextNode()){if(!n.textContent.trim())continue;const pe=n.parentElement;if(['SCRIPT','STYLE'].includes(pe.tagName))continue;const cs=getComputedStyle(pe);const f=cs.fontFamily.split(',')[0].replace(/"/g,'').trim();fam.add(f);if(pe.closest('#nav')&&f!=='Anton')small.push({t:n.textContent.trim(),size:cs.fontSize,weight:cs.fontWeight,lh:cs.lineHeight,tt:cs.textTransform});}
+ return {families:[...fam],small}});
+// T3
+R.T3=await p.evaluate(()=>{const l=document.getElementById('openAbout').getBoundingClientRect(),r=document.getElementById('mail').getBoundingClientRect(),m=document.querySelector('#nav .wm').getBoundingClientRect();return {leftLink:{left:l.left,top:l.top},rightLink:{right:innerWidth-r.right,top:r.top},wm:{w:m.width,wPctVW:m.width/innerWidth*100,centreOffset:(m.left+m.width/2)-innerWidth/2,top:m.top,bottom:m.bottom}}});
+// hover
+async function onTile(i){for(let k=0;k<6;k++){const r=(await p.evaluate(rects))[i];const x=Math.min(1430,Math.max(10,r.x+r.w/2)),y=Math.min(890,Math.max(10,r.y+r.h/2));await p.mouse.move(x,y);await p.waitForTimeout(700);} return await p.evaluate(()=>window.__mxy)}
+await p.evaluate(()=>{window.__log=[];window.__ev=[];const ts=[...document.querySelectorAll('.tile')];
+ window.addEventListener('mousemove',e=>{window.__mxy=[e.clientX,e.clientY];const u=document.elementFromPoint(e.clientX,e.clientY);const a=u&&u.closest('.tile');__ev.push({i:a?ts.indexOf(a):-1,t:performance.now(),titleVisibleSync:!document.getElementById('title').hidden,title:document.getElementById('title').textContent})});
+ (function f(){const ti=document.getElementById('title');const ring=document.querySelector('#ring i');__log.push({t:performance.now(),w:ts.map(a=>a.querySelector('img').getBoundingClientRect().width),z:ts.map(a=>getComputedStyle(a).zIndex),title:ti.hidden?null:ti.textContent,ringOp:+getComputedStyle(ring).opacity,ringW:ring.getBoundingClientRect().width});requestAnimationFrame(f)})()});
+const M=await onTile(2);const hx=M[0]-60,hy=M[1];
+await p.mouse.move(M[0]+250,M[1]);await p.waitForTimeout(1600);
+await p.evaluate(()=>{__ev.length=0;__log.length=0});await p.waitForTimeout(100);
+await p.mouse.move(hx,hy);await p.waitForTimeout(900);
+R.M7=await p.evaluate(()=>{const i=document.querySelector('#ring i');const cs=getComputedStyle(i);const r=i.getBoundingClientRect();const hot=document.querySelector('.tile.hot');return {hot:!!hot,diameter:r.width,border:cs.borderTopWidth+' '+cs.borderTopStyle+' '+cs.borderTopColor,radius:cs.borderRadius,transition:cs.transitionDuration,opacity:cs.opacity,label:i.textContent,labelSize:cs.fontSize,cursorOnTile:hot?getComputedStyle(hot).cursor:null,ringOn:document.getElementById('ring').classList.contains('on')}});
+R.T2=await p.evaluate(()=>{const t=document.getElementById('title');const cs=getComputedStyle(t);const r=t.getBoundingClientRect();const rg=document.createRange();rg.selectNodeContents(t);const tr=rg.getBoundingClientRect();return {text:t.textContent,fontSize:cs.fontSize,expected:innerWidth*0.12,lineHeight:cs.lineHeight,family:cs.fontFamily.split(',')[0],tt:cs.textTransform,ws:cs.whiteSpace,boxBottomToViewportBottom:innerHeight-r.bottom,textCentreOffset:(tr.left+tr.width/2)-innerWidth/2,textWidth:tr.width,z:cs.zIndex,maxTileZ:Math.max(...[...document.querySelectorAll('.tile')].map(a=>+getComputedStyle(a).zIndex)),pe:cs.pointerEvents,color:cs.color}});
+await p.screenshot({path:'hover.png'});
+// T4 colours (with hover state showing title+ring)
+R.T4=await p.evaluate(()=>{const cols=new Set();document.querySelectorAll('body, body *').forEach(e=>{if(['SCRIPT','STYLE','IMG','PICTURE','SOURCE'].includes(e.tagName))return;const cs=getComputedStyle(e);const hasText=[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim());if(hasText)cols.add('text '+cs.color);if(cs.backgroundColor!=='rgba(0, 0, 0, 0)')cols.add('bg '+cs.backgroundColor);if(parseFloat(cs.borderTopWidth)>0)cols.add('line '+cs.borderTopColor);if(parseFloat(cs.borderBottomWidth)>0)cols.add('line '+cs.borderBottomColor);for(const ps of['::before','::after']){const c=getComputedStyle(e,ps);if(c.content!=='none'&&c.backgroundColor!=='rgba(0, 0, 0, 0)')cols.add('line '+c.backgroundColor)}});return [...cols]});
+// leave
+await p.mouse.move(M[0]+250,M[1]);await p.waitForTimeout(900);
+// switch tile quickly: tile 3 → out
+const log=await p.evaluate(()=>({log:__log,ev:__ev}));
+fs.writeFileSync('hoverlog.json',JSON.stringify(log));
+{ // analyse M5/M6
+ const L=log.log,E=log.ev;const en=E.find(e=>e.i===2),lv=E.find(e=>e.i===-1&&e.t>en.t);
+ const w0=L.find(s=>s.t<en.t).w[2];const after=L.filter(s=>s.t>=en.t&&s.t<lv.t);const wmax=Math.max(...after.map(s=>s.w[2]));
+ const tUp=after.find(s=>s.w[2]>=w0+(wmax-w0)*0.99).t-en.t;
+ const firstTitle=L.find(s=>s.t>=en.t&&s.title);const post=L.filter(s=>s.t>=lv.t);
+ const tDown=post.find(s=>s.w[2]<=w0+(wmax-w0)*0.01).t-lv.t;const firstNoTitle=post.find(s=>!s.title);
+ const zHot=after[after.length-1].z;const zBack=post.find(s=>s.z[2]!=='9');
+ const ringOn=L.find(s=>s.t>=en.t&&s.ringOp>=0.99),ringOff=post.find(s=>s.ringOp<=0.01);
+ R.M5={restW:w0,hotW:wmax,scale:wmax/w0,growMs:+tUp.toFixed(0),shrinkMs:+tDown.toFixed(0),zWhileHot:zHot,zRestoredAfterMs:zBack?+(zBack.t-lv.t).toFixed(0):null,zRestored:zBack?zBack.z[2]:null};
+ R.M6={titleVisibleSyncInEnterHandler:en.titleVisibleSync,titleFirstFrameDelayMs:+(firstTitle.t-en.t).toFixed(1),title:firstTitle.title,titleGoneFrameDelayMs:+(firstNoTitle.t-lv.t).toFixed(1),titleGoneSync:!lv.titleVisibleSync};
+ R.M7.showMs=ringOn?+(ringOn.t-en.t).toFixed(0):null;R.M7.hideMs=ringOff?+(ringOff.t-lv.t).toFixed(0):null;R.M7.ringOutsideOpacity=post[post.length-1].ringOp;
+}
+// M6: change tile → title changes at once; photo under the title still hoverable/clickable
+await p.mouse.move(720,450);await p.waitForTimeout(1500);
+{const rr=await p.evaluate(rects);const r8=rr[7];const x=r8.x+r8.w/2,y=860; // inside the title band
+ await p.mouse.move(x,y);await p.waitForTimeout(100);
+ const s=await p.evaluate(([x,y])=>{const t=document.getElementById('title');const tr=t.getBoundingClientRect();const top=document.elementFromPoint(x,y);return {inTitleBox:y>=tr.top&&y<=tr.bottom,titleShown:!t.hidden,title:t.textContent,elementUnderPointer:top&&top.closest('.tile')?'tile '+([...document.querySelectorAll('.tile')].indexOf(top.closest('.tile'))+1):String(top&&top.tagName)}},[x,y]);
+ R.M6.underTitle=s;}
+// M6 switch: tile 7 → tile 1 (they touch)
+{await onTile(3);const rr=await p.evaluate(rects);const r8=rr[7];const t1=await p.evaluate(()=>document.getElementById('title').textContent);
+ await p.evaluate(()=>{__ev.length=0;__log.length=0});await p.mouse.move(r8.x+r8.w/2,r8.y+r8.h*0.4);await p.waitForTimeout(200);
+ const o=await p.evaluate(()=>({ev:__ev[0],fr:__log.find(s=>s.t>=__ev[0].t)}));R.M6.switch={from:t1,toSync:o.ev.title,nextFrame:o.fr.title,frameDelayMs:+(o.fr.t-o.ev.t).toFixed(1)};}
+// M8 pan
+async function at(x,y){await p.mouse.move(x,y);await p.waitForTimeout(1600);return (await p.evaluate(rects))}
+{const a=await at(360,450),c=await at(1080,450),d=await at(720,225),e=await at(720,675);
+ R.M8={dxTile:c.map((r,i)=>r.x-a[i].x),ratioX:(c[3].x-a[3].x)/720,dyTile:e.map((r,i)=>r.y-d[i].y),ratioY:(e[3].y-d[3].y)/450};
+ const f=await at(1439,450);const g=await at(720,450);R.M8.groupShiftAtRightEdge_pctVW=(f[3].x-g[3].x)/1440*100;}
+// M4: no mouse movement for 10 s
+{const s=[];for(let i=0;i<=10;i++){s.push(await p.evaluate(rects));await p.waitForTimeout(1000);}let m=0;s.forEach(rr=>rr.forEach((r,i)=>{m=Math.max(m,Math.abs(r.x-s[0][i].x),Math.abs(r.y-s[0][i].y),Math.abs(r.w-s[0][i].w))}));R.M4={samples:s.length,maxMovePx:m};}
+// N1
+R.N1=await p.evaluate(()=>({textEntries:[...document.querySelectorAll('#nav a, #nav button')].filter(e=>!e.hidden&&e.textContent.trim()&&!e.classList.contains('mark')).map(e=>e.textContent.trim()),markHref:document.getElementById('home').getAttribute('href'),mail:document.getElementById('mail').getAttribute('href')}));
+// real-time click → detail timing + M12/M13
+{await onTile(3);
+ await p.evaluate(()=>{window.__c=null;const ts=[...document.querySelectorAll('.tile')];document.addEventListener('click',()=>{if(!__c){__c={t:performance.now(),fr:[]};const hi=ts.findIndex(a=>a.classList.contains('hot'));(function f(){const d=!document.getElementById('detail').hidden;if(d){__c.open=performance.now()-__c.t}else{__c.fr.push({t:performance.now()-__c.t,h:ts[hi].querySelector('img').getBoundingClientRect().height,vis:ts.filter(a=>getComputedStyle(a).visibility!=='hidden').length,navY:document.querySelector('#nav .wm').getBoundingClientRect().top,md:Math.max(...ts.map(a=>{const r=a.getBoundingClientRect();return Math.hypot(r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2)}))});requestAnimationFrame(f)}})()}},true)});
+ const tb=await p.evaluate(()=>{const t=document.getElementById('title');return t.hidden?null:t.getBoundingClientRect().toJSON()});
+ await p.mouse.down();await p.mouse.up();await p.waitForTimeout(2600);
+ {const c=await p.evaluate(()=>__c);const fr=c.fr;const h0=fr.find(f=>f.t>1200).h,h1=fr[fr.length-1].h;const g0=fr.filter(f=>Math.abs(f.h-h0)<0.5).pop(),g1=fr.find(f=>f.t>1200&&Math.abs(f.h-h1)<0.5);const n0=fr.filter(f=>Math.abs(f.navY-fr[0].navY)<0.5).pop(),nmin=Math.min(...fr.map(f=>f.navY)),n1=fr.find(f=>f.navY<=nmin+0.5);const og=fr.find(f=>f.vis===1);
+  R.M10_real={converged2pct_ms:+fr.find(f=>f.md<=28.8).t.toFixed(0),navStart_ms:+n0.t.toFixed(0),navOut_ms:+n1.t.toFixed(0),navMs:+(n1.t-n0.t).toFixed(0),othersGone_ms:+og.t.toFixed(0),growStart_ms:+g0.t.toFixed(0),growEnd_ms:+g1.t.toFixed(0),growMs:+(g1.t-g0.t).toFixed(0),h0_pctVH:+(h0/9).toFixed(1),h1_pctVH:+(h1/9).toFixed(1),frames:fr.length};
+  R.M11_real={open:c.open};}
+ const ta=await p.evaluate(()=>{const t=document.getElementById('title');return t.hidden?null:t.getBoundingClientRect().toJSON()});
+ R.M11_real.titleBefore=tb&&[tb.left,tb.top,tb.width];R.M11_real.titleAfter=ta&&[ta.left,ta.top,ta.width];
+ R.M12=await p.evaluate(()=>{const x=document.getElementById('closeDetail');const xr=x.getBoundingClientRect();const lis=[...document.querySelectorAll('#detail li')];const f=lis[0].getBoundingClientRect();const cs=getComputedStyle(x,'::before');return {closeVisible:!x.hidden&&xr.width>0,closeRight:innerWidth-xr.right,closeTop:xr.top,closeLine:cs.height+' '+cs.backgroundColor,count:lis.length,firstHpctVH:f.height/innerHeight*100,firstCentreOffset:[(f.left+f.width/2)-innerWidth/2,(f.top+f.height/2)-innerHeight/2],firstSrc:lis[0].querySelector('img').getAttribute('src'),scrollable:document.getElementById('detail').scrollHeight>innerHeight,uncropped:lis.map(li=>{const im=li.querySelector('img');const r=im.getBoundingClientRect();return Math.abs(r.width/r.height/(im.naturalWidth/im.naturalHeight)-1)*100}).map(v=>+v.toFixed(2)),gname:document.getElementById('gname').textContent,bodyScroll:scrollY}});
+ await p.screenshot({path:'detail.png'});
+ await p.evaluate(()=>document.getElementById('detail').scrollTo(0,700));await p.waitForTimeout(300);await p.screenshot({path:'detail-scrolled.png'});
+ // M13
+ await p.evaluate(()=>{window.__b=[];const t0=performance.now();const ts=[...document.querySelectorAll('.tile')];document.getElementById('closeDetail').addEventListener('click',()=>{const t0=performance.now();(function f(){__b.push({t:performance.now()-t0,d:ts.map(a=>{const r=a.getBoundingClientRect();return Math.hypot(r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2)})});if(performance.now()-t0<1500)requestAnimationFrame(f)})()})});
+ await p.mouse.move(1440-37,37);await p.mouse.down();await p.mouse.up();await p.waitForTimeout(1900);
+ const bl=await p.evaluate(()=>__b);await p.mouse.move(720,60);await p.waitForTimeout(1800);const end=(await p.evaluate(rects)).map(r=>({x:r.x,y:r.y-195}));
+ R.M13={detailHidden:await p.evaluate(()=>document.getElementById('detail').hidden),firstFrameMaxDistFromCentrePx:Math.max(...bl[0].d),firstFrame_ms:bl[0].t,lastMaxDist:Math.max(...bl[bl.length-1].d),distSamples:bl.filter((_,i)=>i%6===0).map(s=>[Math.round(s.t),Math.round(s.d[5])]),settled_ms:(bl.find(s=>s.d.every((d,i)=>Math.abs(d-bl[bl.length-1].d[i])<0.5))||{}).t,backToSlotsMaxDiffPx:Math.max(...end.map((r,i)=>Math.max(Math.abs(r.x-r1[i].x),Math.abs(r.y-r1[i].y)))),url:p.url()};
+}
+// profile overlay + keyboard
+{await p.mouse.move(720,450);await p.waitForTimeout(800);
+ await p.click('#openAbout');await p.waitForTimeout(200);
+ R.profile={open:await p.evaluate(()=>!document.getElementById('about').hidden),text:await p.evaluate(()=>document.querySelector('#about .in').innerText.slice(0,400))};
+ await p.screenshot({path:'about.png'});
+ await p.keyboard.press('Escape');await p.waitForTimeout(100);R.profile.closedByEsc=await p.evaluate(()=>document.getElementById('about').hidden);
+ // keyboard: tab to first tile
+ await p.evaluate(()=>document.querySelectorAll('.tile')[1].focus());
+ await p.keyboard.press('Tab');await p.waitForTimeout(400);
+ R.keyboard={focused:await p.evaluate(()=>{const a=document.activeElement;return a.className+' '+a.getAttribute('href')}),titleOnFocus:await p.evaluate(()=>{const t=document.getElementById('title');return t.hidden?null:t.textContent}),tabbableTiles:await p.evaluate(()=>[...document.querySelectorAll('.tile')].filter(a=>a.tabIndex===0).length)};
+ await p.keyboard.press('Enter');await p.waitForTimeout(2300);
+ R.keyboard.enterOpens=await p.evaluate(()=>!document.getElementById('detail').hidden);
+ await p.keyboard.press('Escape');await p.waitForTimeout(1500);
+ R.keyboard.escCloses=await p.evaluate(()=>document.getElementById('detail').hidden);
+ R.keyboard.focusBack=await p.evaluate(()=>document.activeElement.className);
+}
+R.words=await p.evaluate(()=>{const bad=['美的','glow','オレンジページ','BAILA','UNIQLO','GLOBAL WORK','Elura','mi-mollet'];const all=(document.body.innerText+' '+document.body.textContent.replace(/window\.[\s\S]*/,'')+' '+document.title+' '+[...document.querySelectorAll('[alt],[aria-label],[title]')].map(e=>(e.getAttribute('alt')||'')+(e.getAttribute('aria-label')||'')+(e.getAttribute('title')||'')).join(' ')).toLowerCase();return bad.filter(w=>all.includes(w.toLowerCase()))});
+await ctx.close();
+
+/* ============ desktop, fake clock ============ */
+ctx=await b.newContext({viewport:{width:1440,height:900}});p=await ctx.newPage();hook(p);
+await p.clock.install({time:new Date('2026-01-01T00:00:00Z')});
+await p.clock.pauseAt(new Date('2026-01-01T00:00:01Z'));
+await p.goto(U);
+await p.waitForFunction(()=>[...document.querySelectorAll('.tile img')].every(i=>i.complete&&i.naturalWidth>0));
+await p.waitForTimeout(300);
+const snap=()=>{const ts=[...document.querySelectorAll('.tile')];const l=document.getElementById('loader');const nav=document.getElementById('nav');const m=document.querySelector('#nav .wm').getBoundingClientRect();const lw=l.querySelector('.wm').getBoundingClientRect();const ti=document.getElementById('title');const tr=ti.getBoundingClientRect();
+ return {now:performance.now(),loader:getComputedStyle(l).display!=='none',loaderBg:getComputedStyle(l).backgroundColor,loaderW:lw.width,navY:m.top,c:ts.map(a=>{const r=a.getBoundingClientRect();return [r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2]}),ih:ts.map(a=>a.querySelector('img').getBoundingClientRect().height),ah:ts.map(a=>a.getBoundingClientRect().height),vis:ts.map(a=>getComputedStyle(a).visibility!=='hidden'&&getComputedStyle(document.getElementById('stage')).visibility!=='hidden'),z:ts.map(a=>getComputedStyle(a).zIndex),title:ti.hidden?null:ti.textContent,titleRect:[tr.left,tr.top,tr.width,tr.height],detail:!document.getElementById('detail').hidden,hotIdx:ts.findIndex(a=>a.classList.contains('hot')),hash:location.hash}};
+await p.evaluate(()=>{window.__fr=[];const a=document.querySelectorAll('.tile')[5];(function f(){const r=a.getBoundingClientRect();__fr.push([performance.now(),Math.hypot(r.x+r.width/2-innerWidth/2,r.y+r.height/2-innerHeight/2)]);requestAnimationFrame(f)})()});
+const tl=[];let base=(await p.evaluate(snap)).now;
+const shotsAt={300:'intro-loader',1510:'intro-b0',1590:'intro-b1',1670:'intro-b2',1750:'intro-b3',1840:'intro-b4',1920:'intro-b5',2000:'intro-b6',2090:'intro-b7',2170:'intro-b8',2250:'intro-b9',2330:'intro-b10'};
+for(let t=0;t<=3400;t+=10){const s=await p.evaluate(snap);s.t=Math.round(s.now-base);tl.push(s);if(shotsAt[s.t])await p.screenshot({path:shotsAt[s.t]+'.png'});await p.clock.runFor(10);}
+fs.writeFileSync('timeline-intro.json',JSON.stringify(tl));
+{const gone=tl.find(s=>!s.loader);const tGone=gone.t;const final=tl[tl.length-1].c;
+ const dist=s=>s.c.map(c=>Math.hypot(c[0],c[1]));const fd=dist(tl[tl.length-1]);
+ const firstMove=tl.find(s=>dist(s).some(d=>d>0.5));const startTimes=final.map((_,i)=>tl.find(s=>Math.hypot(s.c[i][0],s.c[i][1])>0.5).t);
+ const stop=tl.find(s=>dist(s).every((d,i)=>Math.abs(d-fd[i])<0.5));
+ const before=tl.filter(s=>s.t<firstMove.t-10);
+ // progress per tile at vanish
+ const prog=dist(gone).map((d,i)=>d/fd[i]);
+ // speed monotone: tile 6 (index 5) distance per 10ms from first move to stop
+ const FR=(await p.evaluate(()=>__fr));const v=[];const dts=new Set();for(let i=1;i<FR.length;i++){const dv=FR[i][1]-FR[i-1][1];dts.add(Math.round(FR[i][0]-FR[i-1][0]));if(dv>1e-6)v.push(dv)}
+ let inc=0;for(let i=1;i<v.length;i++)if(v[i]>v[i-1]+0.01)inc++;
+ const sizeChange=Math.max(...tl.map(s=>Math.max(...s.ah.map((h,i)=>Math.abs(h-tl[0].ah[i])))));
+ R.M1={whiteFullScreenMs:tGone,loaderBg:tl[0].loaderBg,loaderWmWidthPctVW_rest:+(tl[0].loaderW/1440*100).toFixed(1),loaderWmWidthPctVW_min:+(Math.min(...tl.filter(s=>s.loader).map(s=>s.loaderW))/1440*100).toFixed(1),note:'squeeze is a CSS animation on real time; min width sampled may not be on the fake clock'};
+ R.M2={burstStart_ms:firstMove.t,loaderGone_ms:tGone,maxStartOffsetBeforeBurst_pctVW:+(Math.max(...before.map(s=>Math.max(...dist(s))))/1440*100).toFixed(3),startTimeSpread_ms:Math.max(...startTimes)-Math.min(...startTimes),progressAtVanish:prog.map(x=>+x.toFixed(3)),stop_ms:stop.t,vanishToStop_ms:stop.t-tGone,burstTotal_ms:stop.t-firstMove.t,speedIncreases:inc,movingFrames:v.length,frameIntervals_ms:[...dts],speedPxPerFrame_tile6_every4th:v.filter((_,i)=>i%4===0).map(x=>+x.toFixed(1)),tileSizeChangePx:sizeChange,fadeFrames:0};
+ const navEnd=tl[tl.length-1].navY;const n0=tl.find(s=>Math.abs(s.navY-tl[0].navY)>0.5);const n1=tl.find(s=>Math.abs(s.navY-navEnd)<0.5);
+ R.M3={navHiddenY:tl[0].navY,navRestY:navEnd,start_ms:n0.t-10,startAfterBurstStart_ms:n0.t-10-firstMove.t+10,startAfterLoaderGone_ms:n0.t-10-tGone,duration_ms:n1.t-(n0.t-10)};
+}
+// click sequence on fake clock
+{const rr=await p.evaluate(rects);const i=3;const r=rr[i];await p.mouse.move(r.x+r.w/2,r.y+r.h/2);await p.clock.runFor(1500);
+ // re-aim after pan
+ for(let k=0;k<5;k++){const q=(await p.evaluate(rects))[i];await p.mouse.move(q.x+q.w/2,q.y+q.h/2);await p.clock.runFor(800);}
+ const pre=await p.evaluate(snap);R.clickPre={hotIdx:pre.hotIdx,title:pre.title};
+ await p.screenshot({path:'click-000.png'});
+ await p.mouse.down();await p.mouse.up();
+ const cl=[];base=(await p.evaluate(snap)).now;const cs={};for(let k=0;k<=14;k++)cs[k*125+(k*125%10?5:0)]='click-'+k;cs[2400]='click-end';
+ let second=null;
+ for(let t=0;t<=2600;t+=10){const s=await p.evaluate(snap);s.t=Math.round(s.now-base);cl.push(s);if(cs[s.t])await p.screenshot({path:cs[s.t]+'.png'});
+  if(s.t===400){ // second click on another visible tile
+    const q=(await p.evaluate(rects))[2];await p.mouse.click(q.x+q.w/2,q.y+q.h/2);second=true;await p.mouse.move(10,10);}
+  await p.clock.runFor(10);}
+ fs.writeFileSync('timeline-click.json',JSON.stringify(cl));
+ const md=s=>Math.max(...s.c.map(c=>Math.hypot(c[0],c[1])));
+ const conv=cl.find(s=>md(s)<=0.02*1440);const conv0=cl.find(s=>md(s)<0.5);
+ const d5=cl.map(s=>Math.hypot(s.c[5][0],s.c[5][1]));const sp=[];for(let k=5;k<=90;k+=5)sp.push(+(d5[k-5]-d5[k]).toFixed(1));
+ const open=cl.find(s=>s.detail);const titleAll=cl.every(s=>s.title===cl[0].title&&s.title);
+ const navMove=cl.find(s=>Math.abs(s.navY-cl[0].navY)>0.5&&!s.detail);const navOut=cl.find(s=>s.t>(navMove?navMove.t:0)&&s.navY<-80&&!s.detail);
+ const g0=cl.find(s=>!s.detail&&Math.abs(s.ih[i]-cl[100].ih[i])>0.5&&s.t>1000);const before=cl.filter(s=>!s.detail);const gEndH=before[before.length-1].ih[i];const g1=cl.find(s=>!s.detail&&Math.abs(s.ih[i]-gEndH)<0.5&&s.t>1000);
+ const othersGone=cl.find(s=>!s.detail&&s.vis.filter(v=>v).length===1);
+ const bT=before[before.length-1].titleRect,aT=open.titleRect;
+ R.M9={allWithin2pctVW_ms:conv.t,allAtCentre_ms:conv0.t,maxDistAt700:+md(cl.find(s=>s.t===700)).toFixed(1),speedPer50ms_tile6:sp,clickedZ:cl[50].z[i],otherMaxZ:Math.max(...cl[50].z.filter((_,k)=>k!==i).map(Number)),titleVisibleThroughout:titleAll,title:cl[0].title,secondClickTried:second,titleAfterSecondClick:cl.find(s=>s.t===500).title,hotAfterSecondClick:cl.find(s=>s.t===500).hotIdx,openedHash:open.hash};
+ R.M10={navStart_ms:navMove&&navMove.t-10,navOut_ms:navOut&&navOut.t,growStart_ms:g0&&g0.t-10,growEnd_ms:g1&&g1.t,growMs:g0&&g1&&g1.t-(g0.t-10),hBefore_pctVH:+(cl[120].ih[i]/9).toFixed(1),hAfter_pctVH:+(gEndH/9).toFixed(1),othersGone_ms:othersGone&&othersGone.t};
+ R.M11={detailOpen_ms:open.t,titleRectBefore:bT,titleRectAfter:aT,titlePosDiffPx:Math.max(Math.abs(bT[0]-aT[0]),Math.abs(bT[1]-aT[1])),samePhoto:await p.evaluate(i=>document.querySelector('#detail li img').getAttribute('src')===document.querySelectorAll('.tile img')[i].getAttribute('src'),i),firstCentred:await p.evaluate(()=>{const r=document.querySelector('#detail li').getBoundingClientRect();return [r.left+r.width/2-innerWidth/2,r.top+r.height/2-innerHeight/2,r.height/innerHeight*100]})};
+}
+await ctx.close();
+
+/* ============ reduced motion ============ */
+ctx=await b.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});p=await ctx.newPage();hook(p);
+await p.goto(U);await p.waitForTimeout(150);
+{const a=await p.evaluate(rects);const lo=await p.evaluate(()=>getComputedStyle(document.getElementById('loader')).display);await p.waitForTimeout(1500);const c=await p.evaluate(rects);
+ await p.mouse.move(360,450);await p.waitForTimeout(800);const d=await p.evaluate(rects);await p.mouse.move(c[2].x+c[2].w/2,c[2].y+c[2].h/2);await p.waitForTimeout(300);
+ const t=await p.evaluate(()=>{const t=document.getElementById('title');return t.hidden?null:t.textContent});
+ await p.mouse.down();await p.mouse.up();await p.waitForTimeout(200);
+ R.reduced={loaderDisplay:lo,moveDuringIntroPx:Math.max(...a.map((r,i)=>Math.abs(r.x-c[i].x)+Math.abs(r.y-c[i].y))),panPx:Math.max(...d.map((r,i)=>Math.abs(r.x-c[i].x))),hoverTitle:t,clickOpensAtOnce:await p.evaluate(()=>!document.getElementById('detail').hidden)};}
+await ctx.close();
+
+/* ============ tablet: wide + coarse pointer ============ */
+ctx=await b.newContext({viewport:{width:1024,height:768},hasTouch:true,isMobile:true,deviceScaleFactor:1});p=await ctx.newPage();hook(p);
+await p.goto(U);await p.waitForTimeout(3300);
+{const rr=await p.evaluate(rects);const fine=await p.evaluate(()=>matchMedia('(hover:hover) and (pointer:fine)').matches);
+ await p.screenshot({path:'tablet.png'});
+ await p.touchscreen.tap(rr[2].x+rr[2].w/2,rr[2].y+rr[2].h/2);await p.waitForTimeout(600);const mid=await p.evaluate(()=>{const t=document.getElementById('title');return t.hidden?null:t.textContent});await p.waitForTimeout(1900);
+ R.tablet={finePointer:fine,scatter:rr.some(r=>r.x<0||r.y+r.h>768),titleDuringConverge:mid,opened:await p.evaluate(()=>!document.getElementById('detail').hidden),docScrollH:await p.evaluate(()=>document.documentElement.scrollHeight)};}
+await ctx.close();
+
+/* ============ mobile ============ */
+ctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,hasTouch:true,isMobile:true});p=await ctx.newPage();hook(p);
+await p.goto(U);await p.waitForTimeout(1200);
+R.P1=await p.evaluate(()=>{const ts=[...document.querySelectorAll('.tile')];const r=ts.map(a=>{const q=a.getBoundingClientRect();return {top:q.top+scrollY,h:q.height,w:q.width,left:q.left}});const im=ts.map(a=>{const i=a.querySelector('img');const cs=getComputedStyle(i);return {src:i.currentSrc.split('/').pop(),fit:cs.objectFit,pos:cs.objectPosition,loaded:i.complete&&i.naturalWidth>0}});return {docH:document.documentElement.scrollHeight,docW:document.documentElement.scrollWidth,vw:innerWidth,firstTop:r[0].top,photoH:r[0].h,photoW:r[0].w,left:r[0].left,pitch:r[1].top-r[0].top,gap:r[1].top-r[0].top-r[0].h,imgs:im,loaderDisplay:getComputedStyle(document.getElementById('loader')).display,ringDisplay:getComputedStyle(document.getElementById('ring')).display,titleDisplay:getComputedStyle(document.getElementById('title')).display,stageTransform:getComputedStyle(document.getElementById('stage')).transform,tileTransform:getComputedStyle(ts[0]).transform,tilePosition:getComputedStyle(ts[0]).position}});
+await p.screenshot({path:'m-top.png'});
+{const a=await p.evaluate(()=>{const m=document.querySelector('#nav .wm').getBoundingClientRect();const l=document.getElementById('openAbout').getBoundingClientRect(),r=document.getElementById('mail').getBoundingClientRect();return {wm:[m.left,m.top,m.width],wmPct:m.width/innerWidth*100,links:[l.left,l.top,l.width,l.height,r.left,r.top,r.width,r.height],rowCentre:(l.left+r.right)/2-innerWidth/2,navBg:getComputedStyle(document.getElementById('nav')).backgroundColor,markBg:getComputedStyle(document.getElementById('home')).backgroundColor,pos:getComputedStyle(document.getElementById('nav')).position,linkSize:getComputedStyle(document.getElementById('openAbout')).fontSize}});
+ await p.evaluate(()=>window.scrollTo(0,1000));await p.waitForTimeout(400);
+ const c=await p.evaluate(()=>{const m=document.querySelector('#nav .wm').getBoundingClientRect();return {wm:[m.left,m.top,m.width],sy:scrollY}});
+ await p.screenshot({path:'m-mid.png'});
+ R.P3={before:a,after:c,movedPx:Math.max(Math.abs(a.wm[0]-c.wm[0]),Math.abs(a.wm[1]-c.wm[1]))};}
+for(let i=0;i<8;i++){await p.evaluate(i=>{const t=document.querySelectorAll('.tile')[i];window.scrollTo(0,t.getBoundingClientRect().top+scrollY-84)},i);await p.waitForTimeout(350);await p.screenshot({path:'m-t'+i+'.png'});}
+await p.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));await p.waitForTimeout(1300);
+R.P5=await p.evaluate(()=>{const f=document.getElementById('foot');const ps=[...f.querySelectorAll('p')];return {lines:ps.map(x=>x.innerText),fontSizes:ps.map(x=>getComputedStyle(x.firstElementChild||x).fontSize),left:ps.map(x=>(x.firstElementChild||x).getBoundingClientRect().left),align:getComputedStyle(f).textAlign,color:getComputedStyle(ps[0]).color,opacity:getComputedStyle(f).opacity,inView:ps[ps.length-1].getBoundingClientRect().bottom<=innerHeight+1,scrollX:scrollX,maxScrollX:document.documentElement.scrollWidth-innerWidth}});
+await p.screenshot({path:'m-bot.png'});
+// tap → detail directly
+await p.evaluate(()=>{const t=document.querySelectorAll('.tile')[4];window.scrollTo(0,t.getBoundingClientRect().top+scrollY-84)});await p.waitForTimeout(300);
+await p.evaluate(()=>{window.__m={};document.addEventListener('click',()=>{__m.t=performance.now();requestAnimationFrame(()=>{__m.openNextFrame=!document.getElementById('detail').hidden;__m.dt=performance.now()-__m.t})},true)});
+await p.touchscreen.tap(195,500);await p.waitForTimeout(500);
+R.P4=await p.evaluate(()=>({m:__m,detailOpen:!document.getElementById('detail').hidden,titleDisplay:getComputedStyle(document.getElementById('title')).display,gname:document.getElementById('gname').textContent,count:document.querySelectorAll('#detail li').length,uncropErr:[...document.querySelectorAll('#detail li img')].map(im=>{const r=im.getBoundingClientRect();return +(Math.abs(r.width/r.height/(im.naturalWidth/im.naturalHeight)-1)*100).toFixed(2)}),closeBox:(()=>{const r=document.getElementById('closeDetail').getBoundingClientRect();return [r.left,r.top,r.width,r.height]})(),detailScrollW:document.getElementById('detail').scrollWidth}));
+await p.waitForTimeout(600);await p.screenshot({path:'m-detail.png'});
+await p.tap('#closeDetail');await p.waitForTimeout(400);
+R.P4.closed=await p.evaluate(()=>document.getElementById('detail').hidden);
+await p.evaluate(()=>window.scrollTo(0,0));await p.tap('#openAbout');await p.waitForTimeout(300);await p.screenshot({path:'m-about.png'});
+R.mobileAbout=await p.evaluate(()=>!document.getElementById('about').hidden);
+R.D3m=await p.evaluate(()=>{const b=e=>{const r=document.getElementById(e).getBoundingClientRect();return [Math.round(r.width),Math.round(r.height),r.top>=0&&r.bottom<=innerHeight]};return {who:b('who'),mail:b('mail')}});
+R.wordsMobile=await p.evaluate(()=>{const bad=['美的','glow','オレンジページ','BAILA','UNIQLO','GLOBAL WORK','Elura','mi-mollet'];const all=document.body.innerText.toLowerCase();return bad.filter(w=>all.includes(w.toLowerCase()))});
+await ctx.close();
+R.consoleErrors=errs;R.failedRequests=failed;
+fs.writeFileSync('results.json',JSON.stringify(R,null,1));
+console.log(JSON.stringify(R,null,1));
+await b.close();
+})().catch(e=>{console.error('FAIL',e);fs.writeFileSync('results-partial.json',JSON.stringify(R,null,1));process.exit(1)});

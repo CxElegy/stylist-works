@@ -1,0 +1,878 @@
+{
+ "M1_real": {
+  "loaderGoneAt_ms": 1550.6999999997206,
+  "wmWidthAtSample": 936.046875,
+  "vw": 1440
+ },
+ "S1": {
+  "scrollY": 0,
+  "scrollX": 0,
+  "docH": 900,
+  "docW": 1440,
+  "vh": 900,
+  "vw": 1440
+ },
+ "hotAtCentre": true,
+ "S2": {
+  "tileLinks": 8,
+  "navTexts": [
+   "プロフィール",
+   "Akari Ito",
+   "伊藤 あかり｜スタイリスト",
+   "お問い合わせ"
+  ],
+  "otherTexts": []
+ },
+ "S3": {
+  "bodyBg": "rgb(255, 255, 255)",
+  "htmlBg": "rgb(255, 255, 255)",
+  "imgs": [
+   "0px|none|0px|rgba(0, 0, 0, 0)"
+  ]
+ },
+ "L1": {
+  "reloadMaxDiffPx": 0,
+  "slots1440": [
+   [
+    -37,
+    3,
+    40
+   ],
+   [
+    40,
+    -27,
+    22
+   ],
+   [
+    -2,
+    -13,
+    46
+   ],
+   [
+    34,
+    8,
+    34
+   ],
+   [
+    -32,
+    44,
+    42
+   ],
+   [
+    50,
+    42,
+    34
+   ],
+   [
+    -27,
+    -17,
+    28
+   ],
+   [
+    1,
+    40,
+    48
+   ]
+  ],
+  "slots1920": [
+   [
+    -37,
+    3,
+    40
+   ],
+   [
+    40,
+    -27,
+    22
+   ],
+   [
+    -2,
+    -13,
+    46
+   ],
+   [
+    34,
+    8,
+    34
+   ],
+   [
+    -32,
+    44,
+    42
+   ],
+   [
+    50,
+    42,
+    34
+   ],
+   [
+    -27,
+    -17,
+    28
+   ],
+   [
+    1,
+    40,
+    48
+   ]
+  ],
+  "maxPctDiff": 0.0011574074074047758
+ },
+ "L2": {
+  "maxH": 48,
+  "minH": 22,
+  "ratio": 2.1818181818181817
+ },
+ "D3": {
+  "who": [
+   302,
+   20,
+   true
+  ],
+  "mail": [
+   122,
+   20,
+   true
+  ],
+  "about": [
+   122,
+   20,
+   true
+  ]
+ },
+ "D5_slotsTooClose": 0,
+ "L3": [
+  {
+   "disp": 1.2744357638888888,
+   "nat": 1.2744630071599046,
+   "errPct": 0.002137627444875889,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.7691761363636364,
+   "nat": 0.7692307692307693,
+   "errPct": 0.00710227272727737,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.6666666666666666,
+   "nat": 0.6666666666666666,
+   "errPct": 0,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.6666666666666666,
+   "nat": 0.6666666666666666,
+   "errPct": 0,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.6739831349206349,
+   "nat": 0.674,
+   "errPct": 0.0025022372945326943,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.7502553104575164,
+   "nat": 0.7502799552071668,
+   "errPct": 0.003284740513109785,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.7025049603174603,
+   "nat": 0.7025246981339188,
+   "errPct": 0.002809554811511461,
+   "fit": "fill",
+   "ov": "visible"
+  },
+  {
+   "disp": 0.7833116319444444,
+   "nat": 0.7833333333333333,
+   "errPct": 0.0027703900709274976,
+   "fit": "fill",
+   "ov": "visible"
+  }
+ ],
+ "L4": [
+  {
+   "out": true,
+   "visiblePct": 90.8
+  },
+  {
+   "out": false,
+   "visiblePct": 100
+  },
+  {
+   "out": false,
+   "visiblePct": 100
+  },
+  {
+   "out": false,
+   "visiblePct": 100
+  },
+  {
+   "out": true,
+   "visiblePct": 64.3
+  },
+  {
+   "out": true,
+   "visiblePct": 36.8
+  },
+  {
+   "out": false,
+   "visiblePct": 100
+  },
+  {
+   "out": true,
+   "visiblePct": 70.8
+  }
+ ],
+ "L5": {
+  "pairs": [
+   [
+    1,
+    7
+   ]
+  ],
+  "coveredPct": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   49.2,
+   0
+  ]
+ },
+ "L6": {
+  "z": [
+   5,
+   3,
+   4,
+   2,
+   2,
+   2,
+   2,
+   1
+  ],
+  "zAfterReloads": [
+   "5,3,4,2,2,2,2,1",
+   "5,3,4,2,2,2,2,1",
+   "5,3,4,2,2,2,2,1",
+   "5,3,4,2,2,2,2,1"
+  ]
+ },
+ "T1": {
+  "families": [
+   "Anton",
+   "Instrument Sans"
+  ],
+  "small": [
+   {
+    "t": "プロフィール",
+    "size": "20px",
+    "weight": "400",
+    "lh": "20px",
+    "tt": "uppercase"
+   },
+   {
+    "t": "伊藤 あかり｜スタイリスト",
+    "size": "20px",
+    "weight": "400",
+    "lh": "20px",
+    "tt": "none"
+   },
+   {
+    "t": "お問い合わせ",
+    "size": "20px",
+    "weight": "400",
+    "lh": "20px",
+    "tt": "uppercase"
+   }
+  ]
+ },
+ "T3": {
+  "leftLink": {
+   "left": 20,
+   "top": 20
+  },
+  "rightLink": {
+   "right": 20,
+   "top": 20
+  },
+  "wm": {
+   "w": 302.390625,
+   "wPctVW": 20.999348958333332,
+   "centreOffset": 0,
+   "top": 10,
+   "bottom": 96.6875
+  }
+ },
+ "M7": {
+  "hot": true,
+  "diameter": 154,
+  "border": "1px solid rgb(220, 47, 30)",
+  "radius": "50%",
+  "transition": "0.05s, 0.05s, 0.05s",
+  "opacity": "1",
+  "label": "View",
+  "labelSize": "10px",
+  "cursorOnTile": "none",
+  "ringOn": true,
+  "showMs": 49,
+  "hideMs": 49,
+  "ringOutsideOpacity": 0
+ },
+ "T2": {
+  "text": "Selected",
+  "fontSize": "172.8px",
+  "expected": 172.79999999999998,
+  "lineHeight": "172.8px",
+  "family": "Anton",
+  "tt": "uppercase",
+  "ws": "nowrap",
+  "boxBottomToViewportBottom": 0,
+  "textCentreOffset": 0,
+  "textWidth": 597.28125,
+  "z": "20",
+  "maxTileZ": 9,
+  "pe": "none",
+  "color": "rgb(220, 47, 30)"
+ },
+ "T4": [
+  "bg rgb(255, 255, 255)",
+  "text rgb(220, 47, 30)",
+  "line rgb(220, 47, 30)"
+ ],
+ "M5": {
+  "restW": 276,
+  "hotW": 386.4000244140625,
+  "scale": 1.4000000884567483,
+  "growMs": 199,
+  "shrinkMs": 233,
+  "zWhileHot": [
+   "5",
+   "3",
+   "9",
+   "2",
+   "2",
+   "2",
+   "2",
+   "1"
+  ],
+  "zRestoredAfterMs": 266,
+  "zRestored": "4"
+ },
+ "M6": {
+  "titleVisibleSyncInEnterHandler": true,
+  "titleFirstFrameDelayMs": 0.2,
+  "title": "Selected",
+  "titleGoneFrameDelayMs": 0.1,
+  "titleGoneSync": true,
+  "underTitle": {
+   "inTitleBox": true,
+   "titleShown": true,
+   "title": "Editorial",
+   "elementUnderPointer": "tile 8"
+  },
+  "switch": {
+   "from": "Portrait",
+   "toSync": "Editorial",
+   "nextFrame": "Editorial",
+   "frameDelayMs": 0.3
+  }
+ },
+ "M8": {
+  "dxTile": [
+   -360,
+   -360,
+   -360,
+   -360,
+   -360,
+   -360,
+   -360,
+   -360
+  ],
+  "ratioX": -0.5,
+  "dyTile": [
+   -225,
+   -225,
+   -225,
+   -225,
+   -225,
+   -225,
+   -225,
+   -225
+  ],
+  "ratioY": -0.5,
+  "groupShiftAtRightEdge_pctVW": -24.96527777777778
+ },
+ "M4": {
+  "samples": 11,
+  "maxMovePx": 0
+ },
+ "N1": {
+  "textEntries": [
+   "プロフィール",
+   "お問い合わせ"
+  ],
+  "markHref": "#top",
+  "mail": "mailto:info@example.com"
+ },
+ "M10_real": {
+  "converged2pct_ms": 726,
+  "navStart_ms": 1026,
+  "navOut_ms": 1209,
+  "navMs": 184,
+  "othersGone_ms": 1443,
+  "growStart_ms": 1443,
+  "growEnd_ms": 1543,
+  "growMs": 100,
+  "h0_pctVH": 47.6,
+  "h1_pctVH": 52,
+  "frames": 109
+ },
+ "M11_real": {
+  "open": 1811.199999999255,
+  "titleBefore": [
+   0,
+   727.203125,
+   1440
+  ],
+  "titleAfter": [
+   0,
+   727.203125,
+   1440
+  ]
+ },
+ "M12": {
+  "closeVisible": true,
+  "closeRight": 20,
+  "closeTop": 20,
+  "closeLine": "1px rgb(220, 47, 30)",
+  "count": 5,
+  "firstHpctVH": 87,
+  "firstCentreOffset": [
+   0,
+   0
+  ],
+  "firstSrc": "images/tumblr/03-mi-mollet-04.jpg",
+  "scrollable": true,
+  "uncropped": [
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "gname": "ポートレート",
+  "bodyScroll": 0
+ },
+ "M13": {
+  "detailHidden": true,
+  "firstFrameMaxDistFromCentrePx": 0,
+  "firstFrame_ms": 0,
+  "lastMaxDist": 1000.2244332444493,
+  "distSamples": [
+   [
+    0,
+    0
+   ],
+   [
+    96,
+    250
+   ],
+   [
+    196,
+    468
+   ],
+   [
+    296,
+    616
+   ],
+   [
+    396,
+    710
+   ],
+   [
+    496,
+    766
+   ],
+   [
+    596,
+    795
+   ],
+   [
+    696,
+    808
+   ],
+   [
+    796,
+    812
+   ],
+   [
+    896,
+    813
+   ],
+   [
+    996,
+    786
+   ],
+   [
+    1096,
+    714
+   ],
+   [
+    1196,
+    700
+   ],
+   [
+    1296,
+    697
+   ],
+   [
+    1396,
+    697
+   ],
+   [
+    1496,
+    696
+   ]
+  ],
+  "settled_ms": 1512.5,
+  "backToSlotsMaxDiffPx": 0,
+  "url": "http://localhost:8774/r4-snog.html"
+ },
+ "profile": {
+  "open": true,
+  "text": "AKARI ITO\n\n伊藤 あかり｜スタイリスト\n\nビューティーからファッション、キッズまで。雑誌・広告・カタログのスタイリングを手がけています。\n\nダミーテキストです。〇〇出身。〇〇を卒業後、スタイリスト〇〇氏に師事。\n\n20XX年に独立し、雑誌・広告・カタログを中心に活動。\n\nナチュラルでありながら芯のあるスタイリングを得意とし、ビューティー誌からライフスタイル誌まで幅広く手がける。\n\nビューティー / ファッション / ライフスタイル / ブランドカタログ\n\ninfo@example.com",
+  "closedByEsc": true
+ },
+ "keyboard": {
+  "focused": "tile hot #selected",
+  "titleOnFocus": "Selected",
+  "tabbableTiles": 8,
+  "enterOpens": true,
+  "escCloses": true,
+  "focusBack": "tile hot"
+ },
+ "words": [],
+ "M1": {
+  "whiteFullScreenMs": 1500,
+  "loaderBg": "rgb(255, 255, 255)",
+  "loaderWmWidthPctVW_rest": 65,
+  "loaderWmWidthPctVW_min": 49.4,
+  "note": "squeeze is a CSS animation on real time; min width sampled may not be on the fake clock"
+ },
+ "M2": {
+  "burstStart_ms": 1410,
+  "loaderGone_ms": 1500,
+  "maxStartOffsetBeforeBurst_pctVW": 0,
+  "startTimeSpread_ms": 0,
+  "progressAtVanish": [
+   0.347,
+   0.347,
+   0.347,
+   0.347,
+   0.347,
+   0.347,
+   0.347,
+   0.347
+  ],
+  "stop_ms": 2210,
+  "vanishToStop_ms": 710,
+  "burstTotal_ms": 800,
+  "speedIncreases": 0,
+  "movingFrames": 57,
+  "frameIntervals_ms": [
+   14,
+   16
+  ],
+  "speedPxPerFrame_tile6_every4th": [
+   53.4,
+   43.2,
+   34.5,
+   27,
+   20.6,
+   15.4,
+   11.1,
+   7.7,
+   5.1,
+   3.1,
+   1.8,
+   0.9,
+   0.3,
+   0.1,
+   0
+  ],
+  "tileSizeChangePx": 0.00006103515625,
+  "fadeFrames": 0
+ },
+ "M3": {
+  "navHiddenY": -260,
+  "navRestY": 10,
+  "start_ms": 1800,
+  "startAfterBurstStart_ms": 400,
+  "startAfterLoaderGone_ms": 300,
+  "duration_ms": 540
+ },
+ "clickPre": {
+  "hotIdx": 3,
+  "title": "Portrait"
+ },
+ "M9": {
+  "allWithin2pctVW_ms": 720,
+  "allAtCentre_ms": 870,
+  "maxDistAt700": 37.9,
+  "speedPer50ms_tile6": [
+   0.4,
+   2.8,
+   7.6,
+   14.9,
+   24.5,
+   36.6,
+   51,
+   94.7,
+   94.2,
+   95.9,
+   75.7,
+   57.8,
+   42.3,
+   29.2,
+   18.6,
+   12.4,
+   3.1,
+   0.5
+  ],
+  "clickedZ": "9",
+  "otherMaxZ": 5,
+  "titleVisibleThroughout": true,
+  "title": "Portrait",
+  "secondClickTried": true,
+  "titleAfterSecondClick": "Portrait",
+  "hotAfterSecondClick": 3,
+  "openedHash": "#portrait"
+ },
+ "M10": {
+  "navStart_ms": 1020,
+  "navOut_ms": 1090,
+  "growStart_ms": 1460,
+  "growEnd_ms": 1640,
+  "growMs": 180,
+  "hBefore_pctVH": 47.6,
+  "hAfter_pctVH": 52,
+  "othersGone_ms": 1430
+ },
+ "M11": {
+  "detailOpen_ms": 1800,
+  "titleRectBefore": [
+   0,
+   727.203125,
+   1440,
+   172.796875
+  ],
+  "titleRectAfter": [
+   0,
+   727.203125,
+   1440,
+   172.796875
+  ],
+  "titlePosDiffPx": 0,
+  "samePhoto": true,
+  "firstCentred": [
+   0,
+   0,
+   87
+  ]
+ },
+ "reduced": {
+  "loaderDisplay": "none",
+  "moveDuringIntroPx": 0,
+  "panPx": 0,
+  "hoverTitle": "Selected",
+  "clickOpensAtOnce": true
+ },
+ "tablet": {
+  "finePointer": false,
+  "scatter": true,
+  "titleDuringConverge": "Selected",
+  "opened": true,
+  "docScrollH": 768
+ },
+ "P1": {
+  "docH": 7223,
+  "docW": 390,
+  "vw": 390,
+  "firstTop": 207.609375,
+  "photoH": 675.1875,
+  "photoW": 370,
+  "left": 10,
+  "pitch": 853.984375,
+  "gap": 178.796875,
+  "imgs": [
+   {
+    "src": "biteki-portrait-01.jpg",
+    "fit": "cover",
+    "pos": "22% 50%",
+    "loaded": true
+   },
+   {
+    "src": "06-kids-09.jpg",
+    "fit": "cover",
+    "pos": "42% 50%",
+    "loaded": true
+   },
+   {
+    "src": "08-test-shoot-02.jpg",
+    "fit": "cover",
+    "pos": "50% 50%",
+    "loaded": true
+   },
+   {
+    "src": "03-mi-mollet-04.jpg",
+    "fit": "cover",
+    "pos": "40% 50%",
+    "loaded": true
+   },
+   {
+    "src": "01-uniqlo-04.jpg",
+    "fit": "cover",
+    "pos": "50% 50%",
+    "loaded": true
+   },
+   {
+    "src": "03-mi-mollet-01.jpg",
+    "fit": "cover",
+    "pos": "42% 50%",
+    "loaded": true
+   },
+   {
+    "src": "04-elura-06.jpg",
+    "fit": "cover",
+    "pos": "55% 50%",
+    "loaded": true
+   },
+   {
+    "src": "08-test-shoot-07.jpg",
+    "fit": "cover",
+    "pos": "45% 50%",
+    "loaded": true
+   }
+  ],
+  "loaderDisplay": "none",
+  "ringDisplay": "none",
+  "titleDisplay": "none",
+  "stageTransform": "none",
+  "tileTransform": "none",
+  "tilePosition": "static"
+ },
+ "P3": {
+  "before": {
+   "wm": [
+    29.25,
+    18,
+    331.5
+   ],
+   "wmPct": 85,
+   "links": [
+    89.359375,
+    139.015625,
+    105.640625,
+    44,
+    195,
+    139.015625,
+    105.3125,
+    44
+   ],
+   "rowCentre": -0.1640625,
+   "navBg": "rgba(0, 0, 0, 0)",
+   "markBg": "rgba(0, 0, 0, 0)",
+   "pos": "fixed",
+   "linkSize": "14px"
+  },
+  "after": {
+   "wm": [
+    29.25,
+    18,
+    331.5
+   ],
+   "sy": 1000
+  },
+  "movedPx": 0
+ },
+ "P5": {
+  "lines": [
+   "伊藤 あかり",
+   "スタイリスト",
+   "プロフィール",
+   "info@example.com"
+  ],
+  "fontSizes": [
+   "24px",
+   "24px",
+   "24px",
+   "24px"
+  ],
+  "left": [
+   15,
+   15,
+   15,
+   15
+  ],
+  "align": "left",
+  "color": "rgb(220, 47, 30)",
+  "opacity": "1",
+  "inView": true,
+  "scrollX": 0,
+  "maxScrollX": 0
+ },
+ "P4": {
+  "m": {
+   "t": 7055.700000000186,
+   "openNextFrame": true,
+   "dt": 15
+  },
+  "detailOpen": true,
+  "titleDisplay": "none",
+  "gname": "カジュアル",
+  "count": 5,
+  "uncropErr": [
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "closeBox": [
+   205,
+   135.015625,
+   40,
+   40
+  ],
+  "detailScrollW": 390,
+  "closed": true
+ },
+ "mobileAbout": true,
+ "D3m": {
+  "who": [
+   332,
+   14,
+   true
+  ],
+  "mail": [
+   105,
+   44,
+   true
+  ]
+ },
+ "wordsMobile": [],
+ "consoleErrors": [],
+ "failedRequests": []
+}
