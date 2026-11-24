@@ -198,7 +198,7 @@
       works.forEach(function (w) { byImg[w.image] = w; });
       var sets = [{ id: "selected", title: "代表作", en: "Selected", note: "", items: SEL.lead, lead: true }].concat(SEL.groups);
       sets.forEach(function (s) {
-        s.works = s.items.map(function (p) { return byImg[p] || { image: p, page: "", media: "", title: "", credit: "", link: "" }; });
+        s.works = s.items.map(function (p) { return { image: p, page: "", media: "", title: "", credit: "", link: "" }; }); // 媒体名・題名は出さない（すべて本人の作品として見せる）
         s.start = flat.length; flat = flat.concat(s.works);
       });
       fillProfile(); buildLightbox(); list = flat;

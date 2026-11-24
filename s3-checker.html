@@ -68,7 +68,7 @@
   <header class="wrap top" id="top">
     <h1 class="name" data-p="nameEn">Akari Ito</h1>
     <p class="role"><span data-p="nameJa">伊藤 あかり</span>　スタイリスト</p>
-    <p class="lead" data-p="lead">美容誌・生活誌からブランドカタログまで。美的、glow、オレンジページ、BAILA、UNIQLO などのスタイリングを手がけています。</p>
+    <p class="lead" data-p="lead">ビューティーからファッション、キッズまで。雑誌・広告・カタログのスタイリングを手がけています。</p>
     <a class="cta" href="#contact">仕事を相談する</a>
   </header>
 
@@ -79,7 +79,7 @@
       <h2>プロフィール</h2>
       <div>
         <div class="about__bio" data-p="bio"></div>
-        <dl><dt>得意分野</dt><dd data-p="specialty"></dd><dt>主な実績</dt><dd data-p="clients"></dd></dl>
+        <dl><dt>得意分野</dt><dd data-p="specialty"></dd></dl>
       </div>
     </section>
     <section class="text" id="contact">
@@ -112,7 +112,7 @@
         t1.appendChild(E("span", "tile__no", pad(si + 1) + " / " + pad(data.sets.length)));
         var mid = E("span", ""); mid.appendChild(E("h2", "tile__title", s.title)); mid.appendChild(E("span", "tile__small", s.en)); t1.appendChild(mid);
         var medias = []; s.works.forEach(function (w) { if (w.media && medias.indexOf(w.media) === -1) medias.push(w.media); });
-        t1.appendChild(E("span", "tile__small", (medias.join("、") || s.note || "") + "　" + s.works.length + "点"));
+        t1.appendChild(E("span", "tile__small", s.works.length + "点"));
         s.t1 = t1;
         s.body = sec.appendChild(E("div", ""));
         main.appendChild(sec);

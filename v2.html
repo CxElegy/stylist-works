@@ -82,7 +82,7 @@
     <div>
       <h1 class="name" data-p="nameEn">Akari Ito</h1>
       <p class="role"><span data-p="nameJa">伊藤 あかり</span>｜スタイリスト</p>
-      <p class="lead" data-p="lead">美容誌・生活誌からブランドカタログまで。美的、glow、オレンジページ、BAILA、UNIQLO などのスタイリングを手がけています。</p>
+      <p class="lead" data-p="lead">ビューティーからファッション、キッズまで。雑誌・広告・カタログのスタイリングを手がけています。</p>
     </div>
     <nav class="nav" id="nav" aria-label="メニュー"></nav>
   </header>
@@ -97,7 +97,6 @@
         <div class="about__bio" data-p="bio"></div>
         <dl>
           <dt>得意分野</dt><dd data-p="specialty"></dd>
-          <dt>主な実績</dt><dd data-p="clients"></dd>
         </dl>
       </div>
     </section>
@@ -126,7 +125,7 @@
       var sets = [{ id: "selected", title: "代表作", en: "Selected", note: "", items: SEL.lead, lead: true }].concat(SEL.groups);
       // works.js に無い写真も、パスだけでそのまま載せる
       var flat = []; // 拡大表示で左右に送る順番（ページの並びと同じ）
-      sets.forEach(function (s) { s.works = s.items.map(function (p) { return byImg[p] || { image: p, page: "", media: "", title: "", credit: "", link: "" }; }); s.start = flat.length; flat = flat.concat(s.works); });
+      sets.forEach(function (s) { s.works = s.items.map(function (p) { return { image: p, page: "", media: "", title: "", credit: "", link: "" }; }); s.start = flat.length; flat = flat.concat(s.works); });
       var open = Portfolio.lightbox(flat);
 
       // 1列に入れる数：パソコンは全部を1列、スマホは 2点ずつ（5点なら 2＋3）
