@@ -187,6 +187,8 @@
       buildLightbox();
       renderWorks(opts);
     },
-    el: el, label: label, pad: pad
+    el: el, label: label, pad: pad,
+    // 一覧を自分で組むページ用（v2.html）：works の配列を渡すと、open(番号) で拡大表示できる
+    lightbox: function (worksList) { fillProfile(); buildLightbox(); list = worksList; return open; }
   };
 })();

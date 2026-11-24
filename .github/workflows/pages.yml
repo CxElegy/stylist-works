@@ -25,7 +25,7 @@ jobs:
       - name: Collect site files
         run: |
           mkdir _site
-          cp -r index.html a-bold.html b-cool.html c-simple.html assets data images _site/
+          cp -r index.html v2.html a-bold.html b-cool.html c-simple.html assets data images _site/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v4
         with:
