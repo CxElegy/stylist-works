@@ -33,6 +33,7 @@
 * { box-sizing: border-box; }
 html {
   background: var(--paper);
+  color: var(--ink);
   scrollbar-width: none;
   -webkit-text-size-adjust: 100%;
   overflow-anchor: none;
@@ -45,7 +46,7 @@ body {
   color: var(--ink);
   font-family: "Archivo R1", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
   font-weight: 800;
-  font-stretch: 74%;
+  font-stretch: 71%;
   text-transform: uppercase;
   letter-spacing: .02em;
   line-height: 1.2;
@@ -96,6 +97,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   margin: 0;
   font-size: var(--big);
   font-weight: 800;
+  letter-spacing: .02em;
   line-height: 1.2;
   max-width: 65vw;
   width: max-content;
@@ -192,6 +194,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   margin: 0; padding: 0 0 2vh;
   list-style: none;
   font-size: var(--big);
+  letter-spacing: .02em;
   line-height: 1;
 }
 .m-items li { margin: 0; padding: .04em 0; }
@@ -201,6 +204,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   padding: 0 0 5vh;
   max-width: 1360px;
   font-size: var(--mid);
+  letter-spacing: .02em;
   line-height: 1.25;
 }
 .m-bio p { margin: 0; }
@@ -210,11 +214,13 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   display: flex; justify-content: space-between; align-items: baseline;
   gap: 16px;
   font-size: var(--mid);
+  letter-spacing: .02em;
   line-height: 1.2;
 }
 .m-foot a { display: inline-block; min-height: 32px; }
 .m-mail { text-transform: none; }
 .m-sns { display: flex; gap: .6em; }
+.m-sns a { min-width: 32px; text-align: right; }
 .m-copy {
   position: absolute;
   left: 50%; bottom: var(--pad);
@@ -223,7 +229,6 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   white-space: nowrap;
   font-size: 11px;
 }
-#menu { position: fixed; }
 @media (max-width: 768px) {
   .m-copy { position: static; transform: none; margin-top: 14px; }
 }
@@ -246,8 +251,8 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
 }
 /* 下線：メニューの大きい字 4px（スマホ 3px）、その他のリンク 2px */
 #menu a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .12em; text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
-.m-items a { text-decoration-thickness: 4px; }
-@media (max-width: 768px) { .m-items a { text-decoration-thickness: 3px; } }
+#menu .m-items a { text-decoration-thickness: 4px; }
+@media (max-width: 768px) { #menu .m-items a { text-decoration-thickness: 3px; } }
 #menu a:hover, #menu a:focus-visible, #menu a[aria-current] { text-decoration-color: currentColor; }
 
 /* ---------- 1枚だけ見る画面 ---------- */
@@ -393,7 +398,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
       m.boxW = m.colW * 1.1; m.boxH = m.cellH * 1.2;
     }
     m.pitchX = m.colW + m.gap;
-    m.pitchY = m.cellH + 0.22 * VH;
+    m.pitchY = Math.round(m.cellH + 0.22 * VH);   // 整数にしておくと、周期もぴったり整数になる
     m.y0 = m.cellH / 2 - m.lift;
     m.P = ROWS_PER * m.pitchY;
     return m;
@@ -536,7 +541,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     var n = first.length, zs = shuffle(n), ds = shuffle(n);
     var ease = "cubic-bezier(.77,0,.175,1)";
     first.forEach(function (c, i) {
-      c.z = zs[i]; c.d = ds[i]; c.dur = 0.8 + Math.random() * 0.6;
+      c.z = zs[i]; c.d = ds[i]; c.dur = 0.8 + Math.random() * 0.58;
       c.el.style.transition = "none";
       c.el.style.transform = "translate(" + (M.VW / 2 - c.cx) + "px," + (M.VH / 2 - c.cy) + "px)";
       c.el.style.opacity = "0";
