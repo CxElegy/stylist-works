@@ -23,7 +23,7 @@ jobs:
         run: |
           pip install --quiet pillow && python3 tools/sizes.py  # 写真の縦横サイズ表を作り直す（本人が写真を足しても手作業いらず）
           mkdir _site
-          cp -r index.html v2.html a-bold.html b-cool.html c-simple.html assets data images _site/
+          cp -r *.html assets data images _site/
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

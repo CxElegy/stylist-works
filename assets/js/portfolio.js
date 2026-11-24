@@ -189,6 +189,32 @@
     },
     el: el, label: label, pad: pad,
     // 一覧を自分で組むページ用（v2.html）：works の配列を渡すと、open(番号) で拡大表示できる
-    lightbox: function (worksList) { fillProfile(); buildLightbox(); list = worksList; return open; }
+    lightbox: function (worksList) { fillProfile(); buildLightbox(); list = worksList; return open; },
+    // data/selection.js を読んで、まとまりごとの作品と「写真の部品」を用意する（3A〜3C のページ用）
+    // 返り値: { sets: [{id,title,en,note,lead,works,nodes}], flat }。nodes の各要素は .ph（中に button > img）。
+    // node._r = 横÷縦。並べ方（列・大きさ）は各ページが決める。
+    sets: function () {
+      var SEL = window.SELECTION, SZ = window.SIZES || {}, byImg = {}, flat = [];
+      works.forEach(function (w) { byImg[w.image] = w; });
+      var sets = [{ id: "selected", title: "代表作", en: "Selected", note: "", items: SEL.lead, lead: true }].concat(SEL.groups);
+      sets.forEach(function (s) {
+        s.works = s.items.map(function (p) { return byImg[p] || { image: p, page: "", media: "", title: "", credit: "", link: "" }; });
+        s.start = flat.length; flat = flat.concat(s.works);
+      });
+      fillProfile(); buildLightbox(); list = flat;
+      sets.forEach(function (s, si) {
+        s.nodes = s.works.map(function (w, i) {
+          var d = el("div", "ph"), b = el("button", "ph__btn"), img = el("img"), sz = SZ[w.image];
+          b.type = "button"; b.setAttribute("aria-label", label(w) + " を拡大表示");
+          d._r = 0.7; d._w = w;
+          if (sz) { img.width = sz[0]; img.height = sz[1]; d._r = sz[0] / sz[1]; }
+          img.src = w.image; img.alt = label(w); img.decoding = "async"; img.loading = si < 2 ? "eager" : "lazy";
+          b.appendChild(img); d.appendChild(b);
+          b.addEventListener("click", function () { open(s.start + i); });
+          return d;
+        });
+      });
+      return { sets: sets, flat: flat };
+    }
   };
 })();

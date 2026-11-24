@@ -19,7 +19,7 @@
     .plans { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px 24px; }
     @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     .plan a { display: block; }
-    .new { display: block; border: 2px solid var(--ink); padding: 0 20px 20px; margin-bottom: 40px; }
+    .new { display: block; border: 2px solid var(--ink); padding: 0 20px 20px; margin-bottom: 16px; }
     .new:hover .plan__go, .new:focus-visible .plan__go { opacity: .5; }
     .plan__shots { display: grid; grid-template-columns: 1400fr 390fr; gap: 8px; align-items: start; border: 1px solid var(--line); padding: 8px; }
     .plan__id { margin: 16px 0 0; font-size: 32px; font-weight: 700; line-height: 1; }
@@ -32,14 +32,12 @@
 <body>
   <main class="wrap">
     <h1>デザイン案を選んでください</h1>
-    <p class="lead">作品・プロフィールの中身は3案とも同じです。画像を押すと実際のページが開きます（左がパソコン、右がスマホの見え方）。</p>
-    <a class="new" href="v2.html">
-      <p class="plan__id">2A</p>
-      <p class="plan__name">新しい案：作品を34点に絞り、仕事の種類ごとに見せる版</p>
-      <p class="plan__desc">全部を並べるのをやめ、Beauty／Brand Catalog／Brand Visual／Magazine／Kids／Personal Work にまとめました。まずこちらを見てください。</p>
-      <span class="plan__go">2A を開く →</span>
-    </a>
-    <p class="lead">以下は、作品102点を全部並べた前の3案です。</p>
+    <p class="lead">3A〜3C と 2A は、作品を35点に選んで仕事の種類ごとにまとめた版です。載せている作品と文章は同じで、見せ方が違います。</p>
+    <a class="new" href="s1-scatter.html"><p class="plan__id">3A</p><p class="plan__name">名前を真ん中に、写真を大小つけて散らす</p><p class="plan__desc">白地・太い大文字・中央そろえ。参考：審美図鑑「Gregor Collienne」</p><span class="plan__go">3A を開く →</span></a>
+    <a class="new" href="s2-bigtype.html"><p class="plan__id">3B</p><p class="plan__name">とても大きな名前と見出し語</p><p class="plan__desc">白地・細長く太い欧文を画面幅いっぱいに。スマホでは1点を大きく見せてから2点ずつ。参考：審美図鑑「Julia Johnson」</p><span class="plan__go">3B を開く →</span></a>
+    <a class="new" href="s3-checker.html"><p class="plan__id">3C</p><p class="plan__name">写真と文字のコマをすき間なく並べる</p><p class="plan__desc">薄い灰色の地・明朝体。まとまりの名前と媒体名を墨色のコマにして写真の間に入れる。参考：審美図鑑「Friends of the New」</p><span class="plan__go">3C を開く →</span></a>
+    <a class="new" href="v2.html"><p class="plan__id">2A</p><p class="plan__name">仕事の種類ごとに1列ずつ（白地）</p><p class="plan__desc">ひとつ前に作った版。</p><span class="plan__go">2A を開く →</span></a>
+    <p class="lead" style="margin-top:40px">以下は、作品102点を全部並べた最初の3案です（左がパソコン、右がスマホの見え方）。</p>
     <ul class="plans">
       <li class="plan"><a href="a-bold.html">
         <div class="plan__shots"><img src="images/preview/a-1400.jpg" width="1400" height="900" alt="1A パソコンでの見え方"><img src="images/preview/a-390.jpg" width="390" height="780" alt="1A スマホでの見え方"></div>
