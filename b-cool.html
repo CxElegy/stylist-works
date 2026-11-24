@@ -142,9 +142,9 @@
         var b = E("button", "work__btn js-open"); b.type = "button";
         b.setAttribute("aria-label", Portfolio.label(w) + " を拡大表示");
         b.appendChild(E("img"));
-        b.appendChild(E("span", "work__over", w.media));
+        if (w.media) b.appendChild(E("span", "work__over", w.media));
         li.appendChild(b);
-        li.appendChild(E("p", "work__cap", w.media));
+        if (w.media) li.appendChild(E("p", "work__cap", w.media));
         return li;
       }
     });

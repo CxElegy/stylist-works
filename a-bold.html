@@ -175,7 +175,7 @@
         b.appendChild(E("span", "work__num", Portfolio.pad(i + 1)));
         li.appendChild(b);
         var m = E("div", "work__meta");
-        m.appendChild(E("span", "work__media", w.media));
+        if (w.media) m.appendChild(E("span", "work__media", w.media));
         if (w.title) m.appendChild(E("span", "work__title", w.title));
         li.appendChild(m);
         return li;

@@ -17,7 +17,7 @@
     if (text) e.textContent = text;
     return e;
   }
-  function label(w) { return [w.media, w.title].filter(Boolean).join(" "); }
+  function label(w) { return [w.media, w.title].filter(Boolean).join(" ") || "作品"; }
   function pad(n) { return String(n).padStart(2, "0"); }
 
   /* ---------- プロフィール・連絡先 ---------- */

@@ -695,7 +695,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-04.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -703,7 +703,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-05.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -711,7 +711,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-06.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -719,7 +719,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-07.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -727,7 +727,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-08.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -735,7 +735,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-09.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
@@ -743,7 +743,7 @@ window.WORKS = [
   {
     image: "images/tumblr/06-kids-10.jpg",
     page: "",
-    media: "Kids",
+    media: "",
     title: "",
     credit: "",
     link: ""
