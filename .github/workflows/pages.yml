@@ -27,7 +27,7 @@ jobs:
           mkdir _site
           cp -r index.html a-bold.html b-cool.html c-simple.html assets data images _site/
           touch _site/.nojekyll
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
       - id: deployment
