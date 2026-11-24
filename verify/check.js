@@ -2,7 +2,7 @@
    必須項目: 横はみ出しなし / 要素の重なりなし / 写真を切らない・歪めない / 表示後に動かない / 全画像が読める / 本文13px以上 */
 const { chromium } = require('playwright');
 const fs = require('fs');
-const PAGES = (process.env.PAGES || 's1-scatter.html,s2-bigtype.html,s3-checker.html,v2.html,index.html,a-bold.html,b-cool.html,c-simple.html').split(','), WIDTHS = [1400, 390, 320];
+const PAGES = (process.env.PAGES || 's1-scatter.html,s2-bigtype.html,s3-checker.html,s4-loose.html,v2.html,index.html,a-bold.html,b-cool.html,c-simple.html').split(','), WIDTHS = [1400, 390, 320];
 (async () => {
   const b = await chromium.launch(); const rows = []; let fail = 0;
   for (const f of PAGES) for (const w of WIDTHS) {
