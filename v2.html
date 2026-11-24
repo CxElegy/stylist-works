@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Akari Ito | Stylist</title>
   <meta name="description" content="スタイリスト 伊藤あかり のポートフォリオ">
-  <link rel="preload" href="assets/fonts/instrument-serif-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
     /* ===== v2：作品を選んで、仕事の種類ごとに見せる版 =====
        配色は「2＋1」：クリームの地＋墨黒の文字。焦橙は Contact ボタンだけ。
        1つのまとまり＝1列（写真の高さをそろえ、幅は写真の形のまま。切らない） */
-    @font-face { font-family: "Instrument Serif"; font-style: italic; src: url(assets/fonts/instrument-serif-italic-latin.woff2) format("woff2"); font-display: block; }
     :root {
       --bg: #F3EEE3; --ink: #111111; --accent: #D9541E;
       --sans: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic", "Noto Sans JP", Meiryo, sans-serif;
-      --serif: "Instrument Serif", Georgia, serif;
       --pad: 16px; --gap: 8px;
       --lb-bg: #F3EEE3; --lb-fg: #111111; --lb-font: var(--sans);
     }
@@ -33,8 +30,9 @@
     /* ---- 名前とメニュー ---- */
     .head { display: grid; gap: 16px; padding-top: 24px; padding-bottom: 24px; }
     .name { font-size: clamp(44px, 6.4vw, 88px); font-weight: 700; letter-spacing: -.02em; line-height: 1; }
-    .catch { font-size: clamp(18px, 2vw, 26px); line-height: 1.3; margin-top: 8px; }
-    .catch em { font-family: var(--serif); font-style: italic; font-size: 1.15em; }
+    .role { font-size: clamp(16px, 1.6vw, 20px); font-weight: 700; letter-spacing: .06em; margin-top: 10px; }
+    .lead { font-size: 15px; line-height: 1.7; margin-top: 6px; max-width: 34em; }
+    .nav__secs { display: none; } /* スマホでは Profile と Contact だけ（最初の画面をメニューで埋めない） */
     .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; font-size: 14px; }
     .nav a:not(.btn) { border-bottom: 1px solid transparent; padding: 4px 0; }
     .nav a:not(.btn):hover, .nav a:not(.btn):focus-visible { border-color: currentColor; }
@@ -42,7 +40,8 @@
     .btn:hover, .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
     @media (min-width: 900px) {
       .head { grid-template-columns: 1fr auto; align-items: end; padding-top: 40px; }
-      .nav { justify-content: flex-end; max-width: 520px; }
+      .nav { justify-content: flex-end; max-width: 560px; }
+      .nav__secs { display: contents; }
     }
 
     /* ---- まとまり：上の線＋見出しで1組に見せる ---- */
@@ -51,6 +50,7 @@
     .set__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 16px; }
     .set__no { font-size: 14px; font-variant-numeric: tabular-nums; }
     .set__title { font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; letter-spacing: -.01em; line-height: 1.2; }
+    .set__en { font-size: 14px; letter-spacing: .04em; }
     .set__note { font-size: 14px; }
     .set__count { margin-left: auto; font-size: 14px; font-variant-numeric: tabular-nums; }
 
@@ -81,7 +81,8 @@
   <header class="wrap head" id="top">
     <div>
       <h1 class="name" data-p="nameEn">Akari Ito</h1>
-      <p class="catch">Stylist — styling that <em>speaks</em>.</p>
+      <p class="role"><span data-p="nameJa"></span>｜スタイリスト</p>
+      <p class="lead" data-p="lead"></p>
     </div>
     <nav class="nav" id="nav" aria-label="メニュー"></nav>
   </header>
@@ -90,24 +91,23 @@
 
   <div class="wrap">
     <section class="set" id="profile">
-      <div class="set__head"><span class="set__no" id="no-profile"></span><h2 class="set__title">Profile</h2></div>
+      <div class="set__head"><span class="set__no" id="no-profile"></span><h2 class="set__title">プロフィール</h2><span class="set__en">Profile</span></div>
       <div class="about">
         <p class="about__name" data-p="nameJa"></p>
         <div class="about__bio" data-p="bio"></div>
         <dl>
-          <dt>Specialty</dt><dd data-p="specialty"></dd>
-          <dt>Clients</dt><dd data-p="clients"></dd>
+          <dt>得意分野</dt><dd data-p="specialty"></dd>
+          <dt>主な実績</dt><dd data-p="clients"></dd>
         </dl>
       </div>
     </section>
 
     <section class="set" id="contact">
-      <div class="set__head"><span class="set__no" id="no-contact"></span><h2 class="set__title">Contact</h2><span class="set__note">お仕事のご依頼・ご相談はこちらから</span></div>
+      <div class="set__head"><span class="set__no" id="no-contact"></span><h2 class="set__title">お問い合わせ</h2><span class="set__en">Contact</span><span class="set__note">お仕事のご依頼・ご相談はこちらから</span></div>
       <div class="contact">
         <a class="btn" data-mail href="#">メールで相談する</a>
         <a data-p="email" href="#"></a>
         <a data-p="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
-        <a data-p="tumblr" href="#" target="_blank" rel="noopener">Tumblr</a>
       </div>
     </section>
 
@@ -123,22 +123,24 @@
     (function () {
       var E = Portfolio.el, pad = Portfolio.pad, P = window.PROFILE, SEL = window.SELECTION, SZ = window.SIZES || {};
       var byImg = {}; window.WORKS.forEach(function (w) { byImg[w.image] = w; });
-      var sets = [{ id: "selected", title: "Selected", note: "", items: SEL.lead, lead: true }].concat(SEL.groups);
+      var sets = [{ id: "selected", title: "代表作", en: "Selected", note: "", items: SEL.lead, lead: true }].concat(SEL.groups);
+      // works.js に無い写真も、パスだけでそのまま載せる
       var flat = []; // 拡大表示で左右に送る順番（ページの並びと同じ）
-      sets.forEach(function (s) { s.works = s.items.map(function (p) { return byImg[p]; }).filter(Boolean); s.start = flat.length; flat = flat.concat(s.works); });
+      sets.forEach(function (s) { s.works = s.items.map(function (p) { return byImg[p] || { image: p, page: "", media: "", title: "", credit: "", link: "" }; }); s.start = flat.length; flat = flat.concat(s.works); });
       var open = Portfolio.lightbox(flat);
 
       // 1列に入れる数：パソコンは全部を1列、スマホは 2点ずつ（5点なら 2＋3）
       function chunks(n, wide) { if (wide) return [n]; var out = []; while (n > 3) { out.push(2); n -= 2; } out.push(n); return out; }
 
-      var main = document.getElementById("sets"), nav = document.getElementById("nav");
+      var main = document.getElementById("sets"), nav = document.getElementById("nav"), secs = nav.appendChild(E("span", "nav__secs"));
       sets.forEach(function (s, si) {
         var sec = E("section", "set" + (s.lead ? " set--lead" : "")); sec.id = s.id;
         var head = E("div", "set__head");
         head.appendChild(E("span", "set__no", pad(si + 1)));
         head.appendChild(E("h2", "set__title", s.title));
+        if (s.en) head.appendChild(E("span", "set__en", s.en));
         if (s.note) head.appendChild(E("span", "set__note", s.note));
-        head.appendChild(E("span", "set__count", s.works.length + " works"));
+        head.appendChild(E("span", "set__count", s.works.length + "点"));
         sec.appendChild(head);
         var mixed = {}; s.works.forEach(function (w) { mixed[w.media || ""] = 1; });
         var showCap = Object.keys(mixed).length > 1; // 媒体が1つだけのまとまりは、見出しに書いてあるので写真の下にはくり返さない
@@ -146,6 +148,7 @@
           var d = E("div", "ph"), b = E("button", "ph__btn"), img = E("img"), sz = SZ[w.image];
           b.type = "button"; b.setAttribute("aria-label", Portfolio.label(w) + " を拡大表示");
           if (sz) { img.width = sz[0]; img.height = sz[1]; d.style.flexGrow = (sz[0] / sz[1]).toFixed(4); }
+          else img.addEventListener("load", function () { d.style.flexGrow = (img.naturalWidth / img.naturalHeight).toFixed(4); }); // サイズ表に無い写真は読み込んでから合わせる
           img.src = w.image; img.alt = Portfolio.label(w); img.decoding = "async"; img.loading = si < 2 ? "eager" : "lazy";
           b.appendChild(img); d.appendChild(b);
           if (showCap && w.media) d.appendChild(E("p", "ph__cap", w.media));
@@ -154,10 +157,10 @@
         });
         s.body = sec.appendChild(E("div", "set__body"));
         main.appendChild(sec);
-        if (!s.lead) { var a = E("a", "", s.title); a.href = "#" + s.id; nav.appendChild(a); }
+        if (!s.lead) { var a = E("a", "", s.title); a.href = "#" + s.id; secs.appendChild(a); }
       });
-      var ap = E("a", "", "Profile"); ap.href = "#profile"; nav.appendChild(ap);
-      var ac = E("a", "btn", "Contact"); ac.href = "#contact"; nav.appendChild(ac);
+      var ap = E("a", "", "プロフィール"); ap.href = "#profile"; nav.appendChild(ap);
+      var ac = E("a", "btn", "仕事を相談する"); ac.href = "#contact"; nav.appendChild(ac);
       document.getElementById("no-profile").textContent = pad(sets.length + 1);
       document.getElementById("no-contact").textContent = pad(sets.length + 2);
 

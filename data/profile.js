@@ -8,6 +8,9 @@ window.PROFILE = {
   nameEn: "Akari Ito",
   role: "Stylist",
 
+  // 最初の画面に出す一文（何をしている人か・どんな仕事をしてきたか）
+  lead: "美容誌・生活誌からブランドカタログまで。美的、glow、オレンジページ、BAILA、UNIQLO などのスタイリングを手がけています。",
+
   // 経歴（1行ずつ。行を増やしても減らしてもOK）
   bio: [
     "ダミーテキストです。〇〇出身。〇〇を卒業後、スタイリスト〇〇氏に師事。",
@@ -16,10 +19,10 @@ window.PROFILE = {
   ],
 
   specialty: "ビューティー / ファッション / ライフスタイル / ブランドカタログ",
-  clients: ["美的", "BAILA", "オレンジページ", "glow", "mi-mollet", "UNIQLO", "GLOBAL WORK", "Elura"],
+  clients: ["美的", "glow", "オレンジページ", "BAILA", "mi-mollet", "UNIQLO", "GLOBAL WORK", "Elura"],
 
   // 連絡先（空 "" にするとその項目は表示されません）
   email: "info@example.com",
   instagram: "",
-  tumblr: "https://www.tumblr.com/stylist-itoakari"
+  tumblr: "" // Tumblr はログインを求められて見られない人がいるので、リンクは出さない
 };

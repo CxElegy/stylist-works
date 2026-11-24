@@ -1,57 +1,40 @@
-# AKARI ITO — Portfolio
+# 伊藤あかり ポートフォリオ
 
-スタイリスト AKARI ITO のポートフォリオサイト（GitHub Pages で公開する静的サイト）。
+スタイリスト 伊藤あかり の仕事を紹介するサイトです。URL を送るだけで「何をしている人か・どんな仕事をしてきたか・どこに連絡すればいいか」が伝わることを目的にしています。
 
-## フォルダ構成
+- 公開先: https://cxelegy.github.io/stylist-works/v2.html
+- このブランチに保存（push）すると、1〜2分で自動的に公開されます
 
-```
-index.html          … ページ本体（プロフィール文・連絡先はここを編集）
-data/works.js       … 作品一覧データ（★作品の追加・差し替えはここだけ）
-images/works/       … 作品の画像を入れるフォルダ
-images/hero/        … トップのメインビジュアル画像
-assets/css/style.css… デザイン（色・フォント・余白）
-assets/js/main.js   … 一覧表示と拡大表示の仕組み（通常は触らない）
-```
+## 自分で更新する方法（GitHub の画面だけでできます）
 
-## 作品を追加・差し替える
+### 作品を追加する
+1. `images/works/` を開き、「Add file → Upload files」で写真を入れる（ファイル名は半角の英数字と `-` だけ。例: `biteki-2027-01.jpg`）
+2. `data/selection.js` を開き、鉛筆マークで編集。載せたいまとまりの `items` に1行足す
+   ```
+   "images/works/biteki-2027-01.jpg",
+   ```
+3. 「Commit changes」を押す。1〜2分でサイトに出ます
 
-1. 画像を `images/works/` に入れる（ファイル名は半角英数字がおすすめ。例: `biteki-2025-01.jpg`）
-2. `data/works.js` を開き、既存の `{ ... },` のかたまりを1つコピーして貼り付け、中身を書き換える
+### 作品を外す・並べ替える
+`data/selection.js` の行を消す、または行の順番を入れ替える（上から順に表示されます）。
 
-```js
-  {
-    image: "images/works/biteki-2025-01.jpg",
-    media: "美的",
-    title: "2025年1月号 ビューティー特集",
-    credit: "Photo: 〇〇 / Hair&Make: 〇〇",
-    link: ""
-  },
-```
+### 媒体名・題名・クレジットをつける（任意）
+`data/works.js` に同じ写真のパスで1件足すと、写真の下や拡大表示に出ます。書かなくても写真は載ります。
 
-- 並び順がそのまま表示順です（上ほど先に表示）
-- 使わない項目は `""`（空）でOK
-- 削除するときは `{` から `},` までを丸ごと消す
-- 画像は横幅 1600px 程度・JPG に縮小しておくと表示が速くなります
+### プロフィール・連絡先を直す
+`data/profile.js` を編集します。最初の画面の一文（`lead`）、経歴（`bio`）、メールアドレス（`email`）、Instagram はここです。
 
-## メインビジュアルを差し替える
+### 気をつけること
+- 各行の最後のカンマ `,` と、前後の `"` を消さない
+- 写真は横幅 1200px 以上あるときれいに見えます（小さい写真はぼやけます）
 
-`images/hero/` に画像を入れ、`index.html` の `src="images/hero/hero.jpg"` をそのファイル名に書き換えます。
-縦長・横長どちらでも画面いっぱいにトリミングされて表示されます。
-
-## 手元で確認する
-
-`index.html` をブラウザにドラッグ＆ドロップすれば表示できます。
-
-## GitHub Pages で公開する
-
-1. GitHub のリポジトリページ → **Settings** → 左メニュー **Pages**
-2. **Build and deployment** の Source を **Deploy from a branch** にする
-3. Branch を `main`、フォルダを `/ (root)` にして **Save**
-4. 1〜2分待つと、同じ画面の上部に公開URL（`https://<ユーザー名>.github.io/<リポジトリ名>/`）が表示されます
-
-以降は `main` に変更を反映（コミット）するたびに、自動でサイトも更新されます。
-
-### ブラウザだけで画像を追加する方法
-
-1. リポジトリの `images/works` フォルダを開き **Add file → Upload files** で画像をアップロード → **Commit changes**
-2. `data/works.js` を開き、鉛筆アイコン（Edit）で作品を追記 → **Commit changes**
+## ファイルの場所
+| 場所 | 中身 |
+|---|---|
+| `v2.html` | サイト本体（作品を選んで、仕事の種類ごとに見せる版） |
+| `data/selection.js` | サイトに載せる作品の一覧 |
+| `data/works.js` | 素材の全部（102点）。媒体名・題名・クレジット |
+| `data/profile.js` | プロフィール・連絡先 |
+| `images/works/` `images/tumblr/` | 写真。`images/pages/` は雑誌の誌面全体 |
+| `index.html`, `a-bold.html`, `b-cool.html`, `c-simple.html` | 公開前の比較用（前の3案） |
+| `verify/` | 表示チェックの記録と道具 |
