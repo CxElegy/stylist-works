@@ -81,6 +81,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
+.ph { transform-origin: 50% 50%; }
 .ph img { display: block; width: 100%; height: 100%; }
 .ph[hidden] { display: none; }
 
@@ -104,8 +105,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
 }
 #name .w { display: inline-block; }
 @media (max-width: 768px) {
-  #name { font-size: max(36px, min(21vw, 12.5vh)); }   /* スマホは 2 行（左右の写真に当たらない幅で、できるだけ大きく） */
-  #name .w { display: block; }
+  #name { font-size: max(36px, min(17.5vw, 11vh)); }   /* スマホも 1 行（横幅のおよそ 70%） */
 }
 #who {
   position: absolute;
@@ -432,9 +432,10 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     "images/tumblr/08-test-shoot-08.jpg": "H",
     "images/tumblr/08-test-shoot-09.jpg": "B"
   };
-  var K_DESK = { F: 0.72, B: 0.88, H: 1.0, L: 1.22 };
-  var K_MOB = { F: 0.72, B: 0.88, H: 1.0, L: 1.18 };
-  var COLS = 5;
+  var TILT_MAX_DEG = 3.5;   // 写真の傾きの最大（度）。0 にすると傾きなし（まっすぐ）に戻ります
+  var TILT_MIN_DEG = 1;     // 傾ける写真の最小の角度（度）。一部の写真は 0 度のまま
+  var EMPTY_RATE = 0.05;    // ときどき空けておくマスの割合（0 にすると空きなし）
+  var K_SIZE = { F: 0.72, B: 0.88, H: 1.0, L: 1.22 };
   var photos = (SEL.lead || []).slice();
   (SEL.groups || []).forEach(function (g) { photos = photos.concat(g.items || []); });
   var N_SEL = photos.length;
@@ -445,18 +446,9 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     for (var j = extra.length - 1; j > 0; j--) {   // このページを開いている間は同じ順
       var r = Math.floor(Math.random() * (j + 1)); var t = extra[j]; extra[j] = extra[r]; extra[r] = t;
     }
-    // 5 列でちょうど割り切れる枚数にする（余りは今回は出さない。どれが外れるかも毎回変わる）
-    var over = (photos.length + extra.length) % COLS;
-    if (over <= extra.length) extra.length -= over;
     extra.forEach(function (p) { classOf[p] = EXTRA[p]; photos.push(p); });
   })();
   var N = photos.length;
-  var ROWS_PER = N;                 // N が 5 で割り切れないときは 5 周で元の並びに戻る
-  if (N % COLS === 0) ROWS_PER = N / COLS;
-  var CELLS_PER = ROWS_PER * COLS;  // 1周期のマス数
-  var COPIES = 2;
-  var TOTAL = CELLS_PER * COPIES;
-  var HEAD = 8;                     // 最初の 8 マスだけ、1周目は真ん中の列に空きを 2 つ作る
   var PERIODS = 200;
 
   /* ---------- 文字 ---------- */
@@ -497,40 +489,159 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
 
   /* ---------- レイアウト ---------- */
   var track = $("track"), block = $("block");
-  var M = {};
+  /* 骨組みは「列 × 行、1 列おきに半行ずらす」マス目のまま。
+     写真はマスの真ん中に置かず、マスごとに決まった量だけ上下左右にずらし、少し傾ける。
+     ずらす量と傾きはマスの番号から決まる（乱数ではない）ので、何周しても同じ場所・同じ角度。 */
+  var M = {}, COLS = 5, C = 0, ROWS = 0, TOTAL = 0, HEAD = 0, inited = false;
+  var LOOP = [], HEADS = [];
+  function rnd(seed) {
+    var t = seed >>> 0;
+    return function () {
+      t = (t + 0x6D2B79F5) >>> 0;
+      var x = t; x = Math.imul(x ^ (x >>> 15), x | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+      return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+    };
+  }
   function measure() {
     var VW = root.clientWidth, VH = window.innerHeight;
     var m = { VW: VW, VH: VH, mobile: VW <= 768 };
     if (m.mobile) {
-      m.gap = 16; m.gridW = VW; m.gridL = 0;
-      m.colW = (m.gridW - 4 * m.gap) / COLS;
-      m.cellH = 0.24 * VH; m.lift = 0.08 * VH;
-      m.boxW = m.colW * 1.6; m.boxH = m.cellH * 0.7;
-      m.capW = m.boxW * 1.22;
+      // スマホ：3 列（左右 2 枚 → 真ん中 1 枚 → 左右 2 枚…の順に見える。左右の列は画面の端で少し切れる）。
+      // 真ん中の列の 1 マス目が画面の中央＝名前の場所
+      m.cols = 3; m.pitchX = 0.33 * VW; m.x0 = VW / 2 - m.pitchX;
+      m.pitchY = Math.round(0.735 * VH); m.y0 = VH / 2 - m.pitchY / 2;
+      m.baseH = 0.29 * VH; m.capW = 0.56 * VW;
+      m.ax = 0.05 * VW; m.ay = 0.045 * VH; m.gap = 8;
+      m.blanks = [1]; m.headRows = 2;
     } else {
-      m.gap = 0.06 * VW; m.gridW = 1.1 * VW; m.gridL = -0.05 * VW;
-      m.colW = (m.gridW - 4 * m.gap) / COLS;
-      m.cellH = VH * 0.8 / 3; m.lift = 0.12 * VH;
-      m.boxW = m.colW * 1.1; m.boxH = m.cellH * 1.2;
-      m.capW = m.boxW;
+      m.cols = 5; m.pitchX = 0.232 * VW; m.x0 = 0.036 * VW;
+      m.pitchY = Math.round(0.48667 * VH); m.y0 = VH / 75;
+      m.baseH = 0.358 * VH; m.capW = 0.212 * VW;
+      m.ax = 0.03 * VW; m.ay = 0.055 * VH; m.gap = Math.max(10, 0.011 * VW);
+      m.blanks = [2, 7]; m.headRows = 3;
     }
-    m.pitchX = m.colW + m.gap;
-    m.pitchY = Math.round(m.cellH + 0.22 * VH);   // 整数にしておくと、周期もぴったり整数になる
-    m.y0 = m.cellH / 2 - m.lift;
-    m.P = ROWS_PER * m.pitchY;
     return m;
   }
-  // マス i に入る写真の番号（-1 = 空き）。k = 0 は読み込み直後の 1 周目
-  function photoAt(i, k) {
-    if (k === 0 && i < HEAD) {
-      if (i === 2 || i === 7) return -1;
-      return i < 2 ? i : i - 1;
+  function makeSlot(i, p) {
+    var o = { i: i, p: p };
+    if (p < 0) return o;
+    var s = SIZES[photos[p]] || [3, 4];
+    // 高さ ＝ 基準の高さ × クラスの係数。横は上限まで（はみ出すときは同じ比率のまま縮める）
+    var kk = K_SIZE[classOf[photos[p]]] || 1;
+    var sc = Math.min(M.capW / s[0], M.baseH * kk / s[1]);
+    o.w = s[0] * sc; o.h = s[1] * sc;
+    var g = rnd(i * 7919 + 17 + COLS * 101), r1 = g(), r2 = g(), r3 = g(), r4 = g();
+    o.dx = (r1 * 2 - 1) * M.ax; o.dy = (r2 * 2 - 1) * M.ay;
+    var tmin = Math.min(TILT_MIN_DEG, TILT_MAX_DEG);
+    o.rot = (TILT_MAX_DEG > 0 && r3 > 0.12) ? (r4 < 0.5 ? -1 : 1) * (tmin + (TILT_MAX_DEG - tmin) * (r3 - 0.12) / 0.88) : 0;
+    var rad = Math.abs(o.rot) * Math.PI / 180;
+    o.bw = o.w * Math.cos(rad) + o.h * Math.sin(rad);   // 傾けたあとの外枠
+    o.bh = o.h * Math.cos(rad) + o.w * Math.sin(rad);
+    var j = i % COLS;
+    o.bx = M.x0 + j * M.pitchX;
+    o.by = M.y0 + Math.floor(i / COLS) * M.pitchY + (j % 2 ? M.pitchY / 2 : 0);
+    return o;
+  }
+  function clamp(v, lim) { return v < -lim ? -lim : (v > lim ? lim : v); }
+  // 近すぎる 2 枚を、めり込みの小さい向きに押し離す
+  function pairFix(a, b, wrapP, moveA, moveB) {
+    var ddx = (b.bx + b.dx) - (a.bx + a.dx), ddy = (b.by + b.dy) - (a.by + a.dy);
+    if (wrapP) { if (ddy > wrapP / 2) ddy -= wrapP; else if (ddy < -wrapP / 2) ddy += wrapP; }
+    var px = (a.bw + b.bw) / 2 + M.gap - Math.abs(ddx), py = (a.bh + b.bh) / 2 + M.gap - Math.abs(ddy);
+    if (px <= 0 || py <= 0) return;
+    var n = (moveA ? 1 : 0) + (moveB ? 1 : 0); if (!n) return;
+    var limX = M.ax * 1.6, limY = M.ay * 1.6, sg, d, before;
+    var useX = px < py;
+    for (var t = 0; t < 2; t++) {
+      before = [a.dx, a.dy, b.dx, b.dy];
+      if (useX) { sg = ddx >= 0 ? 1 : -1; d = px / n; if (moveA) a.dx = clamp(a.dx - sg * d, limX); if (moveB) b.dx = clamp(b.dx + sg * d, limX); }
+      else { sg = ddy >= 0 ? 1 : -1; d = py / n; if (moveA) a.dy = clamp(a.dy - sg * d, limY); if (moveB) b.dy = clamp(b.dy + sg * d, limY); }
+      if (Math.abs(a.dx - before[0]) + Math.abs(a.dy - before[1]) + Math.abs(b.dx - before[2]) + Math.abs(b.dy - before[3]) > 0.5) break;
+      useX = !useX;   // その向きにもう動けないときは、もう一方の向きで
     }
-    return (((i - 2) % N) + N) % N;
+  }
+  function obstacles() {
+    var out = [];
+    ["name", "who", "toggle"].forEach(function (id) {
+      var r = $(id).getBoundingClientRect(), g = id === "name" ? Math.max(8, M.gap) : 6;
+      if (r.width > 0) out.push({ l: r.left - g, t: r.top - g, r: r.right + g, b: r.bottom + g });
+    });
+    return out;
+  }
+  function computeLayout() {
+    COLS = M.cols;
+    HEAD = M.headRows * COLS;
+    var e = Math.round(N * EMPTY_RATE);
+    while ((N + e) % COLS) e++;
+    C = N + e; ROWS = C / COLS; TOTAL = C * 2;
+    M.P = ROWS * M.pitchY;
+    // 空けておくマス（最初の画面には作らない。空き同士は離す）
+    var empty = {}, g = rnd(4242 + COLS), tries = 0, got = 0;
+    while (got < e && tries++ < 2000) {
+      var idx = HEAD + COLS + Math.floor(g() * (C - HEAD - COLS)), ok = !empty[idx];
+      for (var q in empty) { var dq = Math.abs(idx - q); if (Math.min(dq, C - dq) < COLS * 2) ok = false; }
+      if (tries > 1500) ok = !empty[idx];
+      if (ok) { empty[idx] = true; got++; }
+    }
+    var nb = M.blanks.length, cnt = 0, i, it, r, j, rr, jj, a, b;
+    LOOP = [];
+    for (i = 0; i < C; i++) LOOP.push(makeSlot(i, empty[i] ? -1 : (((cnt++ - nb) % N) + N) % N));
+    for (it = 0; it < 80; it++) {
+      for (i = 0; i < C; i++) {
+        a = LOOP[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = r - 1; rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          b = LOOP[((rr + ROWS) % ROWS) * COLS + jj];
+          if (b === a || b.p < 0) continue;
+          pairFix(a, b, M.P, true, true);
+        }
+      }
+    }
+    // それでも重なりが残った組は、2 枚ともマスの真ん中へ少しずつ戻す（真ん中同士なら重ならない）
+    for (it = 0; it < 30; it++) {
+      var left = 0;
+      for (i = 0; i < C; i++) {
+        a = LOOP[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = r - 1; rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          b = LOOP[((rr + ROWS) % ROWS) * COLS + jj];
+          if (b === a || b.p < 0) continue;
+          var ex = (b.bx + b.dx) - (a.bx + a.dx), ey = (b.by + b.dy) - (a.by + a.dy);
+          if (ey > M.P / 2) ey -= M.P; else if (ey < -M.P / 2) ey += M.P;
+          if ((a.bw + b.bw) / 2 + 3 - Math.abs(ex) > 0 && (a.bh + b.bh) / 2 + 3 - Math.abs(ey) > 0) {
+            a.dx *= 0.7; a.dy *= 0.7; b.dx *= 0.7; b.dy *= 0.7; left++;
+          }
+        }
+      }
+      if (!left) break;
+    }
+    // 開いた直後の 1 周目だけ：真ん中の列に空きを作り、名前・小さい字・加号にかからないようにする
+    HEADS = []; cnt = 0;
+    for (i = 0; i < HEAD; i++) HEADS.push(makeSlot(i, M.blanks.indexOf(i) >= 0 ? -1 : cnt++));
+    var obs = obstacles();
+    for (it = 0; it < 80; it++) {
+      for (i = 0; i < HEAD; i++) {
+        a = HEADS[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = Math.max(0, r - 1); rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          var k2 = rr * COLS + jj;
+          b = k2 < HEAD ? HEADS[k2] : LOOP[k2];
+          if (!b || b === a || b.p < 0) continue;
+          pairFix(a, b, 0, true, k2 < HEAD);
+        }
+        for (var o = 0; o < obs.length; o++) {
+          var ob = obs[o], cx = a.bx + a.dx, cy = a.by + a.dy;
+          var px = Math.min(cx + a.bw / 2 - ob.l, ob.r - (cx - a.bw / 2)), py = Math.min(cy + a.bh / 2 - ob.t, ob.b - (cy - a.bh / 2));
+          if (px <= 0 || py <= 0) continue;
+          if (py <= px) a.dy += (cy < (ob.t + ob.b) / 2 ? -py : py); else a.dx += (cx < (ob.l + ob.r) / 2 ? -px : px);
+        }
+      }
+    }
   }
   var cells = [];
   var ready = {};   // 写真番号 → もう読み込みを始めてよい
   function build() {
+    block.textContent = ""; cells = [];
     var frag = doc.createDocumentFragment();
     for (var i = 0; i < TOTAL; i++) {
       var b = doc.createElement("button");
@@ -543,26 +654,9 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     }
     block.appendChild(frag);
   }
-  function place(c) {
-    var p = c.p, el = c.el;
-    if (p < 0) { el.hidden = true; return; }
-    el.hidden = false;
-    var s = SIZES[photos[p]] || [3, 4];
-    // 高さ ＝ 基準の箱の高さ × クラスの係数。横は上限まで（はみ出すときは同じ比率のまま縮める）
-    var kk = (M.mobile ? K_MOB : K_DESK)[classOf[photos[p]]] || 1;
-    var sc = Math.min(M.capW / s[0], M.boxH * kk / s[1]);
-    var w = s[0] * sc, h = s[1] * sc;
-    var r = Math.floor(c.i / COLS), j = c.i % COLS;
-    var cx = M.gridL + M.colW / 2 + j * M.pitchX;
-    var cy = M.y0 + r * M.pitchY + (j % 2 ? M.pitchY / 2 : 0);
-    c.cx = cx; c.cy = cy; c.w = w; c.h = h;
-    el.style.left = (cx - w / 2) + "px";
-    el.style.top = (cy - h / 2) + "px";
-    el.style.width = w + "px";
-    el.style.height = h + "px";
-  }
   function assign(c, k) {
-    var p = photoAt(c.i, k);
+    var d = (k === 0 && c.i < HEAD) ? HEADS[c.i] : LOOP[c.i % C];
+    var p = d.p, el = c.el;
     if (p !== c.p) {
       c.p = p;
       if (p >= 0) {
@@ -570,11 +664,20 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
         if (ready[p]) c.img.src = photos[p];
         var s = SIZES[photos[p]];
         if (s) { c.img.width = s[0]; c.img.height = s[1]; }
-        c.el.setAttribute("aria-label", "作品写真 " + (p + 1) + " を大きく表示");
-        c.el.dataset.p = p;
+        el.setAttribute("aria-label", "作品写真 " + (p + 1) + " を大きく表示");
+        el.dataset.p = p;
       }
     }
-    place(c);
+    if (p < 0) { el.hidden = true; return; }
+    el.hidden = false;
+    c.w = d.bw; c.h = d.bh;
+    c.cx = d.bx + d.dx; c.cy = d.by + d.dy + (c.i >= C ? M.P : 0);
+    c.rest = d.rot ? "rotate(" + d.rot.toFixed(2) + "deg)" : "";
+    el.style.left = (c.cx - d.w / 2) + "px";
+    el.style.top = (c.cy - d.h / 2) + "px";
+    el.style.width = d.w + "px";
+    el.style.height = d.h + "px";
+    el.style.transform = c.rest;
   }
   var curK = -1;
   function setK(k) {
@@ -609,25 +712,22 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
       })(p);
     }
   }
-  function layout() {
+  function layout(k) {
     M = measure();
+    computeLayout();
+    if (cells.length !== TOTAL) build();
     track.style.height = (M.P * PERIODS) + "px";
-    var k = curK < 0 ? 0 : curK;
+    curK = k;
     for (var i = 0; i < TOTAL; i++) assign(cells[i], k);
     block.style.top = (k * M.P) + "px";
   }
 
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  build();
-  M = measure();
-  curK = 0;
-  layout();
-  ensureNear();
-  window.scrollTo(0, 0);
 
   /* ---------- 終わりのないスクロール ---------- */
   var idleT = 0;
   function onScroll() {
+    if (!inited) return;
     var s = window.pageYOffset;
     setK(kFor(s));
     ensureNear();
@@ -645,21 +745,22 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   }
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  var lastW = M.VW, lastH = M.VH, rT = 0;
+  var lastW = root.clientWidth, lastH = window.innerHeight, rT = 0;
   window.addEventListener("resize", function () {
     clearTimeout(rT);
     rT = setTimeout(function () {
+      if (!inited) return;
       var w = root.clientWidth, h = window.innerHeight;
       // スマホのアドレスバーの出入り（幅は同じで高さだけ少し変わる）では並べ直さない
       if (w === lastW && Math.abs(h - lastH) < 160 && w <= 768) return;
       if (w === lastW && h === lastH) return;
       var ratio = window.pageYOffset / M.P;
       lastW = w; lastH = h;
-      layout();
+      M = measure(); computeLayout();
       var s = ratio * M.P;
-      curK = -1; setK(kFor(s));
-      for (var i = 0; i < HEAD; i++) assign(cells[i], curK);
+      layout(kFor(s));
       window.scrollTo(0, s);
+      ensureNear();
       splitAll();
     }, 120);
   });
@@ -673,7 +774,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     body.classList.add("veil-idle");
     root.style.removeProperty("--veil-delay");
     cells.forEach(function (c) {
-      c.el.style.transform = ""; c.el.style.transition = ""; c.el.style.opacity = ""; c.el.style.zIndex = "";
+      c.el.style.transform = c.rest || ""; c.el.style.transition = ""; c.el.style.opacity = ""; c.el.style.zIndex = "";
     });
   }
   function shuffle(n) {
@@ -684,14 +785,14 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   function runIntro() {
     if (reduce) { finishIntro(); return; }
     var first = cells.filter(function (c) {
-      return c.p >= 0 && c.cy + c.h / 2 > 0 && c.cy - c.h / 2 < M.VH && c.cx + c.w / 2 > 0 && c.cx - c.w / 2 < M.VW;
+      return c.i < C && c.p >= 0 && c.cy + c.h / 2 > 0 && c.cy - c.h / 2 < M.VH && c.cx + c.w / 2 > 0 && c.cx - c.w / 2 < M.VW;
     });
     var n = first.length, zs = shuffle(n), ds = shuffle(n);
     var ease = "cubic-bezier(.77,0,.175,1)";
     first.forEach(function (c, i) {
       c.z = zs[i]; c.d = ds[i]; c.dur = 0.8 + Math.random() * 0.58;
       c.el.style.transition = "none";
-      c.el.style.transform = "translate(" + (M.VW / 2 - c.cx) + "px," + (M.VH / 2 - c.cy) + "px)";
+      c.el.style.transform = "translate(" + (M.VW / 2 - c.cx) + "px," + (M.VH / 2 - c.cy) + "px) " + (c.rest || "rotate(0deg)");
       c.el.style.opacity = "0";
       c.el.style.zIndex = String(c.z);
     });
@@ -704,11 +805,11 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
       c.el.style.opacity = "1";
     });
     var popEnd = n * 100 + 150;
-    // 2) それぞれのマスへ滑る ＋ 0.6 秒後に名前と加号
+    // 2) それぞれの場所（ずらして傾けた位置）へ滑る ＋ 0.6 秒後に名前と加号
     setTimeout(function () {
       first.forEach(function (c) {
         c.el.style.transition = "transform " + c.dur.toFixed(2) + "s " + ease + " " + (c.d * 0.01).toFixed(2) + "s";
-        c.el.style.transform = "translate(0px,0px)";
+        c.el.style.transform = "translate(0px,0px) " + (c.rest || "rotate(0deg)");
       });
       body.classList.add("is-reveal");
       body.classList.remove("is-intro");
@@ -717,7 +818,7 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     }, popEnd);
   }
   function startWhenReady() {
-    var need = cells.filter(function (c) { return c.p >= 0 && c.cy - c.h / 2 < M.VH; }).map(function (c) { return c.img; });
+    var need = cells.filter(function (c) { return c.i < C && c.p >= 0 && c.cy - c.h / 2 < M.VH; }).map(function (c) { return c.img; });
     var left = need.length, started = false;
     function go() { if (started) return; started = true; requestAnimationFrame(function () { requestAnimationFrame(runIntro); }); }
     function one() { if (--left <= 0) go(); }
@@ -727,6 +828,16 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     var fr = doc.fonts && doc.fonts.ready ? doc.fonts.ready : Promise.resolve();
     fr.then(splitAll);
     setTimeout(go, 3000);
+  }
+  // 名前の字の大きさが決まってから並べる（名前をよける位置を正しく計算するため）
+  function init() {
+    if (inited) return;
+    inited = true;
+    lastW = root.clientWidth; lastH = window.innerHeight;
+    layout(0);
+    ensureNear();
+    window.scrollTo(0, 0);
+    startWhenReady();
   }
 
   /* ---------- メニュー：行ごとに分ける ---------- */
@@ -860,8 +971,12 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     }
   });
 
-  window.__r1 = { metrics: function () { return M; }, photos: N, selected: N_SEL, order: photos, classOf: classOf, loaded: function () { return Object.keys(ready).length; }, state: function () { return { k: curK, view: viewState, menu: menuOpen, intro: introDone }; } };
-  startWhenReady();
+  window.__r1 = { metrics: function () { return M; }, layoutInfo: function () { return { cols: COLS, cells: C, rows: ROWS, head: HEAD, loop: LOOP, heads: HEADS, tilt: TILT_MAX_DEG }; }, photos: N, selected: N_SEL, order: photos, classOf: classOf, loaded: function () { return Object.keys(ready).length; }, state: function () { return { k: curK, view: viewState, menu: menuOpen, intro: introDone }; } };
+  (function () {
+    var f = doc.fonts && doc.fonts.load ? doc.fonts.load('800 40px "Archivo R1"', "AKARI") : null;
+    if (f && f.then) f.then(init, init);
+    setTimeout(init, 1200);
+  })();
 })();
 </script>
 </body>
