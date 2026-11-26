@@ -4,6 +4,10 @@ window.SIZES = {
 960,
 1440
 ],
+"images/og.jpg": [
+1200,
+630
+],
 "images/pages/biteki-best-answer-01.jpg": [
 882,
 1131
@@ -21,8 +25,8 @@ window.SIZES = {
 1115
 ],
 "images/pages/biteki-cherry.jpg": [
-1170,
-739
+1127,
+696
 ],
 "images/pages/biteki-dark-fig.jpg": [
 1158,
@@ -111,6 +115,146 @@ window.SIZES = {
 "images/preview/c-390.jpg": [
 390,
 780
+],
+"images/thumbs/pages-biteki-best-answer-01.jpg": [
+720,
+923
+],
+"images/thumbs/pages-biteki-best-answer-02.jpg": [
+720,
+924
+],
+"images/thumbs/pages-biteki-best-answer-03.jpg": [
+720,
+923
+],
+"images/thumbs/pages-biteki-best-answer-04.jpg": [
+720,
+923
+],
+"images/thumbs/pages-biteki-cherry.jpg": [
+720,
+445
+],
+"images/thumbs/pages-biteki-dark-fig.jpg": [
+720,
+450
+],
+"images/thumbs/pages-biteki-korea-beauty-talk.jpg": [
+720,
+921
+],
+"images/thumbs/pages-biteki-neo-nude-eye.jpg": [
+720,
+914
+],
+"images/thumbs/pages-biteki-spring-cosme-2026.jpg": [
+720,
+1000
+],
+"images/thumbs/tumblr-01-uniqlo-01.jpg": [
+720,
+1068
+],
+"images/thumbs/tumblr-01-uniqlo-04.jpg": [
+720,
+1068
+],
+"images/thumbs/tumblr-01-uniqlo-10.jpg": [
+720,
+1068
+],
+"images/thumbs/tumblr-03-mi-mollet-01.jpg": [
+720,
+960
+],
+"images/thumbs/tumblr-04-elura-03.jpg": [
+720,
+970
+],
+"images/thumbs/tumblr-05-uniqlo-2-01.jpg": [
+720,
+985
+],
+"images/thumbs/tumblr-05-uniqlo-2-02.jpg": [
+720,
+979
+],
+"images/thumbs/tumblr-06-kids-04.jpg": [
+720,
+936
+],
+"images/thumbs/tumblr-06-kids-06.jpg": [
+720,
+936
+],
+"images/thumbs/tumblr-06-kids-08.jpg": [
+720,
+936
+],
+"images/thumbs/tumblr-06-kids-09.jpg": [
+720,
+936
+],
+"images/thumbs/tumblr-06-kids-10.jpg": [
+720,
+936
+],
+"images/thumbs/tumblr-07-global-work-01.jpg": [
+720,
+963
+],
+"images/thumbs/tumblr-07-global-work-02.jpg": [
+720,
+958
+],
+"images/thumbs/tumblr-08-test-shoot-02.jpg": [
+720,
+1080
+],
+"images/thumbs/tumblr-08-test-shoot-04.jpg": [
+720,
+1081
+],
+"images/thumbs/tumblr-08-test-shoot-07.jpg": [
+720,
+919
+],
+"images/thumbs/tumblr-08-test-shoot-10.jpg": [
+720,
+1082
+],
+"images/thumbs/works-biteki-portrait-01.jpg": [
+720,
+914
+],
+"images/thumbs/works-biteki-portrait-02.jpg": [
+720,
+914
+],
+"images/thumbs/works-biteki-portrait-03.jpg": [
+720,
+957
+],
+"images/thumbs/works-biteki-spring-cosme-2026.jpg": [
+720,
+565
+],
+"images/thumbs/works-personal-01.jpg": [
+720,
+1080
+],
+"images/thumbs/works-personal-02.jpg": [
+720,
+1080
+],
+"images/thumbs/works-personal-04.jpg": [
+720,
+916
+],
+"images/thumbs/works-personal-09.jpg": [
+720,
+1082
 ],
 "images/tumblr/01-uniqlo-01.jpg": [
 1348,

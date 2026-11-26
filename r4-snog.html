@@ -4,10 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>伊藤 あかり｜スタイリスト</title>
-<meta name="description" content="スタイリスト 伊藤 あかり の作品集。">
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<!-- リンクを LINE・Instagram・メールなどで送ったときに出るプレビュー。公開先の住所が変わったら og:image と og:url を直す -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="伊藤 あかり｜スタイリスト">
+<meta property="og:description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで。">
+<meta property="og:url" content="https://cxelegy.github.io/stylist-works/r4-snog.html">
+<meta property="og:image" content="https://cxelegy.github.io/stylist-works/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <script>
-/* 文字色の候補（確認用）。?tone=sand|dusk|clay|red か、前に選んだものを最初の表示から使う */
-(function(){var t='sand';try{var q=/[?&]tone=([a-z]+)/.exec(location.search);t=q?q[1]:(localStorage.getItem('tone')||t)}catch(e){}document.documentElement.setAttribute('data-tone',t)})();
+/* 文字色の候補（確認用）。?tone=sand|dusk|clay|red と ?pale=1（さらに淡く）か、前に選んだものを最初の表示から使う */
+(function(){var t='sand',p='0',d=document.documentElement;try{var q=/[?&]tone=([a-z]+)/.exec(location.search),r=/[?&]pale=([01])/.exec(location.search);t=q?q[1]:(localStorage.getItem('tone')||t);p=r?r[1]:(localStorage.getItem('pale')||p)}catch(e){}d.setAttribute('data-tone',t);d.setAttribute('data-pale',p)})();
 </script>
 <style>
 @font-face{font-family:"Anton";src:url("assets/fonts/anton-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
@@ -16,7 +25,7 @@
 :root{
   /* 文字色は2つの濃さで使う：--tint＝大きな文字（AKARI ITO・BEAUTY など。写真の邪魔をしない淡さ）
                               --ink ＝小さな文字と細い線（読める濃さ。白地に対して 4.5:1 以上）          */
-  --tint:#c6b598;
+  --tint:#a39166;
   --ink:#786850;
   --text:"Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
   --display:"Anton","Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
@@ -25,10 +34,14 @@
   --wm:0.28665;            /* 1 / (wordmark width ÷ font-size) */
 }
 /* 文字色の候補。決まったら、選んだ2色を上の :root に書いて、この4行と #tones を消す */
-html[data-tone="sand"]{--tint:#c6b598;--ink:#786850}   /* A 砂：砂漠の砂、乾いたベージュ */
-html[data-tone="dusk"]{--tint:#a3b3bf;--ink:#586a78}   /* B 夕空：日が落ちたあとの、くすんだ青灰 */
-html[data-tone="clay"]{--tint:#d6a797;--ink:#94584a}   /* C 赤土：今の赤を、乾いた土の色まで淡くしたもの */
+html[data-tone="sand"]{--tint:#a39166;--ink:#786850}   /* A 砂：砂漠の砂、乾いたベージュ */
+html[data-tone="dusk"]{--tint:#8096a6;--ink:#586a78}   /* B 夕空：日が落ちたあとの、くすんだ青灰 */
+html[data-tone="clay"]{--tint:#c4826c;--ink:#94584a}   /* C 赤土：今の赤を、乾いた土の色まで淡くしたもの */
 html[data-tone="red"]{--tint:#dc2f1e;--ink:#dc2f1e}    /* 今までの赤（見比べ用） */
+/* 「うすい」：大きな文字だけ、さらに淡く（白地に対して約 2:1。読みやすさの目安 3:1 を下回る） */
+html[data-pale="1"][data-tone="sand"]{--tint:#c6b598}
+html[data-pale="1"][data-tone="dusk"]{--tint:#a3b3bf}
+html[data-pale="1"][data-tone="clay"]{--tint:#d6a797}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#fff}
 body{color:var(--ink);font-family:var(--text);font-weight:400;font-size:var(--small);line-height:1;-webkit-text-size-adjust:100%}
@@ -78,38 +91,58 @@ img{display:block;border:0}
 #detail .in{max-width:1180px;margin:0 auto;padding:calc(6.1vw + 90px) var(--edge) 16vh}
 #detail h2{margin:0 0 6vh;text-align:center;font-family:var(--text);font-weight:400;font-size:clamp(22px,2.4vw,34px);line-height:1;letter-spacing:.06em;text-transform:none;white-space:nowrap;color:var(--ink)}
 #detail ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
-#detail li.wide{grid-column:span 2}                       /* 見開きの誌面は2列ぶん */
-#detail li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 120ms)}
-#detail.shown li{opacity:1;transform:none}
-#detail li button{display:block;width:100%;cursor:zoom-in}
-#detail li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
-#detail li button:hover img{opacity:.8}
+#detail ol li.wide{grid-column:span 2}                    /* 見開きの誌面は2列ぶん */
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 380ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail h2,#detail .more{opacity:0;transition:opacity .4s linear .35s}
+#detail.shown h2,#detail.shown .more{opacity:1}
+#detail:focus-visible{outline:none}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
+#detail ol li button:hover img{opacity:.8}
+/* 一覧の最後：ほかのジャンルへ、そして相談へ（見終わったところで行き止まりにしない） */
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 20px;text-transform:none}
+#detail .more ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(22px,3.2vw,52px)}
+#detail .more li button{font-family:var(--display);font-size:clamp(34px,5.2vw,72px);line-height:1.2;text-transform:uppercase;white-space:nowrap;color:var(--tint)}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink)}
+#detail .more .c{margin:9vh 0 0;font-size:var(--small);line-height:1.6;text-transform:none}
+#detail .more .c a{border-bottom:1px solid var(--ink)}
 body.in-detail #title{z-index:5}
 /* 一覧を下へ送ったら名前は消える（一覧の写真の上に文字が乗らないように）。閉じる × だけ白い丸を敷いて残す */
-body.in-detail #nav .mark,body.in-detail #gname{transition:opacity .25s linear}
-body.deep #nav .mark,body.deep #gname{opacity:0;pointer-events:none}
-body.in-detail #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
+body.in-detail #nav .mark{transition:opacity .25s linear,visibility 0s linear 0s}
+body.deep #nav .mark{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .25s linear,visibility 0s linear .25s}
+body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
 
 /* ---------- lightbox: one photo large ---------- */
 #lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
 #lb.on{opacity:1}
-#lb figure{flex:none;margin:0;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
-#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:86vh;width:auto;height:auto}
-#lb .x{position:absolute;right:var(--edge);top:var(--edge);width:34px;height:34px;z-index:2}
-#lb .nv{position:absolute;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .x{position:fixed;right:var(--edge);top:var(--edge);width:34px;height:34px;z-index:2;background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
 #lb .pv{left:0}
 #lb .nx{right:0}
 #lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
 #lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
 #lb.one .nv{display:none}
-#lb .ct{position:absolute;left:0;right:0;bottom:var(--edge);margin:0;text-align:center;pointer-events:none;font-size:14px}
+#lb .ct{position:fixed;left:0;right:0;bottom:var(--edge);margin:0;text-align:center;pointer-events:none;font-size:14px}
+/* パソコン：写真（誌面）を押すと、文字が読める大きさ（元の大きさ）まで拡大。もう一度押すと戻る */
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
 
 /* ---------- 文字色の候補を切り替える小さな箱（確認用） ---------- */
 #tones{position:fixed;left:var(--edge);bottom:var(--edge);z-index:48;display:flex;align-items:center;gap:14px;padding:6px 12px;background:rgba(255,255,255,.92);border:1px solid var(--ink);font-family:var(--text);font-size:13px;line-height:1;color:var(--ink);text-transform:none;white-space:nowrap}
 #tones button{display:inline-flex;align-items:center;gap:6px;min-height:30px;font-size:13px;border-bottom:1px solid transparent}
 #tones button[aria-pressed="true"]{border-bottom-color:var(--ink)}
 #tones i{flex:none;width:14px;height:14px;border-radius:50%;background:var(--c)}
-body.lb-open #tones{display:none}                          /* 拡大表示のあいだは隠す（前へ・枚数の表示に重なるため） */
+#tones.shut > :not(#tonesToggle){display:none}             /* たたんだ状態：名前と今の色の丸だけ */
+#tonesToggle::after{content:"";flex:none;width:12px;height:12px;border-radius:50%;background:var(--tint)}
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
 
 /* ---------- profile ---------- */
 #about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;background:#fff;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -122,6 +155,7 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 
 /* ---------- foot (mobile only) ---------- */
 #foot{display:none}
+.cap{display:none}
 
 /* ================= wide: fixed canvas ================= */
 @media (min-width:768px){
@@ -150,10 +184,17 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   #nav .l,#nav .r{top:calc(18px + 85vw * var(--wm) + 26px);padding:15px 10px}
   #nav .l{left:auto;right:50%}
   #nav .r{right:auto;left:50%}
-  #nav .x{top:calc(18px + 85vw * var(--wm) + 22px);right:auto;left:50%;margin-left:10px;width:40px;height:40px}
+  #nav .x{top:calc(18px + 85vw * var(--wm) + 22px);right:auto;left:50%;margin-left:-20px;width:40px;height:40px}
   #nav .x::before,#nav .x::after{width:60%}
   #stage{padding:24.6vh 10px 0}
-  .tile{height:80vh;margin:0 0 calc(20vh + 10px);overflow:hidden}
+  .tile{height:80vh;margin:0 0 10px;overflow:hidden}
+  /* スマホには「触れると出る大きな文字」が無いので、写真の下（もともと空いていた 20vh）にジャンル名を置く */
+  .cap{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%;height:20vh;padding:2px 0 0;text-align:left;overflow:hidden}
+  .cap .wm{font-size:15vw}
+  .cap .s{text-transform:none}
+  /* 下へ読み進めているあいだは、名前とメニューを消す（写真の上に文字を乗せない）。上へ戻すと出る */
+  #nav{transition:opacity .3s linear}
+  body.away #nav{opacity:0;pointer-events:none}
   .tile img{object-fit:cover;object-position:var(--pos,50% 50%)}
   #title{display:none}
   #foot{display:block;padding:0 15px 24px;font-size:24px;line-height:1;text-align:left;transform:translateY(40px);opacity:0;transition:transform .7s ease-out,opacity .7s ease-out}
@@ -163,13 +204,17 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   #detail .in{padding:calc(18px + 85vw * var(--wm) + 100px) 10px 16vh}
   #detail h2{font-size:22px;margin-bottom:28px}
   #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  #lb img{max-width:calc(100vw - 20px);max-height:74vh}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
   #lb .x{width:40px;height:40px}
   #lb .x::before,#lb .x::after{width:60%}
   #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
   #lb .ct{bottom:23px}
-  #tones{left:8px;bottom:8px;gap:10px;padding:4px 8px;font-size:12px}
-  #tones button{font-size:12px}
+  #tones{left:8px;bottom:8px;max-width:calc(100% - 16px);gap:4px 10px;padding:4px 8px;flex-wrap:wrap}
+  body.lb-open #tones{display:none}                        /* スマホの拡大表示では隠す（前へ・枚数の表示に重なるため） */
+  /* 上へ戻して名前とメニューが出るときは、白い帯を敷く（写真の上に直接文字を乗せない） */
+  #nav::before{content:"";position:absolute;left:0;top:0;width:100%;height:calc(18px + 85vw * var(--wm) + 78px);background:#fff;opacity:0;transition:opacity .3s linear;pointer-events:none}
+  body.over #nav::before{opacity:.96}
+  #detail .more .c{font-size:14px}
   #nav .x{transition:top .25s ease-out,left .25s ease-out,margin-left .25s ease-out}
   body.deep #nav .x{top:14px;left:calc(100% - 54px);margin-left:0}     /* 送ったあとは右上の角へ */
   #about .in{padding-top:24.6vh}
@@ -177,14 +222,15 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 }
 @media (max-width:767px) and (min-height:1px){
   @supports (height:1svh){
-    .tile{height:80svh;margin-bottom:calc(20svh + 10px)}
+    .tile{height:80svh}
+    .cap{height:20svh}
   }
 }
 @media (prefers-reduced-motion:reduce){
   #loader{display:none !important}
   .tile img,.tile.hot img,.tile.grow img{transition:none !important}
   #foot{transform:none;opacity:1;transition:none}
-  #detail,#detail li,#detail li img,#lb,#lb figure,#nav .mark,#gname,#nav .x{transition:none !important}
+  #detail,#detail li,#detail li img,#lb,#lb figure,#nav,#nav::before,#nav .mark,#nav .x,#detail h2,#detail .more{transition:none !important}
 }
 </style>
 </head>
@@ -207,7 +253,7 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 <p id="title" aria-hidden="true" hidden></p>
 <div id="ring" aria-hidden="true"><i>View</i></div>
 
-<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol></div></section>
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
 
 <div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
   <figure><img alt="" draggable="false"></figure>
@@ -218,11 +264,14 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 </div>
 
 <div id="tones" role="group" aria-label="文字色の候補（確認用）">
-  <span>文字色</span>
-  <button type="button" data-tone="sand" style="--c:#c6b598"><i></i>A 砂</button>
-  <button type="button" data-tone="dusk" style="--c:#a3b3bf"><i></i>B 夕空</button>
-  <button type="button" data-tone="clay" style="--c:#d6a797"><i></i>C 赤土</button>
+  <button type="button" id="tonesToggle" aria-expanded="true" aria-label="文字色の候補を開く・たたむ">文字色</button>
+  <button type="button" data-tone="sand" style="--c:#a39166"><i></i>A 砂</button>
+  <button type="button" data-tone="dusk" style="--c:#8096a6"><i></i>B 夕空</button>
+  <button type="button" data-tone="clay" style="--c:#c4826c"><i></i>C 赤土</button>
   <button type="button" data-tone="red" style="--c:#dc2f1e"><i></i>今の赤</button>
+  <span>濃さ</span>
+  <button type="button" data-pale="0">ふつう</button>
+  <button type="button" data-pale="1">うすい</button>
 </div>
 
 <section id="about" aria-label="プロフィール" hidden tabindex="-1">
@@ -232,6 +281,7 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 
 <script src="data/works.js"></script>
 <script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
 <script src="data/selection.js"></script>
 <script src="data/profile.js"></script>
 <script>
@@ -310,11 +360,20 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
     a.style.setProperty('--z', pl.z); a.style.setProperty('--ar', ratio(pl.src)); a.style.setProperty('--pos', pl.pos || '50% 50%');
     var pic = el('picture');
     if (pl.m){ var so = el('source'); so.media = '(max-width:767px)'; so.srcset = pl.m; pic.appendChild(so); }
-    var im = el('img'); im.alt = g.title; im.decoding = 'async'; im.draggable = false; im.src = pl.src;
+    var im = el('img'); im.alt = g.title; im.decoding = 'async'; im.draggable = false;
+    if (narrow() && i > 1) im.loading = 'lazy';          /* phones: only the first two photos are fetched up front */
+    im.src = pl.src;
     var sz = SIZES[pl.src]; if (sz){ im.width = sz[0]; im.height = sz[1]; }
     pic.appendChild(im); a.appendChild(pic); stage.appendChild(a);
     var t = { a:a, img:im, pl:pl, g:g, i:i };
     tiles.push(t);
+    /* phones have no hover, so the group's name sits under its photo (see .cap) */
+    var cap = el('button', 'cap'); cap.type = 'button';
+    cap.appendChild(el('span', 'wm', g.en || g.title));
+    cap.appendChild(el('span', 's', g.title + '\u3000' + galleryOf(g).length + '点'));
+    cap.setAttribute('aria-label', g.title + 'の作品 ' + galleryOf(g).length + '点を見る');
+    cap.addEventListener('click', function(){ pick(t); });
+    stage.appendChild(cap);
     a.addEventListener('focus', function(){ if (a.matches(':focus-visible')) heat(t, 'key'); });
     a.addEventListener('blur', function(){ if (hot === t && hotBy === 'key') cool(); });
     a.addEventListener('click', function(e){ e.preventDefault(); pick(t); });
@@ -422,11 +481,13 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
 
   /* ---------- category view: heading + grid of thumbnails ----------
      並べる写真は data/selection.js のまとまりごとの `gallery`（無ければ `items`）。               */
-  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2');
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
   var cur = null;                      /* { g, items[], btns[] } while a category is open */
+  var direct = false;                  /* this visit began on a group's own address (…#beauty) */
   function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
-  function openDetail(t, carried){
-    var g = t.g, items = galleryOf(g);
+  function tileOf(g){ for (var i = 0; i < tiles.length; i++) if (tiles[i].g === g) return tiles[i]; return null; }
+  function fillDetail(g){
+    var items = galleryOf(g);
     list.textContent = '';
     dhead.textContent = '— ' + (g.en || g.title) + ' —';
     dhead.setAttribute('aria-label', g.title);
@@ -437,17 +498,35 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
       if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
       var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
       var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
       if (sz){ im.width = sz[0]; im.height = sz[1]; }
-      im.src = src;
+      im.src = small(src); im.setAttribute('data-src', src);      /* 一覧は小さい画像、拡大は元の画像 */
       b.appendChild(im); li.appendChild(b); list.appendChild(li);
       b.addEventListener('click', function(){ openLb(n); });
       cur.btns.push(b);
     });
-    view = 'detail';
-    body.classList.add('in-detail'); body.classList.add('locked');
+    /* after the last photo: the other groups, then how to get in touch */
+    more.textContent = '';
+    more.appendChild(el('p', 'k s', 'ほかの作品'));
+    var ul = el('ul');
+    Object.keys(GROUPS).forEach(function(id){
+      var o = GROUPS[id]; if (o === g || !galleryOf(o).length) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', null, 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: 'push' (from the top page), 'direct' (the address already named the group), 'pop' (back / forward) */
+  function openDetail(t, carried, how){
+    var g = t.g;
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    body.classList.add('in-detail'); body.classList.add('locked'); body.classList.remove('away'); body.classList.remove('over');
     $('foot').style.visibility = 'hidden';
     $('openAbout').hidden = true; $('mail').hidden = true;
-    $('gname').textContent = g.title; $('gname').hidden = false; $('closeDetail').hidden = false;
+    $('closeDetail').hidden = false;
     detail.classList.remove('shown'); body.classList.remove('deep');
     detail.hidden = false; detail.scrollTop = 0;
     void detail.offsetWidth;
@@ -457,32 +536,61 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
       setTimeout(function(){ if (view === 'detail'){ stage.style.visibility = 'hidden'; hideTitle(); } }, 380);
       setNav(0); run(400, outCubic, setNav, function(){ setNav(1); });
     } else { stage.style.visibility = 'hidden'; hideTitle(); setNav(1); }
-    $('closeDetail').focus({ preventScroll:true });
-    try { history.pushState({ g:g.id }, '', '#' + g.id); } catch (err) {}
+    detail.focus({ preventScroll:true });           /* so the arrow / page keys scroll the list */
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  /* from one group's list straight to another's (the links after the last photo) */
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    lastTile = tileOf(g) || lastTile;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      fillDetail(g);
+      detail.scrollTop = 0; body.classList.remove('deep');
+      void detail.offsetWidth; detail.classList.add('shown');
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
   }
   function closeDetail(fromPop){
     if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
     if (lbOn) closeLb(true);
     view = 'home';
     detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; cur = null;
     body.classList.remove('in-detail'); body.classList.remove('locked'); body.classList.remove('deep');
     stage.style.visibility = ''; $('foot').style.visibility = '';
     $('openAbout').hidden = false; $('mail').hidden = !PRO.email;
-    $('gname').hidden = true; $('closeDetail').hidden = true;
+    $('closeDetail').hidden = true;
     hideTitle(); locked = false;
     tiles.forEach(function(o){ o.a.classList.remove('gone', 'grow', 'hot'); o.img.style.removeProperty('--s'); });
     hot = null; hotBy = ''; pan.x = pan.y = 0; setPan(); setNav(1);
-    if (!fromPop){ try { var st = history.state; if (st && st.g) history.go(st.lb ? -2 : -1); } catch (err) {} }
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
     if (narrow() || calm()){ setP(1); setBusy(false); panOn = true; }
     else burst();                     /* photos open out from the centre again */
     if (lastTile) lastTile.a.focus({ preventScroll:true });
   }
   $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
   detail.addEventListener('scroll', function(){ body.classList.toggle('deep', view === 'detail' && detail.scrollTop > 24); }, { passive:true });
+  /* the name, the × and the colour box float above the list: turning the wheel over them still moves the list */
+  [nav, $('tones')].forEach(function(n){ n.addEventListener('wheel', function(e){ if (view === 'detail' && !lbOn) detail.scrollTop += e.deltaY; }, { passive:true }); });
   window.addEventListener('popstate', function(e){
     var keep = e.state && e.state.g;                /* still inside a category after this step back */
     if (lbOn){ closeLb(true); if (keep) return; }
     if (view === 'detail' && !keep) closeDetail(true);
+    else if (view === 'detail' && keep && cur && cur.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; }
+    else if (view === 'home' && keep && !busy && GROUPS[e.state.g] && about.hidden){          /* forward again into a group */
+      lastTile = tileOf(GROUPS[e.state.g]) || lastTile; cool(); panOn = false; pan.x = pan.y = 0; setPan();
+      openDetail({ g:GROUPS[e.state.g] }, false, 'pop');
+    }
   });
 
   /* ---------- lightbox: one photo large, previous / next, swipe ---------- */
@@ -496,13 +604,47 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
     r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
     return r.map(function(o){ return o.i; });
   }
+  /* the enlarged photo is laid out from its known size, so a small stand-in can be on screen at once and the full file swapped in when it arrives */
+  var THUMBS = window.THUMBS || {}, got = {}, lbSrc = '', lbShut = 0;
+  function small(src){ return THUMBS[src] || src; }
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);            /* worth enlarging to its own size */
+  }
+  /* wide screens with a mouse: a click on the photo shows it at its own size (a magazine page becomes readable), a second click fits it again */
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
   function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
     var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
     var src = cur.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);                        /* what can be shown straight away */
     lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
     function place(){
       if (my !== lbTok || !lbOn) return;
-      lbImg.src = src; lbImg.alt = cur.g.title + ' ' + (lbPos + 1);
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = cur.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
       lbFig.style.transition = 'none';
       if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
       lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
@@ -516,10 +658,11 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
       lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
       var t0 = now(), went = false, pre = new Image();
       var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
-      pre.onload = pre.onerror = go; pre.src = src; if (pre.complete) go();
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
       setTimeout(go, 1500);
     }
-    if (n > 1) [1, -1].forEach(function(d){ var p = new Image(); p.src = cur.items[lbOrder[(lbPos + d + n) % n]]; });
+    /* have the neighbours ready: their small stand-ins, and the full file of the one we are heading towards */
+    if (n > 1) [1, -1].forEach(function(d){ var k = cur.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
   }
   function openLb(n){
     if (!cur || lbOn) return;
@@ -533,9 +676,9 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   }
   function closeLb(fromPop){
     if (!lbOn) return;
-    lbOn = false; lbTok++;
-    lb.classList.remove('on'); body.classList.remove('lb-open');
-    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); body.classList.remove('lb-open'); lb.classList.remove('zoom');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
     /* back in the list, at the photo that was just on screen */
     var b = cur && cur.btns[lbOrder[lbPos]];
     if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
@@ -544,7 +687,10 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   lbX.addEventListener('click', function(){ closeLb(false); });
   lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
   lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
-  lb.addEventListener('click', function(e){ if (e.target === lb || e.target === lbFig) closeLb(false); });   /* the white around the photo */
+  lb.addEventListener('click', function(e){            /* the white around the photo */
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
   var sw = null;
   lb.addEventListener('touchstart', function(e){
     sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
@@ -592,7 +738,7 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   });
   doc.addEventListener('keydown', function(e){
     if (lbOn){
-      if (e.key === 'Escape') closeLb(false);
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
       else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
       else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
       else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
@@ -602,6 +748,13 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
       }
       return;
     }
+    /* in a group's list the keyboard moves the list even when the focus is on the × or the name above it */
+    if (view === 'detail' && about.hidden && !detail.contains(doc.activeElement)){
+      var H = detail.clientHeight, onBtn = doc.activeElement && /^(BUTTON|A)$/.test(doc.activeElement.tagName);
+      var by = { ArrowDown:60, ArrowUp:-60, PageDown:H * 0.9, PageUp:-H * 0.9, End:1e7, Home:-1e7 }[e.key];
+      if (by === undefined && e.key === ' ' && !onBtn) by = H * 0.9;
+      if (by !== undefined){ detail.scrollTop += by; e.preventDefault(); return; }
+    }
     if (e.key !== 'Escape') return;
     if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
   });
@@ -609,14 +762,25 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   /* ---------- 文字色の候補（確認用。決まったらこのブロックと #tones を消す） ---------- */
   (function(){
     var TONES = ['sand', 'dusk', 'clay', 'red'], box = $('tones');
-    function set(t, keep){
+    function set(t, pale, keep){
       if (TONES.indexOf(t) < 0) t = TONES[0];
-      root.setAttribute('data-tone', t);
-      Array.prototype.forEach.call(box.querySelectorAll('button'), function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-tone') === t)); });
-      if (keep){ try { localStorage.setItem('tone', t); } catch (err) {} }
+      pale = pale === '1' ? '1' : '0';
+      root.setAttribute('data-tone', t); root.setAttribute('data-pale', pale);
+      Array.prototype.forEach.call(box.querySelectorAll('button'), function(b){
+        if (b.id === 'tonesToggle') return;
+        b.setAttribute('aria-pressed', String(b.hasAttribute('data-tone') ? b.getAttribute('data-tone') === t : b.getAttribute('data-pale') === pale));
+      });
+      if (keep){ try { localStorage.setItem('tone', t); localStorage.setItem('pale', pale); } catch (err) {} }
     }
-    set(root.getAttribute('data-tone'), false);
-    box.addEventListener('click', function(e){ var b = e.target.closest ? e.target.closest('button') : null; if (b) set(b.getAttribute('data-tone'), true); });
+    set(root.getAttribute('data-tone'), root.getAttribute('data-pale'), false);
+    function shut(v){ box.classList.toggle('shut', v); $('tonesToggle').setAttribute('aria-expanded', String(!v)); }
+    shut(narrow());                                    /* phones: folded until asked for, so it does not sit across the photos */
+    box.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('button') : null; if (!b) return;
+      if (b.id === 'tonesToggle'){ shut(!box.classList.contains('shut')); return; }
+      if (b.hasAttribute('data-tone')) set(b.getAttribute('data-tone'), root.getAttribute('data-pale'), true);
+      else set(root.getAttribute('data-tone'), b.getAttribute('data-pale'), true);
+    });
   })();
 
   /* ---------- foot (narrow list only) ---------- */
@@ -633,6 +797,19 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
     } else f.classList.add('in');
   })();
 
+  /* ---------- phones: the fixed name and links step aside while the list is read downwards, and return on the way up ---------- */
+  (function(){
+    var last = 0;
+    window.addEventListener('scroll', function(){
+      var y = window.pageYOffset || 0;
+      body.classList.toggle('over', narrow() && view === 'home' && y >= 40);
+      if (!narrow() || view !== 'home' || y < 40) body.classList.remove('away');
+      else if (y > last + 6) body.classList.add('away');
+      else if (y < last - 6) body.classList.remove('away');
+      last = y;
+    }, { passive:true });
+  })();
+
   /* ---------- crossing the breakpoint ---------- */
   function onMode(){
     if (view === 'home' && !locked){ setP(1); setNav(1); pan.x = pan.y = 0; setPan(); loader.style.display = 'none'; setBusy(false); panOn = true;
@@ -641,7 +818,13 @@ body.lb-open #tones{display:none}                          /* 拡大表示のあ
   if (mqNarrow.addEventListener) mqNarrow.addEventListener('change', onMode);
 
   panLast = now(); raf(panLoop);
-  intro();
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length){
+    /* the address names a group (…#beauty): open its list straight away, without the opening sequence */
+    loader.style.display = 'none'; setP(1); setNav(1); setBusy(false); panOn = true;
+    lastTile = tileOf(first);
+    openDetail({ g:first }, false, 'direct');
+  } else intro();
 })();
 </script>
 </body>

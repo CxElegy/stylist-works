@@ -10,12 +10,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const rects = p => p.evaluate(() => [...document.querySelectorAll('.tile')].map(a => { const r = a.getBoundingClientRect(); return [r.left, r.top, r.width, r.height].map(v => Math.round(v * 10) / 10); }));
 const st = p => p.evaluate(() => { const q = id => document.getElementById(id), lb = q('lb'), d = q('detail'); return {
   detail: !d.hidden && getComputedStyle(d).opacity === '1', lb: !lb.hidden && getComputedStyle(lb).opacity === '1',
-  ct: lb.querySelector('.ct').textContent, src: (lb.querySelector('img').getAttribute('src') || ''), h2: d.querySelector('h2').textContent,
+  ct: lb.querySelector('.ct').textContent, src: (lb.querySelector('img').getAttribute('data-src') || ''), h2: d.querySelector('h2').textContent,
   n: d.querySelectorAll('ol li').length, stage: getComputedStyle(q('stage')).visibility, hash: location.hash, focus: document.activeElement && (document.activeElement.id || document.activeElement.tagName + '.' + document.activeElement.className) }; });
 const settle = async p => { await p.evaluate(async () => { const d = document.getElementById('detail'); for (let y = 0; y < d.scrollHeight; y += 500) { d.scrollTo(0, y); await new Promise(r => setTimeout(r, 120)); } d.scrollTo(0, 0); await new Promise(r => setTimeout(r, 400)); }); };
-const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('#detail ol li')]; const R = lis.map(li => { const r = li.getBoundingClientRect(), im = li.querySelector('img'), ir = im.getBoundingClientRect(); return { wide: li.classList.contains('wide'), l: Math.round(r.left), t: Math.round(r.top), w: r.width, ratioErr: Math.abs(ir.width / ir.height - im.naturalWidth / im.naturalHeight) / (im.naturalWidth / im.naturalHeight), fit: getComputedStyle(im).objectFit, loaded: im.complete && im.naturalWidth > 0, src: im.getAttribute('src') }; });
+const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('#detail ol li')]; const R = lis.map(li => { const r = li.getBoundingClientRect(), im = li.querySelector('img'), ir = im.getBoundingClientRect(); return { wide: li.classList.contains('wide'), l: Math.round(r.left), t: Math.round(r.top), w: r.width, ratioErr: Math.abs(ir.width / ir.height - im.naturalWidth / im.naturalHeight) / (im.naturalWidth / im.naturalHeight), fit: getComputedStyle(im).objectFit, loaded: im.complete && im.naturalWidth > 0, src: im.getAttribute('data-src'), thumb: im.getAttribute('src') !== im.getAttribute('data-src') }; });
   const cols = [...new Set(R.filter(x => !x.wide).map(x => x.l))].length; const order = R.map((x, i) => ({ i, t: x.t, l: x.l })).sort((a, b) => (a.t - b.t) || (a.l - b.l)).map(o => R[o.i].src);
-  return { cols, wide: R.filter(x => x.wide).length, maxRatioErr: Math.max(...R.map(x => x.ratioErr)), fits: [...new Set(R.map(x => x.fit))], loaded: R.filter(x => x.loaded).length, order, overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth, dOverflowX: document.getElementById('detail').scrollWidth - document.getElementById('detail').clientWidth }; });
+  return { cols, thumbs: R.filter(x => x.thumb).length, wide: R.filter(x => x.wide).length, maxRatioErr: Math.max(...R.map(x => x.ratioErr)), fits: [...new Set(R.map(x => x.fit))], loaded: R.filter(x => x.loaded).length, order, overflowX: document.documentElement.scrollWidth - document.documentElement.clientWidth, dOverflowX: document.getElementById('detail').scrollWidth - document.getElementById('detail').clientWidth }; });
 
 (async () => {
   const b = await chromium.launch();
@@ -42,6 +42,7 @@ const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('
     ok('PC 一覧の写真は切れていない・歪んでいない', g.maxRatioErr < 0.01 && g.fits.join() === 'fill', '縦横比の差 最大 ' + (g.maxRatioErr * 100).toFixed(2) + '%');
     ok('PC 一覧の写真がすべて読み込める', g.loaded === 13, g.loaded + '/13');
     ok('PC 横にはみ出さない', g.overflowX <= 0 && g.dOverflowX <= 0, g.overflowX + ' / ' + g.dOverflowX);
+    ok('一覧は小さい画像（サムネイル）を使い、拡大は元の画像を使う', g.thumbs >= 10, 'サムネイル ' + g.thumbs + '/13');
     /* lightbox */
     await p.click('#detail ol li:nth-child(1) button'); await sleep(600); s = await st(p);
     ok('PC 一覧の写真を押すと拡大表示が開く', s.lb && s.ct === '01 / 13' && s.src === g.order[0], s.ct + ' ' + s.src);
@@ -54,6 +55,14 @@ const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('
     await p.keyboard.press('Escape'); await sleep(500); s = await st(p); ok('PC Esc で閉じて一覧に戻る', !s.lb && s.detail, 'フォーカス: ' + s.focus);
     await p.click('#detail ol li:nth-child(2) button'); await sleep(600); await p.mouse.click(720, 12); await sleep(500); s = await st(p); ok('PC 写真の外（背景）を押すと閉じて一覧に戻る', !s.lb && s.detail);
     await p.click('#detail ol li:nth-child(3) button'); await sleep(600); await p.click('#lb .x'); await sleep(500); s = await st(p); ok('PC 閉じるボタンで一覧に戻る', !s.lb && s.detail);
+    await p.click('#detail ol li:nth-child(3) button'); await sleep(600); await p.keyboard.press('Escape'); await p.keyboard.press('Escape'); await sleep(900); s = await st(p); const here = await p.evaluate(() => location.pathname.split('/').pop());
+    ok('PC Esc を続けて2回押しても、拡大表示だけ閉じて一覧に残る', !s.lb && s.detail && here === 'r4-snog.html', here);
+    await p.click('#detail ol li:nth-child(3) button'); await sleep(600); await p.click('#lb .x'); await p.mouse.click(1403, 37); await sleep(900); s = await st(p);
+    ok('PC × を続けて2回押しても、拡大表示だけ閉じて一覧に残る', !s.lb && s.detail);
+    await p.keyboard.press('PageDown'); await sleep(500); const kd = await p.evaluate(() => document.getElementById('detail').scrollTop); await p.evaluate(() => document.getElementById('detail').scrollTo(0, 0));
+    ok('PC 一覧はキーボード（PageDown）で送れる', kd > 200, kd + 'px');
+    await p.mouse.move(720, 60); await p.mouse.wheel(0, 500); await sleep(500); const wh = await p.evaluate(() => document.getElementById('detail').scrollTop); await p.evaluate(() => document.getElementById('detail').scrollTo(0, 0)); await sleep(300);
+    ok('PC 名前の上にカーソルがあっても、ホイールで一覧が送れる', wh > 200, wh + 'px');
     await p.click('#detail ol li:nth-child(3) button'); await sleep(600); await p.goBack(); await sleep(600); s = await st(p); ok('PC ブラウザの「戻る」で拡大表示だけ閉じる', !s.lb && s.detail && s.hash === '#beauty', s.hash);
     await p.mouse.move(720, 450); /* 写真はマウスと逆に動くので、比べる前にマウスを最初と同じ中央へ */
     await p.goBack(); await sleep(3000); s = await st(p); const back = await rects(p);
@@ -77,7 +86,7 @@ const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('
     await p.evaluate(() => document.querySelector('.tile').click()); await p.waitForFunction(() => !document.getElementById('detail').hidden); await sleep(1200);
     await p.click('#detail ol li:nth-child(1) button'); await sleep(900);
     const z0 = await p.evaluate(() => Math.round(document.querySelector('#lb img').getBoundingClientRect().width)); await p.click('#lb img'); await sleep(400);
-    const z1 = await p.evaluate(() => { const im = document.querySelector('#lb img'); return { w: Math.round(im.getBoundingClientRect().width), nat: im.naturalWidth, zoom: document.getElementById('lb').classList.contains('zoom'), scroll: document.getElementById('lb').scrollHeight > innerHeight }; });
+    const z1 = await p.evaluate(() => { const im = document.querySelector('#lb img'); return { w: Math.round(im.getBoundingClientRect().width), nat: window.SIZES[im.getAttribute('data-src')][0], zoom: document.getElementById('lb').classList.contains('zoom'), scroll: document.getElementById('lb').scrollHeight > innerHeight }; });
     ok('PC 拡大中の写真を押すと元の大きさになり、縦に送って読める', z1.zoom && z1.w === z1.nat && z1.w > z0 && z1.scroll, z0 + 'px → ' + z1.w + 'px');
     await p.click('#lb img'); await sleep(300); const z2 = await p.evaluate(() => Math.round(document.querySelector('#lb img').getBoundingClientRect().width)); ok('PC もう一度押すと元の収まる大きさに戻る', z2 === z0, z2 + 'px');
     await p.click('#lb img'); await sleep(300); await p.keyboard.press('Escape'); await sleep(300); s = await st(p); const zz = await p.evaluate(() => document.getElementById('lb').classList.contains('zoom')); ok('PC 大きくした状態の Esc は、まず元の大きさに戻すだけ', s.lb && !zz);
@@ -96,6 +105,9 @@ const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('
     await p.goto(BASE + 'index.html'); await p.goto(BASE + 'r4-snog.html?tone=sand#kids'); await sleep(1200); s = await st(p);
     ok('PC 住所に #kids を付けて開くと、Kids の一覧が直接開く', s.detail && s.h2 === '\u2014 Kids \u2014', s.h2);
     await p.click('#closeDetail'); await sleep(2200); s = await st(p); const url = await p.evaluate(() => location.pathname.split('/').pop() + location.hash);
+    await p.evaluate(() => document.querySelector('.tile').click()); await p.waitForFunction(() => !document.getElementById('detail').hidden); await sleep(900); await p.reload(); await sleep(1500); s = await st(p);
+    ok('PC 一覧を開いたまま再読み込みしても、同じ一覧が開く', s.detail && s.h2 === '\u2014 Beauty \u2014', s.h2);
+    await p.goBack(); await sleep(2500); s = await st(p); ok('PC 再読み込みのあと「戻る」1回でトップに戻る', !s.detail && s.stage === 'visible', s.hash);
     ok('PC 直接開いたあとの × は、サイトの外へ出ずにトップを開く', !s.detail && s.stage === 'visible' && url === 'r4-snog.html', url);
     const og = await p.evaluate(() => ({ img: (document.querySelector('meta[property="og:image"]') || {}).content || '', title: (document.querySelector('meta[property="og:title"]') || {}).content || '' })); const ogOk = await p.evaluate(async () => (await fetch('images/og.jpg')).ok);
     ok('リンクを送ったときのプレビュー（題名・画像）が設定されている', /og\.jpg$/.test(og.img) && !!og.title && ogOk, og.title + ' / ' + og.img);
@@ -136,7 +148,16 @@ const grid = p => p.evaluate(() => { const lis = [...document.querySelectorAll('
     const mm = await p.evaluate(() => { const m = document.querySelector('#detail .more'); m.scrollIntoView(); const r = [...m.querySelectorAll('li button')].map(b => b.getBoundingClientRect()); return { n: r.length, minH: Math.round(Math.min(...r.map(q => q.height))), over: document.getElementById('detail').scrollWidth - document.getElementById('detail').clientWidth }; });
     ok('スマホ 一覧の最後のジャンル名は指で押せる高さ（40px以上）で、はみ出さない', mm.n === 6 && mm.minH >= 40 && mm.over <= 0, mm.minH + 'px');
     await p.tap('#closeDetail'); await sleep(600); s = await st(p); ok('スマホ 一覧の × でトップに戻る', !s.detail && s.stage === 'visible');
+    await p.evaluate(() => scrollTo(0, 0)); await p.mouse.wheel(0, 900); await sleep(500); await p.mouse.wheel(0, -200); await sleep(700); const band = await p.evaluate(() => getComputedStyle(document.getElementById('nav'), '::before').opacity);
+    ok('スマホ 上へ戻して名前が出るときは、下に白い帯が敷かれる', parseFloat(band) > 0.9, '帯の濃さ ' + band);
     ok('スマホ エラーなし', errs.length === 0, errs.slice(0, 3).join(' ; ')); await c.close();
+  }
+  /* ================= スマホを横にしたとき 844x390 ================= */
+  {
+    const c = await b.newContext({ viewport: { width: 844, height: 390 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true }); const p = await c.newPage(); await p.goto(BASE + 'r4-snog.html?tone=sand#beauty'); await sleep(1200);
+    await p.tap('#detail ol li:nth-child(1) button'); await sleep(900);
+    const q = await p.evaluate(() => { const im = document.querySelector('#lb img').getBoundingClientRect(), ct = document.querySelector('#lb .ct').getBoundingClientRect(); return { gap: Math.round(ct.top - im.bottom), top: Math.round(im.top) }; });
+    ok('スマホ横向き 拡大した写真と枚数の表示が重ならない', q.gap >= 0 && q.top >= 0, 'すき間 ' + q.gap + 'px'); await c.close();
   }
   /* ================= 動きを減らす設定 ================= */
   {
