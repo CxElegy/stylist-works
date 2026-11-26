@@ -5,31 +5,43 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>伊藤 あかり｜スタイリスト</title>
 <meta name="description" content="スタイリスト 伊藤 あかり の作品集。">
+<script>
+/* 文字色の候補（確認用）。?tone=sand|dusk|clay|red か、前に選んだものを最初の表示から使う */
+(function(){var t='sand';try{var q=/[?&]tone=([a-z]+)/.exec(location.search);t=q?q[1]:(localStorage.getItem('tone')||t)}catch(e){}document.documentElement.setAttribute('data-tone',t)})();
+</script>
 <style>
 @font-face{font-family:"Anton";src:url("assets/fonts/anton-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
 @font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
 
 :root{
-  --red:#dc2f1e;
+  /* 文字色は2つの濃さで使う：--tint＝大きな文字（AKARI ITO・BEAUTY など。写真の邪魔をしない淡さ）
+                              --ink ＝小さな文字と細い線（読める濃さ。白地に対して 4.5:1 以上）          */
+  --tint:#c6b598;
+  --ink:#786850;
   --text:"Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
   --display:"Anton","Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
   --small:20px;
   --edge:20px;
   --wm:0.28665;            /* 1 / (wordmark width ÷ font-size) */
 }
+/* 文字色の候補。決まったら、選んだ2色を上の :root に書いて、この4行と #tones を消す */
+html[data-tone="sand"]{--tint:#c6b598;--ink:#786850}   /* A 砂：砂漠の砂、乾いたベージュ */
+html[data-tone="dusk"]{--tint:#a3b3bf;--ink:#586a78}   /* B 夕空：日が落ちたあとの、くすんだ青灰 */
+html[data-tone="clay"]{--tint:#d6a797;--ink:#94584a}   /* C 赤土：今の赤を、乾いた土の色まで淡くしたもの */
+html[data-tone="red"]{--tint:#dc2f1e;--ink:#dc2f1e}    /* 今までの赤（見比べ用） */
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#fff}
-body{color:var(--red);font-family:var(--text);font-weight:400;font-size:var(--small);line-height:1;-webkit-text-size-adjust:100%}
+body{color:var(--ink);font-family:var(--text);font-weight:400;font-size:var(--small);line-height:1;-webkit-text-size-adjust:100%}
 a,button{color:inherit;font:inherit;text-decoration:none}
 button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0}
 img{display:block;border:0}
 :focus{outline:none}
-:focus-visible{outline:1px solid var(--red);outline-offset:4px}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 [hidden]{display:none !important}
 
 /* ---------- small text / wordmark ---------- */
 .s{font-family:var(--text);font-size:var(--small);font-weight:400;line-height:1;text-transform:uppercase;letter-spacing:0;white-space:nowrap}
-.wm{font-family:var(--display);font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap;display:block}
+.wm{font-family:var(--display);font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap;display:block;color:var(--tint)}
 
 /* ---------- top bar ---------- */
 #nav{position:fixed;left:0;top:0;width:100%;height:0;z-index:30}
@@ -40,7 +52,7 @@ img{display:block;border:0}
 #nav .mark .wm{font-size:calc(21vw * var(--wm))}
 #nav .who{display:block;margin-top:4px;text-transform:none}
 #nav .x{position:absolute;right:var(--edge);top:var(--edge);width:34px;height:34px}
-.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:141%;height:1px;background:var(--red);transform:translate(-50%,-50%) rotate(45deg)}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:141%;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
 .x::after{transform:translate(-50%,-50%) rotate(-45deg)}
 #nav .gname{text-transform:none}
 
@@ -50,9 +62,9 @@ img{display:block;border:0}
 .tile img{width:100%;height:100%}
 .tile picture{display:block;width:100%;height:100%}
 
-#title{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;text-align:center;font-family:var(--display);font-weight:400;font-size:12vw;line-height:1;text-transform:uppercase;white-space:nowrap;pointer-events:none;color:var(--red)}
+#title{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;text-align:center;font-family:var(--display);font-weight:400;font-size:12vw;line-height:1;text-transform:uppercase;white-space:nowrap;pointer-events:none;color:var(--tint)}
 #ring{position:fixed;left:0;top:0;z-index:25;width:0;height:0;pointer-events:none;font-size:14px}
-#ring i{position:absolute;left:0;top:0;width:7em;height:7em;border:1px solid var(--red);border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:width .05s linear,height .05s linear,opacity .05s linear;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--text);font-size:10px;line-height:1;text-transform:uppercase;white-space:nowrap}
+#ring i{position:absolute;left:0;top:0;width:7em;height:7em;border:1px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:width .05s linear,height .05s linear,opacity .05s linear;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--text);font-size:10px;line-height:1;text-transform:uppercase;white-space:nowrap}
 #ring.on i{width:15.4em;height:15.4em;opacity:1}
 
 /* ---------- loader ---------- */
@@ -60,21 +72,53 @@ img{display:block;border:0}
 #loader .wm{font-size:calc(65vw * var(--wm));animation:squeeze 1.5s linear both}
 @keyframes squeeze{0%,33.3%{transform:scaleX(1)}43.3%,66.7%{transform:scaleX(.76)}76.7%,100%{transform:scaleX(1)}}
 
-/* ---------- detail ---------- */
-#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:10;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#detail ol{list-style:none;margin:0;padding:6.5vh var(--edge) 30vh;display:flex;flex-direction:column;align-items:center;gap:6.5vh}
-#detail li{flex:none;height:min(87vh, calc((100vw - 2 * var(--edge)) / var(--arn)));aspect-ratio:var(--ar);transform-origin:50% 50%}
-#detail li img{width:100%;height:100%}
+/* ---------- category view: heading + grid of thumbnails ---------- */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:10;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;opacity:0;transition:opacity .35s linear}
+#detail.shown{opacity:1}
+#detail .in{max-width:1180px;margin:0 auto;padding:calc(6.1vw + 90px) var(--edge) 16vh}
+#detail h2{margin:0 0 6vh;text-align:center;font-family:var(--text);font-weight:400;font-size:clamp(22px,2.4vw,34px);line-height:1;letter-spacing:.06em;text-transform:none;white-space:nowrap;color:var(--ink)}
+#detail ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail li.wide{grid-column:span 2}                       /* 見開きの誌面は2列ぶん */
+#detail li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 120ms)}
+#detail.shown li{opacity:1;transform:none}
+#detail li button{display:block;width:100%;cursor:zoom-in}
+#detail li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
+#detail li button:hover img{opacity:.8}
 body.in-detail #title{z-index:5}
+/* 一覧を下へ送ったら名前は消える（一覧の写真の上に文字が乗らないように）。閉じる × だけ白い丸を敷いて残す */
+body.in-detail #nav .mark,body.in-detail #gname{transition:opacity .25s linear}
+body.deep #nav .mark,body.deep #gname{opacity:0;pointer-events:none}
+body.in-detail #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
+
+/* ---------- lightbox: one photo large ---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:0;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:86vh;width:auto;height:auto}
+#lb .x{position:absolute;right:var(--edge);top:var(--edge);width:34px;height:34px;z-index:2}
+#lb .nv{position:absolute;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb.one .nv{display:none}
+#lb .ct{position:absolute;left:0;right:0;bottom:var(--edge);margin:0;text-align:center;pointer-events:none;font-size:14px}
+
+/* ---------- 文字色の候補を切り替える小さな箱（確認用） ---------- */
+#tones{position:fixed;left:var(--edge);bottom:var(--edge);z-index:48;display:flex;align-items:center;gap:14px;padding:6px 12px;background:rgba(255,255,255,.92);border:1px solid var(--ink);font-family:var(--text);font-size:13px;line-height:1;color:var(--ink);text-transform:none;white-space:nowrap}
+#tones button{display:inline-flex;align-items:center;gap:6px;min-height:30px;font-size:13px;border-bottom:1px solid transparent}
+#tones button[aria-pressed="true"]{border-bottom-color:var(--ink)}
+#tones i{flex:none;width:14px;height:14px;border-radius:50%;background:var(--c)}
+body.lb-open #tones{display:none}                          /* 拡大表示のあいだは隠す（前へ・枚数の表示に重なるため） */
 
 /* ---------- profile ---------- */
 #about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;background:#fff;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #about .x{position:fixed;right:var(--edge);top:var(--edge);width:34px;height:34px}
 #about .in{max-width:34em;margin:0 auto;padding:22vh var(--edge) 12vh}
-#about h2{margin:0 0 .5em;font-family:var(--display);font-weight:400;font-size:min(12vw,120px);line-height:1;text-transform:uppercase}
+#about h2{margin:0 0 .5em;font-family:var(--display);font-weight:400;font-size:min(12vw,120px);line-height:1;text-transform:uppercase;color:var(--tint)}
 #about p{margin:0 0 1.4em;font-size:var(--small);line-height:1.8;text-transform:none;white-space:normal}
 #about p.k{margin-bottom:.4em;line-height:1}
-#about a{border-bottom:1px solid var(--red)}
+#about a{border-bottom:1px solid var(--ink)}
 
 /* ---------- foot (mobile only) ---------- */
 #foot{display:none}
@@ -116,9 +160,18 @@ body.in-detail #title{z-index:5}
   #foot.in{transform:none;opacity:1}
   #foot p{margin:0;padding:0 0 6px;font-size:24px;line-height:1;white-space:nowrap}
   #foot a,#foot button{display:inline-block;font-size:24px;line-height:1;text-align:left}
-  #detail{background:#fff}
-  #detail ol{padding:24.6vh 10px 20vh;gap:20px}
-  #detail li{height:auto;width:100%}
+  #detail .in{padding:calc(18px + 85vw * var(--wm) + 100px) 10px 16vh}
+  #detail h2{font-size:22px;margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:74vh}
+  #lb .x{width:40px;height:40px}
+  #lb .x::before,#lb .x::after{width:60%}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+  #tones{left:8px;bottom:8px;gap:10px;padding:4px 8px;font-size:12px}
+  #tones button{font-size:12px}
+  #nav .x{transition:top .25s ease-out,left .25s ease-out,margin-left .25s ease-out}
+  body.deep #nav .x{top:14px;left:calc(100% - 54px);margin-left:0}     /* 送ったあとは右上の角へ */
   #about .in{padding-top:24.6vh}
   body.locked{overflow:hidden}
 }
@@ -131,6 +184,7 @@ body.in-detail #title{z-index:5}
   #loader{display:none !important}
   .tile img,.tile.hot img,.tile.grow img{transition:none !important}
   #foot{transform:none;opacity:1;transition:none}
+  #detail,#detail li,#detail li img,#lb,#lb figure,#nav .mark,#gname,#nav .x{transition:none !important}
 }
 </style>
 </head>
@@ -153,7 +207,23 @@ body.in-detail #title{z-index:5}
 <p id="title" aria-hidden="true" hidden></p>
 <div id="ring" aria-hidden="true"><i>View</i></div>
 
-<section id="detail" aria-label="作品" hidden tabindex="-1"><ol></ol></section>
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol></div></section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct s" aria-live="polite"></p>
+</div>
+
+<div id="tones" role="group" aria-label="文字色の候補（確認用）">
+  <span>文字色</span>
+  <button type="button" data-tone="sand" style="--c:#c6b598"><i></i>A 砂</button>
+  <button type="button" data-tone="dusk" style="--c:#a3b3bf"><i></i>B 夕空</button>
+  <button type="button" data-tone="clay" style="--c:#d6a797"><i></i>C 赤土</button>
+  <button type="button" data-tone="red" style="--c:#dc2f1e"><i></i>今の赤</button>
+</div>
 
 <section id="about" aria-label="プロフィール" hidden tabindex="-1">
   <button class="x" id="closeAbout" type="button" aria-label="閉じる"></button>
@@ -350,57 +420,150 @@ body.in-detail #title{z-index:5}
     setTimeout(function(){ openDetail(t, true); }, 1800);
   }
 
-  /* ---------- detail ---------- */
-  var detail = $('detail'), list = detail.querySelector('ol');
+  /* ---------- category view: heading + grid of thumbnails ----------
+     並べる写真は data/selection.js のまとまりごとの `gallery`（無ければ `items`）。               */
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2');
+  var cur = null;                      /* { g, items[], btns[] } while a category is open */
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
   function openDetail(t, carried){
-    var g = t.g, items = g.items.slice();
-    var first = items.indexOf(t.pl.src);
-    if (first > 0){ items.splice(first, 1); items.unshift(t.pl.src); }
-    else if (first < 0) items.unshift(t.pl.src);
+    var g = t.g, items = galleryOf(g);
     list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    cur = { g:g, items:items, btns:[] };
     items.forEach(function(src, n){
-      var li = el('li'); li.style.setProperty('--ar', ratio(src)); li.style.setProperty('--arn', ratioN(src));
-      var im = el('img'); im.alt = g.title + ' ' + (n + 1); im.src = src; im.draggable = false;
-      var sz = SIZES[src]; if (sz){ im.width = sz[0]; im.height = sz[1]; }
-      li.appendChild(im); list.appendChild(li);
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = src;
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      cur.btns.push(b);
     });
     view = 'detail';
     body.classList.add('in-detail'); body.classList.add('locked');
-    stage.style.visibility = 'hidden';
     $('foot').style.visibility = 'hidden';
-    showTitle(g);
     $('openAbout').hidden = true; $('mail').hidden = true;
     $('gname').textContent = g.title; $('gname').hidden = false; $('closeDetail').hidden = false;
+    detail.classList.remove('shown'); body.classList.remove('deep');
     detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add('shown');
     if (carried){
-      /* the same photo, same centre: grow from the size it had on the canvas */
-      var li0 = list.firstChild, h0 = li0.getBoundingClientRect().height || 1;
-      var from = Math.min(1, (window.innerHeight * 0.52) / h0);
-      li0.style.transform = 'scale(' + from + ')';
-      run(350, outCubic, function(e){ li0.style.transform = e >= 1 ? '' : 'scale(' + (from + (1 - from) * e).toFixed(4) + ')'; });
+      /* the canvas, with the picked photo in its centre, stays underneath while the list fades in over it */
+      setTimeout(function(){ if (view === 'detail'){ stage.style.visibility = 'hidden'; hideTitle(); } }, 380);
       setNav(0); run(400, outCubic, setNav, function(){ setNav(1); });
-    } else setNav(1);
+    } else { stage.style.visibility = 'hidden'; hideTitle(); setNav(1); }
     $('closeDetail').focus({ preventScroll:true });
     try { history.pushState({ g:g.id }, '', '#' + g.id); } catch (err) {}
   }
   function closeDetail(fromPop){
     if (view !== 'detail') return;
+    if (lbOn) closeLb(true);
     view = 'home';
-    detail.hidden = true; list.textContent = '';
-    body.classList.remove('in-detail'); body.classList.remove('locked');
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; cur = null;
+    body.classList.remove('in-detail'); body.classList.remove('locked'); body.classList.remove('deep');
     stage.style.visibility = ''; $('foot').style.visibility = '';
     $('openAbout').hidden = false; $('mail').hidden = !PRO.email;
     $('gname').hidden = true; $('closeDetail').hidden = true;
     hideTitle(); locked = false;
     tiles.forEach(function(o){ o.a.classList.remove('gone', 'grow', 'hot'); o.img.style.removeProperty('--s'); });
     hot = null; hotBy = ''; pan.x = pan.y = 0; setPan(); setNav(1);
-    if (!fromPop){ try { if (history.state && history.state.g) history.back(); } catch (err) {} }
+    if (!fromPop){ try { var st = history.state; if (st && st.g) history.go(st.lb ? -2 : -1); } catch (err) {} }
     if (narrow() || calm()){ setP(1); setBusy(false); panOn = true; }
     else burst();                     /* photos open out from the centre again */
     if (lastTile) lastTile.a.focus({ preventScroll:true });
   }
   $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
-  window.addEventListener('popstate', function(){ if (view === 'detail') closeDetail(true); });
+  detail.addEventListener('scroll', function(){ body.classList.toggle('deep', view === 'detail' && detail.scrollTop > 24); }, { passive:true });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;                /* still inside a category after this step back */
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) closeDetail(true);
+  });
+
+  /* ---------- lightbox: one photo large, previous / next, swipe ---------- */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0;
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  /* the order the thumbnails are seen in (row by row, left to right); a spread that moves down a row changes it */
+  function seenOrder(){
+    var r = cur.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  function lbShow(pos, dir, fromX){
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = cur.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbImg.src = src; lbImg.alt = cur.g.title + ' ' + (lbPos + 1);
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      /* the photo leaves towards where it was pushed, the next one arrives from the other side */
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = src; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function(d){ var p = new Image(); p.src = cur.items[lbOrder[(lbPos + d + n) % n]]; });
+  }
+  function openLb(n){
+    if (!cur || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on'); body.classList.add('lb-open');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    try { history.pushState({ g:cur.g.id, lb:1 }, '', '#' + cur.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++;
+    lb.classList.remove('on'); body.classList.remove('lb-open');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    /* back in the list, at the photo that was just on screen */
+    var b = cur && cur.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){ if (e.target === lb || e.target === lbFig) closeLb(false); });   /* the white around the photo */
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
 
   /* ---------- profile ---------- */
   var about = $('about');
@@ -428,9 +591,33 @@ body.in-detail #title{z-index:5}
     else if (narrow()) window.scrollTo(0, 0);
   });
   doc.addEventListener('keydown', function(e){
+    if (lbOn){
+      if (e.key === 'Escape') closeLb(false);
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
     if (e.key !== 'Escape') return;
     if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
   });
+
+  /* ---------- 文字色の候補（確認用。決まったらこのブロックと #tones を消す） ---------- */
+  (function(){
+    var TONES = ['sand', 'dusk', 'clay', 'red'], box = $('tones');
+    function set(t, keep){
+      if (TONES.indexOf(t) < 0) t = TONES[0];
+      root.setAttribute('data-tone', t);
+      Array.prototype.forEach.call(box.querySelectorAll('button'), function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-tone') === t)); });
+      if (keep){ try { localStorage.setItem('tone', t); } catch (err) {} }
+    }
+    set(root.getAttribute('data-tone'), false);
+    box.addEventListener('click', function(e){ var b = e.target.closest ? e.target.closest('button') : null; if (b) set(b.getAttribute('data-tone'), true); });
+  })();
 
   /* ---------- foot (narrow list only) ---------- */
   (function(){

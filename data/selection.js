@@ -17,6 +17,23 @@ window.SELECTION = {
   ],
   groups: [
     { id: "beauty", title: "ビューティー", en: "Beauty", note: "",
+      // gallery ＝ r4-snog.html で「BEAUTY」を押したときに並ぶ一覧（誌面も写真も、パスを並べるだけ）。
+      // ほかのまとまりも、同じ形で gallery: [ ... ] を足せば増やせます（無ければ下の items が並びます）
+      gallery: [
+        "images/pages/biteki-neo-nude-eye.jpg",
+        "images/works/biteki-portrait-01.jpg",
+        "images/pages/biteki-spring-cosme-2026.jpg",
+        "images/pages/biteki-cherry.jpg",
+        "images/works/biteki-portrait-02.jpg",
+        "images/pages/biteki-best-answer-01.jpg",
+        "images/pages/biteki-dark-fig.jpg",
+        "images/pages/biteki-korea-beauty-talk.jpg",
+        "images/works/biteki-portrait-03.jpg",
+        "images/pages/biteki-best-answer-02.jpg",
+        "images/pages/biteki-best-answer-03.jpg",
+        "images/pages/biteki-best-answer-04.jpg",
+        "images/works/biteki-glow-cream.jpg"
+      ],
       items: [
         "images/works/biteki-neo-nude-eye.jpg",
         "images/works/biteki-portrait-01.jpg",
