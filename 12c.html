@@ -106,30 +106,34 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
   line-height: 1;
   max-width: 90vw;
   width: max-content;
-  color: var(--tint);
+  color: transparent;                                   /* 依頼主の指定：名前は輪郭だけの抜き文字にして、写真の後ろに置く */
+  -webkit-text-stroke: max(1px, .016em) var(--tint);
 }
 #name .w { display: inline-block; }
-/* 名前の下の決まった場所：ふだんは小さい一行、ジャンルを指している間はその名前。壁より手前、白い地 */
+/* 名前の下の決まった場所：ふだんは小さい一行、ジャンルを指している間はその名前。
+   依頼主の指定で、小さい文字も輪郭だけの抜き文字にして、名前と同じく写真の後ろに置く */
 #who {
   position: fixed;
   left: 50%; top: calc(50% + var(--nfs) / 2 + 8px);
-  z-index: 3;
+  z-index: 1;
   margin: 0;
   transform: translateX(-50%);
   white-space: nowrap;
   text-align: center;
   pointer-events: none;
 }
-#who-text { display: inline-block; padding: 3px 8px; background: #fff; color: var(--ink); font-size: 13px; }
-#gname { display: inline-block; padding: 3px 10px 1px; background: #fff; color: var(--tint); font-size: 28px; line-height: 1.1; }
+#who-text { display: inline-block; padding: 3px 8px; color: transparent; -webkit-text-stroke: .7px var(--ink); font-size: 15px; letter-spacing: .04em; }
+#gname { display: inline-block; padding: 3px 10px 1px; color: transparent; -webkit-text-stroke: 1px var(--tint); font-size: 28px; line-height: 1.1; }
+/* 「一覧を見る」は押せるボタンなので、写真より手前のまま（小さい一行のすぐ下） */
 #gopen {
-  position: absolute; left: 100%; top: 0;
-  height: 40px; margin: -3px 0 0 6px; padding: 0 10px; border: 0;
+  position: fixed; left: 50%; top: calc(50% + var(--nfs) / 2 + 46px); z-index: 3;
+  transform: translateX(-50%);
+  height: 40px; margin: 0; padding: 0 10px; border: 0;
   background: #fff; color: var(--ink);
   font-size: 12px; white-space: nowrap; cursor: pointer; pointer-events: auto;
   text-decoration: underline; text-underline-offset: 3px;
 }
-@media (max-width: 768px) { #who-text { font-size: 12px; } #gname { font-size: 26px; } }
+@media (max-width: 768px) { #who-text { font-size: 14px; } #gname { font-size: 26px; } }
 .flip {
   display: block;
   transition: transform .79s var(--flip), filter .79s var(--flip), opacity .79s var(--flip);
@@ -405,7 +409,8 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
 <div id="center">
   <h1 id="name"><span class="flip" id="name-text"></span></h1>
 </div>
-<p id="who"><span class="flip"><span id="who-text" class="small"></span><span id="gname" hidden></span></span><button id="gopen" class="small" type="button" hidden>一覧を見る</button></p>
+<p id="who"><span class="flip"><span id="who-text" class="small"></span><span id="gname" hidden></span></span></p>
+<button id="gopen" class="small" type="button" hidden>一覧を見る</button>
 
 <main id="track" aria-label="作品">
   <div id="block"></div>
