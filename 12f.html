@@ -106,7 +106,9 @@ body.in-detail #names{display:none}
 .bottom a,.bottom button{pointer-events:auto}
 #big{display:block;overflow:hidden;white-space:nowrap;padding:0 15px;color:var(--tint);
   font:300 14.666vw/.72 var(--serif);letter-spacing:-.03em;font-kerning:normal;font-synthesis:none}
-#gauge{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;white-space:nowrap;font:300 100px/.72 var(--serif);letter-spacing:-.03em}
+html[data-font] #big{overflow:visible}   /* 書体を選ぶ小窓で別の書体にしたとき、文字の上下が切れないように */
+#gaugeBox{position:fixed;left:0;top:0;width:0;height:0;overflow:hidden;visibility:hidden;pointer-events:none}   /* measuring only: must never widen the page */
+#gauge{display:inline-block;white-space:nowrap;font:300 100px/.72 var(--serif);letter-spacing:-.03em}
 .row{position:relative;margin-top:22px;min-height:2.8em}
 .row > *{position:absolute;top:0;left:calc(var(--m) + var(--c,0) * var(--cell));white-space:nowrap}
 .row .mid{--c:calc(var(--cols) / 2)}
@@ -215,7 +217,7 @@ body.in-detail #names{display:none}
       <button class="r1" id="openAbout2" type="button">プロフィール</button>
     </div>
   </footer>
-  <span id="gauge" aria-hidden="true"></span>
+  <span id="gaugeBox" aria-hidden="true"><span id="gauge"></span></span>
 </div>
 
 <section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
@@ -740,7 +742,13 @@ body.in-detail #names{display:none}
   /* the address names a group (…#beauty): open its list straight away */
   var first = GROUPS[(location.hash || '').slice(1)];
   if (first && galleryOf(first).length) openDetail(first, 'direct');
+  /* the same when the address is changed by hand while the page is open */
+  window.addEventListener('hashchange', function(){
+    var g = GROUPS[(location.hash || '').slice(1)];
+    if (g && galleryOf(g).length && view === 'home' && about.hidden) openDetail(g, 'direct');
+  });
 })();
 </script>
+<script src="assets/js/fontpick.js"></script><!-- 書体を選ぶ小窓（見比べ用。決まったら外す） -->
 </body>
 </html>

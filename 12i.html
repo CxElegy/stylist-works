@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="ja" class="nf">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかりの作品集。">
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* 12I ＝ G（r1-gregor の写真の壁・真ん中の名前・「＋」）＋ B（ジャンルの写真を「本」としてめくる）。
+   色：大きな文字 tint #c4826c／小さな文字と線 ink #94584a／地は r1 と同じ生成り。 */
+@font-face {
+  font-family: "Archivo R1";
+  src: url(assets/fonts/archivo-var-latin.woff2) format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: block;
+}
+:root {
+  --paper: #F5F3F0;
+  --ink: #94584a;
+  --tint: #c4826c;
+  --page: #EFE6D5;
+  --page2: #E8DCC6;
+  --big: clamp(36px, 5.5vw, 82px);
+  --mid: clamp(21px, 3.4vw, 44px);
+  --flip: cubic-bezier(.77, 0, .175, 1);
+  --veil-ease: cubic-bezier(.5, 0, .5, 1);
+  --veil-time: .49s;
+  --plus: 32px;
+  --plus-top: 16px;
+  --pad: 16px;
+}
+@media (max-width: 768px) {
+  :root { --plus: 24px; --plus-top: 12px; --pad: 12px; }
+}
+* { box-sizing: border-box; }
+html {
+  background: var(--paper);
+  color: var(--ink);
+  scrollbar-width: none;
+  -webkit-text-size-adjust: 100%;
+  overflow-anchor: none;
+}
+html::-webkit-scrollbar { display: none; }
+html.is-locked { overflow: hidden; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Archivo R1", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+  font-weight: 800;
+  font-stretch: 71%;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; margin: 0; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+img { display: block; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.small {
+  font-family: Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+  font-weight: 400;
+  font-stretch: 100%;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+/* ---------- 写真の帯（r1 と同じ） ---------- */
+#track {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  overflow: clip;
+}
+#block { position: absolute; left: 0; top: 0; width: 100%; height: 0; }
+.ph { position: absolute; display: block; transform-origin: 50% 50%; }
+.ph img { width: 100%; height: 100%; }
+.ph[hidden] { display: none; }
+
+/* ---------- 真ん中の名前：動かない。写真の壁より上 ---------- */
+#center {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+}
+html.nf #center { visibility: hidden; }           /* 書体が届くまで出さない（出てから幅が変わらないように） */
+#name {
+  margin: 0;
+  font-size: max(36px, min(10vw, 15.5vh));
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1;
+  max-width: 90vw;
+  width: max-content;
+  white-space: nowrap;
+  color: var(--tint);
+}
+@media (max-width: 768px) {
+  #name { font-size: max(36px, min(17.5vw, 11vh)); }
+}
+#sub {
+  position: absolute;
+  left: 50%; top: 100%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center;
+  white-space: nowrap;
+}
+#who { margin: 8px 0 0; font-size: 13px; }
+#contact {
+  pointer-events: auto;
+  display: flex; align-items: center;
+  min-height: 40px; padding: 0 10px;
+  font-size: 13px;
+}
+#contact span { border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
+@media (max-width: 768px) { #who { margin-top: 6px; font-size: 12px; } #contact { font-size: 12px; } }
+
+/* ---------- 加号 ---------- */
+#toggle {
+  position: fixed;
+  left: 50%;
+  top: calc(var(--plus-top) - (44px - var(--plus)) / 2);
+  z-index: 50;
+  width: 44px; height: 44px;
+  margin: 0 0 0 -22px;
+  display: grid; place-items: center;
+}
+#plus {
+  position: relative;
+  display: block;
+  width: var(--plus); height: var(--plus);
+  transition: transform .79s var(--flip);
+}
+#plus::before, #plus::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 100%; height: 3px;
+  margin-top: -1.5px;
+  background: var(--ink);
+}
+#plus::after { transform: rotate(90deg); }
+.menu-open #plus { transform: rotate(135deg); }
+.lb-open #toggle, .lb-open #closeDetail { visibility: hidden; }
+
+/* ---------- ぼかし＋生成りの幕（メニューの後ろ） ---------- */
+#veil {
+  position: fixed; inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background-color: rgba(245, 243, 240, 0);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  transition: background-color var(--veil-time) var(--veil-ease),
+              -webkit-backdrop-filter var(--veil-time) var(--veil-ease),
+              backdrop-filter var(--veil-time) var(--veil-ease);
+}
+.veil-on #veil {
+  background-color: rgba(245, 243, 240, 1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+.veil-idle #veil { -webkit-backdrop-filter: none; backdrop-filter: none; transition: none; }
+
+/* ---------- メニュー：ジャンル ＋ プロフィール ＋ 連絡先 ---------- */
+#menu {
+  position: fixed; inset: 0;
+  z-index: 40;
+  display: flex; flex-direction: column;
+  padding: calc(var(--plus-top) + var(--plus) + 16px) var(--pad) var(--pad);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  visibility: hidden;
+  text-align: center;
+}
+.menu-open #menu, .menu-closing #menu { visibility: visible; }
+.m-items {
+  flex: 1 0 auto;
+  min-height: 34vh;
+  display: flex; flex-wrap: wrap;
+  align-items: center; align-content: center; justify-content: center;
+  gap: 0 .5em;
+  margin: 0 auto; padding: 0 0 2vh;
+  max-width: 1200px;
+  list-style: none;
+  font-size: var(--big);
+  letter-spacing: .02em;
+  line-height: 1;
+  color: var(--tint);
+}
+.m-items li { margin: 0; padding: 0; }
+.m-items a { display: block; padding: .06em 0; }
+.m-bio {
+  flex: 0 0 auto;
+  margin: 0 auto;
+  padding: 0 0 5vh;
+  max-width: 1360px;
+  font-size: var(--mid);
+  letter-spacing: .02em;
+  line-height: 1.25;
+}
+.m-bio p { margin: 0; }
+.m-bio p + p { margin-top: .6em; }
+.m-foot {
+  flex: 0 0 auto;
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px;
+  font-size: var(--mid);
+  letter-spacing: .02em;
+  line-height: 1.2;
+}
+.m-foot a { display: inline-block; min-height: 40px; }
+.m-mail { text-transform: none; }
+.m-sns { display: flex; gap: .6em; }
+.m-sns a { min-width: 40px; text-align: right; }
+.m-copy {
+  position: absolute;
+  left: 50%; bottom: var(--pad);
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+  font-size: 11px;
+}
+@media (max-width: 768px) {
+  .m-items { flex-direction: column; flex-wrap: nowrap; gap: 0; }
+  .m-items a { padding: 5px 12px; }
+  .m-copy { position: static; transform: none; margin-top: 14px; }
+}
+.ln { display: block; }
+.ln-i {
+  display: block;
+  transform: perspective(800px) translateY(50%) rotateX(-40deg);
+  filter: blur(12px);
+  opacity: 0;
+  transition: none;
+}
+.menu-open .ln-i {
+  transform: none; filter: blur(0px); opacity: 1;
+  transition: transform .79s var(--flip) var(--d, 0s), filter .79s var(--flip) var(--d, 0s), opacity .79s var(--flip) var(--d, 0s);
+}
+.menu-closing .ln-i {
+  transform: perspective(800px) translateY(-50%) rotateX(40deg);
+  filter: blur(12px); opacity: 0;
+  transition: transform .5s var(--flip), filter .5s var(--flip), opacity .5s var(--flip);
+}
+#menu a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: .12em; text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
+#menu .m-items a { text-decoration-thickness: 4px; }
+@media (max-width: 768px) { #menu .m-items a { text-decoration-thickness: 3px; } }
+#menu a:hover, #menu a:focus-visible, #menu a[aria-current] { text-decoration-color: var(--ink); }
+
+/* ---------- ジャンルの一覧：見出し ＋ 小さい写真の格子（r4-snog と同じふるまい） ---------- */
+#detail {
+  position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+  z-index: 10;
+  overflow-x: hidden; overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  opacity: 0;
+  transition: opacity .35s linear;
+}
+#detail[hidden] { display: none; }
+#detail.shown { opacity: 1; }
+#detail:focus-visible { outline: none; }
+#detail .in { max-width: 1180px; margin: 0 auto; padding: calc(var(--plus-top) + var(--plus) + 7vh) 24px 16vh; }
+#detail h2 {
+  margin: 0 0 6vh;
+  text-align: center;
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .04em;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--ink);
+}
+#detail ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3.4vw, 52px); align-items: start; grid-auto-flow: dense; }
+#detail ol li.wide { grid-column: span 2; }                 /* 見開きの誌面は 2 列ぶん */
+#detail ol li { opacity: 0; transform: translateY(18px); transition: opacity .5s ease-out, transform .5s ease-out; transition-delay: calc(var(--n, 0) * 35ms + 300ms); }
+#detail.shown ol li { opacity: 1; transform: none; }
+#detail h2, #detail .more { opacity: 0; transition: opacity .4s linear .3s; }
+#detail.shown h2, #detail.shown .more { opacity: 1; }
+#detail ol li button { display: block; width: 100%; cursor: zoom-in; }
+#detail ol li img { width: 100%; height: auto; transition: opacity .2s linear; }   /* 写真は切らない：幅に合わせて高さは成り行き */
+#detail ol li button:hover img { opacity: .8; }
+#detail .more { margin: 14vh 0 0; text-align: center; }
+#detail .more .k { margin: 0 0 20px; font-size: 13px; }
+#detail .more ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0 clamp(22px, 3.2vw, 52px); }
+#detail .more li button { font-size: var(--big); line-height: 1.2; white-space: nowrap; color: var(--tint); }
+#detail .more li button:hover, #detail .more li button:focus-visible { color: var(--ink); }
+#detail .more .c { margin: 9vh 0 0; font-size: 15px; line-height: 1.6; }
+#detail .more .c a { display: inline-block; padding: 9px 0; border-bottom: 1px solid var(--ink); }
+.x { position: relative; width: 44px; height: 44px; background: var(--paper); }
+.x::before, .x::after { content: ""; position: absolute; left: 50%; top: 50%; width: 26px; height: 2px; background: var(--ink); transform: translate(-50%, -50%) rotate(45deg); }
+.x::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.x[hidden] { display: none; }
+#closeDetail { position: fixed; right: var(--pad); top: calc(var(--plus-top) - (44px - var(--plus)) / 2); z-index: 12; }
+.in-detail #toggle { background: var(--paper); }
+
+/* ---------- 一覧／本 の切り替え ---------- */
+#viewsw { position: fixed; left: var(--pad); top: calc(var(--plus-top) - (44px - var(--plus)) / 2); z-index: 12; display: flex; background: var(--paper); }
+#viewsw[hidden] { display: none; }
+#viewsw button { min-width: 48px; height: 44px; padding: 0 10px; font-size: 13px; color: var(--ink); }
+#viewsw button span { display: inline-block; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+#viewsw button[aria-pressed="true"] span { border-bottom-color: var(--ink); }
+.lb-open #viewsw { visibility: hidden; }
+
+/* ---------- 本（B）：開いたままの本。紙を 1 枚ずつめくる。写真は切らずにページの中に収める ---------- */
+#book {
+  position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+  z-index: 11;
+  background: var(--paper);
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none; user-select: none;
+}
+#book[hidden] { display: none; }
+#book:focus-visible { outline: none; }
+.bk { position: absolute; perspective: 2600px; --pw: 300px; --th: 6px; }
+.bk::before, .bk::after {                                  /* 本の外側に見える紙の重なり（厚み） */
+  content: ""; position: absolute; top: 0;
+  left: calc(-1 * var(--th)); right: calc(-1 * var(--th)); bottom: calc(-1 * var(--th));
+  background: var(--page2);
+  box-shadow: inset 0 0 0 1px rgba(148, 88, 74, .2), 0 16px 40px rgba(90, 56, 40, .16);
+}
+.bk::after { left: calc(-.5 * var(--th)); right: calc(-.5 * var(--th)); bottom: calc(-.5 * var(--th)); box-shadow: inset 0 0 0 1px rgba(148, 88, 74, .2); }
+.bk.single::before, .bk.single::after { left: 0; }
+.pg { position: absolute; z-index: 1; top: 0; width: var(--pw); height: 100%; background: var(--page); overflow: hidden; cursor: pointer; }
+.pg.l { left: 0; }
+.pg.r { left: var(--pw); }
+.bk.single .pg.l { display: none; }
+.bk.single .pg.r { left: 0; }
+.art { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.art img { position: absolute; max-width: none; }
+/* のど（とじ目）のごく軽い陰。ページ幅の 3% だけ */
+.pg::after, .face::after { content: ""; position: absolute; top: 0; bottom: 0; width: 3%; pointer-events: none; }
+.pg.l::after, .face.b::after { right: 0; background: linear-gradient(to right, rgba(70, 45, 25, 0), rgba(70, 45, 25, .11)); }
+.pg.r::after, .face.f::after { left: 0; background: linear-gradient(to left, rgba(70, 45, 25, 0), rgba(70, 45, 25, .11)); }
+/* めくっている紙の下に落ちる、縁のやわらかい影（めくっている間だけ） */
+.cast { position: absolute; top: 0; bottom: 0; width: 0; opacity: 0; pointer-events: none; }
+.pg.l .cast { right: 0; background: linear-gradient(to left, rgba(60, 40, 20, .2) 0, rgba(60, 40, 20, .2) calc(100% - 60px), rgba(60, 40, 20, 0) 100%); }
+.pg.r .cast { left: 0; background: linear-gradient(to right, rgba(60, 40, 20, .2) 0, rgba(60, 40, 20, .2) calc(100% - 60px), rgba(60, 40, 20, 0) 100%); }
+.leaf { position: absolute; z-index: 3; top: 0; left: var(--pw); width: var(--pw); height: 100%; transform-origin: 0 50%; transform-style: preserve-3d; will-change: transform; pointer-events: none; }
+.bk.single .leaf { left: 0; }
+.leaf[hidden] { display: none; }
+.face { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: var(--page); overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.face.b { transform: rotateY(180deg); }
+.face .sh { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #3c2814; opacity: 0; }
+#bkBar { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+#bkBar button { width: 60px; height: 48px; display: flex; align-items: center; justify-content: center; }
+#bkBar button::before { content: ""; width: 14px; height: 14px; border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: translateX(4px) rotate(45deg); }
+#bkBar #bkNext::before { transform: translateX(-4px) rotate(-135deg); }
+#bkBar button:disabled { opacity: .28; cursor: default; }
+#bkCt { margin: 0; min-width: 10.5em; text-align: center; font-size: 13px; white-space: nowrap; }
+
+/* ---------- 拡大：1 枚を大きく、前へ／次へ ---------- */
+#lb {
+  position: fixed; left: 0; top: 0; width: 100%; height: 100%;
+  z-index: 60;
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity .25s linear;
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none; user-select: none;
+}
+#lb[hidden] { display: none; }
+#lb.on { opacity: 1; }
+#lb figure { flex: none; margin: auto; transition: transform .17s ease-out, opacity .17s linear; will-change: transform; }
+#lb img { max-width: calc(100vw - 2 * max(64px, 9vw) - 20px); max-height: min(86vh, calc(100vh - 96px)); width: auto; height: auto; object-fit: contain; }
+#lb .x { position: fixed; right: var(--pad); top: var(--pad); z-index: 2; }
+#lb .nv { position: fixed; top: 0; bottom: 0; width: max(64px, 9vw); z-index: 1; display: flex; align-items: center; justify-content: center; }
+#lb .pv { left: 0; }
+#lb .nx { right: 0; }
+#lb .nv::before { content: ""; width: 16px; height: 16px; border-left: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: translateX(4px) rotate(45deg); }
+#lb .nx::before { transform: translateX(-4px) rotate(-135deg); }
+#lb.one .nv { display: none; }
+#lb .ct { position: fixed; left: 0; right: 0; bottom: var(--pad); margin: 0; text-align: center; pointer-events: none; font-size: 13px; }
+.fine #lb img.can { cursor: zoom-in; }                      /* パソコン：写真を押すと元の大きさ。もう一度押すと戻る */
+#lb.zoom { overflow: auto; align-items: flex-start; }
+#lb.zoom figure { padding: 56px 0 64px; }
+#lb.zoom img { max-width: none; max-height: none; cursor: zoom-out; }
+#lb.zoom .nv, #lb.zoom .ct { display: none; }
+#lb .nv:focus-visible { outline: none; }
+#lb .nv:focus-visible::before { outline: 2px solid var(--ink); outline-offset: 12px; }
+
+@media (max-width: 768px) {
+  #detail .in { padding: calc(var(--plus-top) + var(--plus) + 44px) 10px 16vh; }
+  #detail h2 { font-size: 22px; margin-bottom: 28px; }
+  #detail ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  #detail .more .k { font-size: 12px; }
+  #detail .more .c { font-size: 14px; }
+  #lb img { max-width: calc(100vw - 20px); max-height: min(74vh, calc(100vh - 124px)); }
+  #lb .nv { top: auto; bottom: 4px; height: 52px; width: 72px; }
+  #lb .ct { bottom: 23px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body class="veil-idle">
+
+<button id="toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="メニューを開く"><span id="plus"></span></button>
+
+<div id="center">
+  <h1 id="name"></h1>
+  <div id="sub">
+    <p id="who" class="small"></p>
+    <a id="contact" class="small" href="#"><span>お問い合わせ</span></a>
+  </div>
+</div>
+
+<main id="track" aria-label="作品">
+  <div id="block"></div>
+</main>
+
+<div id="veil"></div>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
+<button id="closeDetail" class="x" type="button" aria-label="一覧を閉じる" hidden></button>
+<div id="viewsw" class="small" role="group" aria-label="見かた" hidden><button type="button" id="vGrid" aria-pressed="true"><span>一覧</span></button><button type="button" id="vBook" aria-pressed="false"><span>本</span></button></div>
+
+<section id="book" aria-label="本としてめくる" hidden tabindex="-1">
+  <div class="bk" id="bk">
+    <div class="pg l" id="pgL"><div class="art"></div><div class="cast"></div></div>
+    <div class="pg r" id="pgR"><div class="art"></div><div class="cast"></div></div>
+    <div class="leaf" id="leaf" hidden>
+      <div class="face f"><div class="art"></div><div class="sh"></div></div>
+      <div class="face b"><div class="art"></div><div class="sh"></div></div>
+    </div>
+  </div>
+  <div id="bkBar">
+    <button id="bkPrev" type="button" aria-label="前のページ"></button>
+    <p id="bkCt" class="small" aria-live="polite"></p>
+    <button id="bkNext" type="button" aria-label="次のページ"></button>
+  </div>
+</section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じる"></button>
+  <p class="ct small" aria-live="polite"></p>
+</div>
+
+<div id="menu" aria-hidden="true">
+  <ul class="m-items" id="m-items"></ul>
+  <div class="m-bio" id="m-bio"></div>
+  <div class="m-foot">
+    <a class="m-mail" id="m-mail" href="#" data-split></a>
+    <span class="m-sns" id="m-sns"></span>
+  </div>
+  <p class="m-copy small" id="m-copy" data-split></p>
+</div>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function () {
+  "use strict";
+  var doc = document, root = doc.documentElement, body = doc.body;
+  var SIZES = window.SIZES || {}, THUMBS = window.THUMBS || {}, SEL = window.SELECTION || { lead: [], groups: [] }, PROFILE = window.PROFILE || {};
+  var mqCalm = window.matchMedia("(prefers-reduced-motion: reduce)"), reduce = mqCalm.matches;
+  var mqFine = window.matchMedia("(hover: hover) and (pointer: fine)");
+  var $ = function (id) { return doc.getElementById(id); };
+  function el(tag, cls, txt) { var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function now() { return performance.now(); }
+  function small(src) { return THUMBS[src] || src; }          // 小さい画像（無いものは元の画像）
+  function narrow() { return root.clientWidth <= 768; }
+  function fine() { return mqFine.matches; }
+  function calm() { return mqCalm.matches; }
+  root.classList.toggle("fine", fine());
+  if (mqFine.addEventListener) mqFine.addEventListener("change", function () { root.classList.toggle("fine", fine()); });
+
+  /* ---------- 写真の一覧 ----------
+     1 周目の前半：SELECTION の順（lead → 各グループ）。そのあと：下の EXTRA をページを開くたびに
+     ランダムに並べて続ける。全部で 1 周期になり、あとは同じ順で繰り返す。
+     クラス（写っている人の大きさをそろえるための表示サイズ）：
+       F = 顔のアップ / B = 胸から上 / H = 半身〜ひざ上・座り / L = 全身                              */
+  var SEL_CLASS = {
+    "images/works/personal-01.jpg": "L",
+    "images/works/biteki-portrait-03.jpg": "F",
+    "images/tumblr/08-test-shoot-02.jpg": "H",
+    "images/works/personal-04.jpg": "L",
+    "images/works/biteki-neo-nude-eye.jpg": "F",
+    "images/works/biteki-portrait-01.jpg": "F",
+    "images/works/biteki-portrait-02.jpg": "F",
+    "images/works/biteki-glow-cream.jpg": "F",
+    "images/works/biteki-spring-cosme-2026.jpg": "F",
+    "images/tumblr/01-uniqlo-01.jpg": "L",
+    "images/tumblr/01-uniqlo-04.jpg": "H",
+    "images/tumblr/01-uniqlo-10.jpg": "L",
+    "images/tumblr/05-uniqlo-2-02.jpg": "L",
+    "images/tumblr/05-uniqlo-2-01.jpg": "L",
+    "images/tumblr/07-global-work-01.jpg": "L",
+    "images/tumblr/07-global-work-02.jpg": "L",
+    "images/tumblr/04-elura-06.jpg": "H",
+    "images/works/glow-lesson-1b.jpg": "L",
+    "images/tumblr/03-mi-mollet-01.jpg": "L",
+    "images/tumblr/04-elura-07.jpg": "L",
+    "images/works/orangepage-04.jpg": "B",
+    "images/tumblr/04-elura-03.jpg": "B",
+    "images/works/orangepage-05.jpg": "B",
+    "images/tumblr/03-mi-mollet-04.jpg": "B",
+    "images/tumblr/03-mi-mollet-03.jpg": "B",
+    "images/tumblr/06-kids-04.jpg": "L",
+    "images/tumblr/06-kids-06.jpg": "L",
+    "images/tumblr/06-kids-08.jpg": "L",
+    "images/tumblr/06-kids-09.jpg": "L",
+    "images/tumblr/06-kids-10.jpg": "H",
+    "images/works/personal-02.jpg": "B",
+    "images/works/personal-09.jpg": "L",
+    "images/tumblr/08-test-shoot-10.jpg": "H",
+    "images/tumblr/08-test-shoot-07.jpg": "H",
+    "images/tumblr/08-test-shoot-04.jpg": "L"
+  };
+  // 追加で流す写真（目で見て選んだもの。文字・ロゴ・誌面レイアウト・小さすぎる画像・同じ写真は入れていない）
+  var EXTRA = {
+    "images/works/uniqlo-01.jpg": "L",
+    "images/works/orangepage-01.jpg": "B",
+    "images/works/uniqlo-02.jpg": "L",
+    "images/works/orangepage-03.jpg": "B",
+    "images/works/biteki-dark-fig.jpg": "F",
+    "images/works/personal-03.jpg": "H",
+    "images/works/uniqlo-03.jpg": "L",
+    "images/works/orangepage-02.jpg": "B",
+    "images/works/biteki-best-answer-01.jpg": "F",
+    "images/works/uniqlo-04.jpg": "L",
+    "images/works/personal-05.jpg": "L",
+    "images/works/uniqlo-05.jpg": "L",
+    "images/works/orangepage-06.jpg": "B",
+    "images/works/personal-06.jpg": "L",
+    "images/works/uniqlo-06.jpg": "L",
+    "images/works/personal-07.jpg": "L",
+    "images/works/uniqlo-07.jpg": "L",
+    "images/works/biteki-korea-beauty-talk.jpg": "F",
+    "images/works/personal-08.jpg": "L",
+    "images/works/uniqlo-08.jpg": "L",
+    "images/works/biteki-cherry.jpg": "F",
+    "images/works/uniqlo-09.jpg": "L",
+    "images/works/biteki-best-answer-02.jpg": "B",
+    "images/works/uniqlo-10.jpg": "L",
+    "images/works/uniqlo-11.jpg": "L",
+    "images/works/biteki-best-answer-03.jpg": "H",
+    "images/works/uniqlo-12.jpg": "L",
+    "images/works/uniqlo-13.jpg": "L",
+    "images/tumblr/01-uniqlo-02.jpg": "L",
+    "images/tumblr/01-uniqlo-03.jpg": "L",
+    "images/tumblr/01-uniqlo-05.jpg": "L",
+    "images/tumblr/01-uniqlo-06.jpg": "L",
+    "images/tumblr/01-uniqlo-07.jpg": "L",
+    "images/tumblr/01-uniqlo-08.jpg": "L",
+    "images/tumblr/01-uniqlo-09.jpg": "L",
+    "images/tumblr/03-mi-mollet-02.jpg": "L",
+    "images/tumblr/04-elura-02.jpg": "B",
+    "images/tumblr/04-elura-04.jpg": "B",
+    "images/tumblr/04-elura-08.jpg": "H",
+    "images/tumblr/04-elura-09.jpg": "H",
+    "images/tumblr/06-kids-05.jpg": "L",
+    "images/tumblr/06-kids-07.jpg": "L",
+    "images/tumblr/08-test-shoot-06.jpg": "H",
+    "images/tumblr/08-test-shoot-08.jpg": "H",
+    "images/tumblr/08-test-shoot-09.jpg": "B"
+  };
+  var TILT_MAX_DEG = 3.5;   // 写真の傾きの最大（度）。0 にすると傾きなし（まっすぐ）に戻ります
+  var TILT_MIN_DEG = 1;     // 傾ける写真の最小の角度（度）。一部の写真は 0 度のまま
+  var EMPTY_RATE = 0.05;    // ときどき空けておくマスの割合（0 にすると空きなし）
+  var K_SIZE = { F: 0.72, B: 0.88, H: 1.0, L: 1.22 };
+  var photos = (SEL.lead || []).slice();
+  (SEL.groups || []).forEach(function (g) { photos = photos.concat(g.items || []); });
+  var N_SEL = photos.length;
+  var classOf = {};
+  photos.forEach(function (p) { classOf[p] = SEL_CLASS[p] || "H"; });
+  (function () {
+    var extra = Object.keys(EXTRA).filter(function (p) { return !(p in classOf) && SIZES[p]; });
+    for (var j = extra.length - 1; j > 0; j--) {   // このページを開いている間は同じ順
+      var r = Math.floor(Math.random() * (j + 1)); var t = extra[j]; extra[j] = extra[r]; extra[r] = t;
+    }
+    extra.forEach(function (p) { classOf[p] = EXTRA[p]; photos.push(p); });
+  })();
+  var N = photos.length;
+  var PERIODS = 200;
+
+
+  /* ---------- ジャンル：Selected ＋ SELECTION のまとまり ---------- */
+  var GROUPS = {}, GIDS = [];
+  function addG(g) { if (!g || !g.id || GROUPS[g.id]) return; GROUPS[g.id] = g; GIDS.push(g.id); }
+  addG({ id: "selected", en: "Selected", title: "", items: (SEL.lead || []).slice() });
+  (SEL.groups || []).forEach(addG);
+  function galleryOf(g) { return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  function gName(g) { return g.title || g.en || g.id; }
+
+  /* ---------- 文字（PROFILE と SELECTION にあるものだけ） ---------- */
+  $("name").textContent = PROFILE.nameEn || "Akari Ito";
+  $("who").textContent = (PROFILE.nameJa || "伊藤 あかり") + "｜スタイリスト";
+  $("m-copy").textContent = "© " + new Date().getFullYear() + " " + (PROFILE.nameJa || "");
+  GIDS.forEach(function (id) {
+    var g = GROUPS[id]; if (!galleryOf(g).length) return;
+    var li = el("li"), a = el("a", null, g.en || g.title);
+    a.href = "#" + id; a.setAttribute("data-g", id); a.setAttribute("data-split", "");
+    a.setAttribute("aria-label", gName(g) + "の作品を見る");
+    li.appendChild(a); $("m-items").appendChild(li);
+  });
+  var bioBox = $("m-bio");
+  if (PROFILE.bio && PROFILE.bio.length) { var p1 = el("p", null, PROFILE.bio.join("")); p1.setAttribute("data-split", ""); bioBox.appendChild(p1); }
+  if (PROFILE.specialty) { var p2 = el("p", null, PROFILE.specialty); p2.setAttribute("data-split", ""); bioBox.appendChild(p2); }
+  if (PROFILE.email) {
+    $("contact").href = "mailto:" + PROFILE.email;
+    $("m-mail").href = "mailto:" + PROFILE.email;
+    $("m-mail").textContent = PROFILE.email;
+  } else { $("contact").remove(); $("m-mail").remove(); }
+  if (PROFILE.instagram) {
+    var ig = el("a", null, "IG");
+    ig.href = /^https?:/.test(PROFILE.instagram) ? PROFILE.instagram : "https://www.instagram.com/" + String(PROFILE.instagram).replace(/^@/, "") + "/";
+    ig.target = "_blank"; ig.rel = "noopener";
+    ig.setAttribute("aria-label", "Instagram"); ig.setAttribute("data-split", "");
+    $("m-sns").appendChild(ig);
+  }
+
+  /* ---------- レイアウト ---------- */
+  var track = $("track"), block = $("block");
+  /* 骨組みは「列 × 行、1 列おきに半行ずらす」マス目のまま。
+     写真はマスの真ん中に置かず、マスごとに決まった量だけ上下左右にずらし、少し傾ける。
+     ずらす量と傾きはマスの番号から決まる（乱数ではない）ので、何周しても同じ場所・同じ角度。 */
+  var M = {}, COLS = 5, C = 0, ROWS = 0, TOTAL = 0, HEAD = 0, inited = false;
+  var LOOP = [], HEADS = [];
+  function rnd(seed) {
+    var t = seed >>> 0;
+    return function () {
+      t = (t + 0x6D2B79F5) >>> 0;
+      var x = t; x = Math.imul(x ^ (x >>> 15), x | 1); x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+      return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function measure() {
+    var VW = root.clientWidth, VH = window.innerHeight;
+    var m = { VW: VW, VH: VH, mobile: VW <= 768 };
+    if (m.mobile) {
+      // スマホ：3 列（左右 2 枚 → 真ん中 1 枚 → 左右 2 枚…の順に見える。左右の列は画面の端で少し切れる）。
+      // 真ん中の列の 1 マス目が画面の中央＝名前の場所
+      m.cols = 3; m.pitchX = 0.33 * VW; m.x0 = VW / 2 - m.pitchX;
+      m.pitchY = Math.round(0.735 * VH); m.y0 = VH / 2 - m.pitchY / 2;
+      m.baseH = 0.29 * VH; m.capW = 0.56 * VW;
+      m.ax = 0.05 * VW; m.ay = 0.045 * VH; m.gap = 8;
+      m.blanks = [1]; m.headRows = 2;
+    } else {
+      m.cols = 5; m.pitchX = 0.232 * VW; m.x0 = 0.036 * VW;
+      m.pitchY = Math.round(0.48667 * VH); m.y0 = VH / 75;
+      m.baseH = 0.358 * VH; m.capW = 0.212 * VW;
+      m.ax = 0.03 * VW; m.ay = 0.055 * VH; m.gap = Math.max(10, 0.011 * VW);
+      m.blanks = [2, 7]; m.headRows = 3;
+    }
+    return m;
+  }
+  function makeSlot(i, p) {
+    var o = { i: i, p: p };
+    if (p < 0) return o;
+    var s = SIZES[photos[p]] || [3, 4];
+    // 高さ ＝ 基準の高さ × クラスの係数。横は上限まで（はみ出すときは同じ比率のまま縮める）
+    var kk = K_SIZE[classOf[photos[p]]] || 1;
+    var sc = Math.min(M.capW / s[0], M.baseH * kk / s[1]);
+    o.w = s[0] * sc; o.h = s[1] * sc;
+    var g = rnd(i * 7919 + 17 + COLS * 101), r1 = g(), r2 = g(), r3 = g(), r4 = g();
+    o.dx = (r1 * 2 - 1) * M.ax; o.dy = (r2 * 2 - 1) * M.ay;
+    var tmin = Math.min(TILT_MIN_DEG, TILT_MAX_DEG);
+    o.rot = (TILT_MAX_DEG > 0 && r3 > 0.12) ? (r4 < 0.5 ? -1 : 1) * (tmin + (TILT_MAX_DEG - tmin) * (r3 - 0.12) / 0.88) : 0;
+    var rad = Math.abs(o.rot) * Math.PI / 180;
+    o.bw = o.w * Math.cos(rad) + o.h * Math.sin(rad);   // 傾けたあとの外枠
+    o.bh = o.h * Math.cos(rad) + o.w * Math.sin(rad);
+    var j = i % COLS;
+    o.bx = M.x0 + j * M.pitchX;
+    o.by = M.y0 + Math.floor(i / COLS) * M.pitchY + (j % 2 ? M.pitchY / 2 : 0);
+    return o;
+  }
+  function clamp(v, lim) { return v < -lim ? -lim : (v > lim ? lim : v); }
+  // 近すぎる 2 枚を、めり込みの小さい向きに押し離す
+  function pairFix(a, b, wrapP, moveA, moveB) {
+    var ddx = (b.bx + b.dx) - (a.bx + a.dx), ddy = (b.by + b.dy) - (a.by + a.dy);
+    if (wrapP) { if (ddy > wrapP / 2) ddy -= wrapP; else if (ddy < -wrapP / 2) ddy += wrapP; }
+    var px = (a.bw + b.bw) / 2 + M.gap - Math.abs(ddx), py = (a.bh + b.bh) / 2 + M.gap - Math.abs(ddy);
+    if (px <= 0 || py <= 0) return;
+    var n = (moveA ? 1 : 0) + (moveB ? 1 : 0); if (!n) return;
+    var limX = M.ax * 1.6, limY = M.ay * 1.6, sg, d, before;
+    var useX = px < py;
+    for (var t = 0; t < 2; t++) {
+      before = [a.dx, a.dy, b.dx, b.dy];
+      if (useX) { sg = ddx >= 0 ? 1 : -1; d = px / n; if (moveA) a.dx = clamp(a.dx - sg * d, limX); if (moveB) b.dx = clamp(b.dx + sg * d, limX); }
+      else { sg = ddy >= 0 ? 1 : -1; d = py / n; if (moveA) a.dy = clamp(a.dy - sg * d, limY); if (moveB) b.dy = clamp(b.dy + sg * d, limY); }
+      if (Math.abs(a.dx - before[0]) + Math.abs(a.dy - before[1]) + Math.abs(b.dx - before[2]) + Math.abs(b.dy - before[3]) > 0.5) break;
+      useX = !useX;   // その向きにもう動けないときは、もう一方の向きで
+    }
+  }
+  function obstacles() {
+    var out = [];
+    ["name", "who", "contact", "toggle"].forEach(function (id) {
+      var r = $(id).getBoundingClientRect(), g = id === "name" ? Math.max(8, M.gap) : 6;
+      if (r.width > 0) out.push({ l: r.left - g, t: r.top - g, r: r.right + g, b: r.bottom + g });
+    });
+    return out;
+  }
+  function computeLayout() {
+    COLS = M.cols;
+    HEAD = M.headRows * COLS;
+    var e = Math.round(N * EMPTY_RATE);
+    while ((N + e) % COLS) e++;
+    C = N + e; ROWS = C / COLS; TOTAL = C * 2;
+    M.P = ROWS * M.pitchY;
+    // 空けておくマス（最初の画面には作らない。空き同士は離す）
+    var empty = {}, g = rnd(4242 + COLS), tries = 0, got = 0;
+    while (got < e && tries++ < 2000) {
+      var idx = HEAD + COLS + Math.floor(g() * (C - HEAD - COLS)), ok = !empty[idx];
+      for (var q in empty) { var dq = Math.abs(idx - q); if (Math.min(dq, C - dq) < COLS * 2) ok = false; }
+      if (tries > 1500) ok = !empty[idx];
+      if (ok) { empty[idx] = true; got++; }
+    }
+    var nb = M.blanks.length, cnt = 0, i, it, r, j, rr, jj, a, b;
+    LOOP = [];
+    for (i = 0; i < C; i++) LOOP.push(makeSlot(i, empty[i] ? -1 : (((cnt++ - nb) % N) + N) % N));
+    for (it = 0; it < 80; it++) {
+      for (i = 0; i < C; i++) {
+        a = LOOP[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = r - 1; rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          b = LOOP[((rr + ROWS) % ROWS) * COLS + jj];
+          if (b === a || b.p < 0) continue;
+          pairFix(a, b, M.P, true, true);
+        }
+      }
+    }
+    // それでも重なりが残った組は、2 枚ともマスの真ん中へ少しずつ戻す（真ん中同士なら重ならない）
+    for (it = 0; it < 30; it++) {
+      var left = 0;
+      for (i = 0; i < C; i++) {
+        a = LOOP[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = r - 1; rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          b = LOOP[((rr + ROWS) % ROWS) * COLS + jj];
+          if (b === a || b.p < 0) continue;
+          var ex = (b.bx + b.dx) - (a.bx + a.dx), ey = (b.by + b.dy) - (a.by + a.dy);
+          if (ey > M.P / 2) ey -= M.P; else if (ey < -M.P / 2) ey += M.P;
+          if ((a.bw + b.bw) / 2 + 3 - Math.abs(ex) > 0 && (a.bh + b.bh) / 2 + 3 - Math.abs(ey) > 0) {
+            a.dx *= 0.7; a.dy *= 0.7; b.dx *= 0.7; b.dy *= 0.7; left++;
+          }
+        }
+      }
+      if (!left) break;
+    }
+    // 開いた直後の 1 周目だけ：真ん中の列に空きを作り、名前・小さい字・加号にかからないようにする
+    HEADS = []; cnt = 0;
+    for (i = 0; i < HEAD; i++) HEADS.push(makeSlot(i, M.blanks.indexOf(i) >= 0 ? -1 : cnt++));
+    var obs = obstacles();
+    for (it = 0; it < 80; it++) {
+      for (i = 0; i < HEAD; i++) {
+        a = HEADS[i]; if (a.p < 0) continue;
+        r = Math.floor(i / COLS); j = i % COLS;
+        for (rr = Math.max(0, r - 1); rr <= r + 1; rr++) for (jj = Math.max(0, j - 2); jj <= Math.min(COLS - 1, j + 2); jj++) {
+          var k2 = rr * COLS + jj;
+          b = k2 < HEAD ? HEADS[k2] : LOOP[k2];
+          if (!b || b === a || b.p < 0) continue;
+          pairFix(a, b, 0, true, k2 < HEAD);
+        }
+        for (var o = 0; o < obs.length; o++) {
+          var ob = obs[o], cx = a.bx + a.dx, cy = a.by + a.dy;
+          var px = Math.min(cx + a.bw / 2 - ob.l, ob.r - (cx - a.bw / 2)), py = Math.min(cy + a.bh / 2 - ob.t, ob.b - (cy - a.bh / 2));
+          if (px <= 0 || py <= 0) continue;
+          if (py <= px) a.dy += (cy < (ob.t + ob.b) / 2 ? -py : py); else a.dx += (cx < (ob.l + ob.r) / 2 ? -px : px);
+        }
+      }
+    }
+  }
+  var cells = [];
+  var ready = {};   // 写真番号 → もう読み込みを始めてよい
+  function build() {
+    block.textContent = ""; cells = [];
+    var frag = doc.createDocumentFragment();
+    for (var i = 0; i < TOTAL; i++) {
+      var b = doc.createElement("button");
+      b.type = "button"; b.className = "ph";
+      var img = doc.createElement("img");
+      img.alt = ""; img.decoding = "async"; img.draggable = false;
+      b.appendChild(img);
+      frag.appendChild(b);
+      cells.push({ el: b, img: img, p: -2, i: i });
+    }
+    block.appendChild(frag);
+  }
+  function assign(c, k) {
+    var d = (k === 0 && c.i < HEAD) ? HEADS[c.i] : LOOP[c.i % C];
+    var p = d.p, el = c.el;
+    if (p !== c.p) {
+      c.p = p;
+      if (p >= 0) {
+        c.img.removeAttribute("src");
+        if (ready[p]) c.img.src = small(photos[p]);
+        var s = SIZES[photos[p]];
+        if (s) { c.img.width = s[0]; c.img.height = s[1]; }
+        el.setAttribute("aria-label", "作品写真 " + (p + 1) + " を大きく表示");
+        el.dataset.p = p;
+      }
+    }
+    if (p < 0) { el.hidden = true; return; }
+    el.hidden = false;
+    c.w = d.bw; c.h = d.bh;
+    c.cx = d.bx + d.dx; c.cy = d.by + d.dy + (c.i >= C ? M.P : 0);
+    c.rest = d.rot ? "rotate(" + d.rot.toFixed(2) + "deg)" : "";
+    el.style.left = (c.cx - d.w / 2) + "px";
+    el.style.top = (c.cy - d.h / 2) + "px";
+    el.style.width = d.w + "px";
+    el.style.height = d.h + "px";
+    el.style.transform = c.rest;
+  }
+  var curK = -1;
+  function setK(k) {
+    if (k === curK) return;
+    var headChange = (curK <= 0) !== (k <= 0) || curK < 0;
+    curK = k;
+    block.style.top = (k * M.P) + "px";
+    if (headChange) for (var i = 0; i < HEAD; i++) assign(cells[i], k);
+  }
+  // 2 周期ぶんの帯を、画面がいつもその真ん中あたりに来るように周期単位でずらす
+  function kFor(s) { return Math.max(0, Math.floor((s - M.P / 2) / M.P)); }
+  /* 壁の写真は小さい画像（無いものは元の画像）。拡大したときに元の画像を読む。
+     画像は近いものから読む：画面の前後 3 画面ぶんはすぐ、残りは開場のあと順番に全部 */
+  function show(p) {
+    if (ready[p]) return;
+    ready[p] = true;
+    for (var i = 0; i < TOTAL; i++) if (cells[i].p === p && !cells[i].img.getAttribute("src")) cells[i].img.src = small(photos[p]);
+  }
+  function ensureNear() {
+    var top = window.pageYOffset - curK * M.P, lo = top - 3 * M.VH, hi = top + 4 * M.VH;
+    for (var i = 0; i < TOTAL; i++) { var c = cells[i]; if (c.p >= 0 && !ready[c.p] && c.cy + c.h / 2 > lo && c.cy - c.h / 2 < hi) show(c.p); }
+  }
+  var bgAt = 0, bgBusy = 0;
+  function loadRest() {
+    while (bgBusy < 3 && bgAt < N) {
+      var p = bgAt++;
+      if (ready[p]) continue;
+      bgBusy++;
+      (function (p) {
+        var im = new Image();
+        im.onload = im.onerror = function () { bgBusy--; show(p); loadRest(); };
+        im.src = small(photos[p]);
+      })(p);
+    }
+  }
+  function layout(k) {
+    M = measure();
+    computeLayout();
+    if (cells.length !== TOTAL) build();
+    track.style.height = (M.P * PERIODS) + "px";
+    curK = k;
+    for (var i = 0; i < TOTAL; i++) assign(cells[i], k);
+    block.style.top = (k * M.P) + "px";
+  }
+
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
+  /* ---------- 終わりのないスクロール ---------- */
+  var idleT = 0;
+  function onScroll() {
+    if (!inited) return;
+    var s = window.pageYOffset;
+    setK(kFor(s));
+    ensureNear();
+    clearTimeout(idleT);
+    idleT = setTimeout(rewind, 220);
+  }
+  // 帯の終わりに近づいたら、止まっているときに周期の整数倍だけ巻き戻す（見た目は変わらない）
+  function rewind() {
+    var s = window.pageYOffset;
+    if (s > M.P * (PERIODS - 6)) {
+      var s2 = 2 * M.P + (s % M.P);
+      setK(kFor(s2));
+      window.scrollTo(0, s2);
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  var lastW = root.clientWidth, lastH = window.innerHeight, rT = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () {
+      if (!inited) return;
+      var w = root.clientWidth, h = window.innerHeight;
+      // スマホのアドレスバーの出入り（幅は同じで高さだけ少し変わる）では並べ直さない
+      if (w === lastW && Math.abs(h - lastH) < 160 && w <= 768) return;
+      if (w === lastW && h === lastH) return;
+      var ratio = window.pageYOffset / M.P;
+      lastW = w; lastH = h;
+      M = measure(); computeLayout();
+      var s = ratio * M.P;
+      layout(kFor(s));
+      window.scrollTo(0, s);
+      ensureNear();
+      splitAll();
+    }, 120);
+  });
+
+
+  var introDone = true, skipAt = -1e9;
+
+  var view = "home", direct = false, cur = null, lbOn = false;
+  var detail = $("detail"), list = detail.querySelector("ol"), dhead = detail.querySelector("h2"), more = detail.querySelector(".more");
+
+  function init() {
+    if (inited) return;
+    inited = true;
+    root.classList.remove("nf");
+    lastW = root.clientWidth; lastH = window.innerHeight;
+    layout(0);
+    ensureNear();
+    window.scrollTo(0, 0);
+    if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(splitAll); else splitAll();
+    var first = GROUPS[(location.hash || "").slice(1)];
+    if (first && galleryOf(first).length) openDetail(first, "direct");   // …#beauty：一覧を直接開く
+    loadRest();
+  }
+
+  /* ---------- メニュー：行ごとに分ける ---------- */
+  var menu = $("menu"), toggle = $("toggle");
+  function splitAll() {
+    var groups = menu.querySelectorAll("[data-split]"), gi = 0;
+    Array.prototype.forEach.call(groups, function (el) {
+      var text = el.getAttribute("data-text");
+      if (text === null) { text = el.textContent; el.setAttribute("data-text", text); }
+      el.textContent = "";
+      var spans = [];
+      Array.from(text).forEach(function (ch) {
+        var s = doc.createElement("span"); s.textContent = ch; el.appendChild(s); spans.push(s);
+      });
+      var lines = [], top = null;
+      spans.forEach(function (s) {
+        var t = s.offsetTop;
+        if (top === null || Math.abs(t - top) > 2) { lines.push(""); top = t; }
+        lines[lines.length - 1] += s.textContent;
+      });
+      el.textContent = "";
+      lines.forEach(function (ln, li) {
+        var o = doc.createElement("span"); o.className = "ln";
+        var inr = doc.createElement("span"); inr.className = "ln-i";
+        inr.style.setProperty("--d", (gi * 0.06 + li * 0.015).toFixed(3) + "s");
+        inr.textContent = ln;
+        o.appendChild(inr); el.appendChild(o);
+      });
+      gi++;
+    });
+  }
+
+
+  /* ---------- 本（B）：ジャンルの写真を、開いた本のページとしてめくる ----------
+     パソコン：見開き（左ページ・右ページ）。横長（比 1.25 より大）は左右 2 ページにまたがる。
+     スマホ：1 ページずつ（横長も 1 ページの中に全体を収める）。
+     めくり：1 枚の紙（表＝いまの右ページ、裏＝次の左ページ）が、のどを軸に右から左へ回る。
+     ゆっくり持ち上がり（全体の 35% の時間で 25°、75% で垂直）、速く落ちる。跳ね返りなし。
+     平らな写真から「物が立ち上がる」ことはできないので、それは入れていない（本とページめくりだけ）。 */
+  var BK = (function () {
+    var book = $("book"), bk = $("bk"), pgL = $("pgL"), pgR = $("pgR"), leaf = $("leaf");
+    var aL = pgL.querySelector(".art"), aR = pgR.querySelector(".art"), cL = pgL.querySelector(".cast"), cR = pgR.querySelector(".cast");
+    var fF = leaf.querySelector(".face.f"), fB = leaf.querySelector(".face.b");
+    var aF = fF.querySelector(".art"), aB = fB.querySelector(".art"), sF = fF.querySelector(".sh"), sB = fB.querySelector(".sh");
+    var prevB = $("bkPrev"), nextB = $("bkNext"), ct = $("bkCt");
+    var T = 850;                       // 1 回のめくり（ミリ秒）
+    var on = false, spreads = [], pos = 0, single = false, pw = 0, ph = 0, th = 6, ratio = 0.75;
+    var turning = false, queued = 0, raf = 0, ang = 0, have = {}, tok = 0, label = "", gen = "";
+    var log = [];
+    function rOf(src) { var z = SIZES[src]; return z ? z[0] / z[1] : 0.75; }
+    function plan(items) {
+      spreads = [];
+      var tall = items.map(rOf).filter(function (r) { return r <= 1.25; }).sort(function (a, b) { return a - b; });
+      ratio = tall.length ? Math.max(0.66, Math.min(0.8, tall[Math.floor(tall.length / 2)])) : 0.75;
+      if (single) { items.forEach(function (src, n) { spreads.push({ l: null, r: { src: src, part: "full", n: n } }); }); return; }
+      var open = null;
+      items.forEach(function (src, n) {
+        if (rOf(src) > 1.25) {                       // 見開き：左半分と右半分を、となり合う 2 ページに
+          if (open) { spreads.push(open); open = null; }
+          spreads.push({ l: { src: src, part: "L", n: n }, r: { src: src, part: "R", n: n } });
+        } else if (!open) open = { l: { src: src, part: "full", n: n }, r: null };
+        else { open.r = { src: src, part: "full", n: n }; spreads.push(open); open = null; }
+      });
+      if (open) spreads.push(open);
+    }
+    function measure() {
+      var W = root.clientWidth, H = window.innerHeight;
+      var top = single ? 58 : 76, bot = 62;
+      th = single ? 3 : 6;
+      var ah = H - top - bot - th;
+      var aw = single ? W - 24 - th : Math.min(W * 0.9, W - 48) / 2;
+      pw = Math.max(40, Math.floor(Math.min(aw, ah * ratio)));
+      ph = Math.round(pw / ratio);
+      var bw = single ? pw : pw * 2;
+      bk.classList.toggle("single", single);
+      bk.style.setProperty("--pw", pw + "px"); bk.style.setProperty("--th", th + "px");
+      bk.style.width = bw + "px"; bk.style.height = ph + "px";
+      bk.style.left = Math.round((W - bw - (single ? th : 0)) / 2) + "px";
+      bk.style.top = Math.round(top + (ah - ph) / 2) + "px";
+    }
+    // 1 ページぶんの面を描く。写真は切らない：ページ（見開きは 2 ページ）の中に、元の比率のまま収める。元の大きさの 1.25 倍より大きくはしない
+    function draw(art, f) {
+      art.textContent = "";
+      if (!f) return;
+      var z = SIZES[f.src] || [3, 4], two = f.part !== "full", boxW = two ? pw * 2 : pw;
+      var k = Math.min(boxW / z[0], ph / z[1], 1.25);
+      var w = Math.round(z[0] * k), h = Math.round(z[1] * k);
+      if (two && w % 2) w -= 1;
+      var im = doc.createElement("img");
+      im.decoding = "sync"; im.draggable = false;
+      im.alt = f.part === "R" ? "" : label + " " + (f.n + 1);
+      im.style.width = w + "px"; im.style.height = h + "px";
+      im.style.left = (two ? (pw * 2 - w) / 2 - (f.part === "R" ? pw : 0) : Math.round((pw - w) / 2)) + "px";
+      im.style.top = Math.round((ph - h) / 2) + "px";
+      im.src = f.src;
+      art.appendChild(im);
+    }
+    function two(n) { return (n < 10 ? "0" : "") + n; }
+    function srcsOf(sp) { var o = []; if (sp) { if (sp.l) o.push(sp.l.src); if (sp.r && (!sp.l || sp.r.src !== sp.l.src)) o.push(sp.r.src); } return o; }
+    function load(src) {
+      if (have[src]) return have[src];
+      have[src] = new Promise(function (ok) {
+        var im = new Image();
+        im.onload = function () { (im.decode ? im.decode() : Promise.resolve()).then(function () { have[src].done = 1; ok(); }, function () { have[src].done = 1; ok(); }); };
+        im.onerror = function () { have[src].done = 1; ok(); };
+        im.src = src;
+      });
+      return have[src];
+    }
+    function render() {
+      var sp = spreads[pos];
+      draw(aL, sp.l); draw(aR, sp.r);
+      leaf.hidden = true; aF.textContent = ""; aB.textContent = "";
+      cL.style.opacity = "0"; cR.style.opacity = "0";
+      ct.textContent = gen + "　" + two(pos + 1) + " / " + two(spreads.length);
+      prevB.disabled = pos <= 0; nextB.disabled = pos >= spreads.length - 1;
+      [pos + 1, pos - 1, pos + 2].forEach(function (i) { srcsOf(spreads[i]).forEach(load); });   // 次に使う写真は先に読んでおく
+    }
+    // 時間（0〜1）→ 紙の角度（0°＝右に平ら、180°＝左に平ら）
+    function curve(t) {
+      if (t <= 0) return 0; if (t >= 1) return 180;
+      if (t < 0.75) return 90 * Math.pow(t / 0.75, 1.68);
+      var u = (t - 0.75) / 0.25;
+      return 90 + 90 * (0.56 * u + 0.44 * u * u);
+    }
+    function pose(a) {
+      ang = a;
+      leaf.style.transform = "rotateY(" + (-a).toFixed(3) + "deg)";
+      var rad = a * Math.PI / 180, s = Math.sin(rad), c = Math.abs(Math.cos(rad));
+      sF.style.opacity = sB.style.opacity = (0.18 * s).toFixed(3);          // 空中の紙は少しだけ暗く（黒くしない）
+      var w = Math.min(pw, pw * c + 60) + "px";
+      if (a < 90) { cR.style.width = w; cR.style.opacity = a > 0 ? "1" : "0"; cL.style.opacity = "0"; }
+      else { cL.style.width = w; cL.style.opacity = a < 180 ? "1" : "0"; cR.style.opacity = "0"; }
+    }
+    function go(dir) {
+      if (!on) return;
+      var to = pos + dir;
+      if (to < 0 || to >= spreads.length) return;
+      if (turning) { queued = dir; return; }           // めくっている途中：1 回ぶんだけ覚えておき、終わってから続ける
+      if (calm()) { pos = to; render(); return; }       // 動きを減らす設定：めくる動きなしで切り替える
+      turning = true;
+      var my = ++tok, a = spreads[Math.min(pos, to)], b = spreads[Math.max(pos, to)];
+      var need = srcsOf(a).concat(srcsOf(b)).map(load), started = false;
+      function start() {
+        if (started || my !== tok || !on) return; started = true;
+        // 紙の表＝手前の見開きの右ページ、裏＝後ろの見開きの左ページ。下に見えるのは、手前の左ページと後ろの右ページ
+        draw(aF, a.r); draw(aB, b.l); draw(aL, a.l); draw(aR, b.r);
+        pose(dir > 0 ? 0 : 180);
+        leaf.hidden = false;
+        var t0 = 0; log = [];
+        raf = requestAnimationFrame(function frame() {
+          if (my !== tok || !on) return;
+          var t = now(); if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / T), g = curve(p);
+          pose(dir > 0 ? g : 180 - g);
+          log.push([Math.round((t - t0) * 10) / 10, Math.round(g * 100) / 100]);
+          if (p < 1) { raf = requestAnimationFrame(frame); return; }
+          pos = to; render(); turning = false;
+          if (queued) { var q = queued; queued = 0; go(q); }
+        });
+      }
+      if (need.every(function (p) { return p.done; })) start();
+      else { Promise.all(need).then(start); setTimeout(start, 900); }
+    }
+    function build(keepSrc) {
+      tok++; cancelAnimationFrame(raf); turning = false; queued = 0;
+      single = narrow();
+      label = cur.label; gen = cur.g.en || cur.g.title || "";
+      plan(cur.items);
+      pos = 0;
+      if (keepSrc) spreads.forEach(function (sp, i) { if (srcsOf(sp).indexOf(keepSrc) >= 0) pos = i; });
+      measure(); render();
+      var q = cur.items.slice(), busy = 0;                 // このジャンルの写真を順に読んでおく
+      (function next() { while (busy < 2 && q.length) { busy++; load(q.shift()).then(function () { busy--; next(); }); } })();
+    }
+    function open(fromPop) {
+      if (on || !cur || view !== "detail") return;
+      on = true;
+      build();
+      book.hidden = false;
+      sync();
+      nextB.disabled ? $("vBook").focus({ preventScroll: true }) : nextB.focus({ preventScroll: true });
+      if (!fromPop) { try { var st = { g: cur.g.id, book: 1 }; if (direct) st.direct = 1; history.pushState(st, "", "#" + cur.g.id); } catch (err) {} }
+    }
+    function close(fromPop) {
+      if (!on) return;
+      on = false; tok++; cancelAnimationFrame(raf); turning = false; queued = 0;
+      book.hidden = true; leaf.hidden = true;
+      sync();
+      $("vBook").focus({ preventScroll: true });
+      if (!fromPop) { try { if (history.state && history.state.book) history.back(); } catch (err) {} }
+    }
+    prevB.addEventListener("click", function () { go(-1); });
+    nextB.addEventListener("click", function () { go(1); });
+    // ページを押す：右のページ（スマホは画面の右半分）で次へ、左で前へ
+    book.addEventListener("click", function (e) {
+      if (e.target.closest("#bkBar")) return;
+      var r = bk.getBoundingClientRect(), x = e.clientX, y = e.clientY;
+      if (single) { if (y < r.top || y > r.bottom) return; go(x > root.clientWidth / 2 ? 1 : -1); return; }
+      if (x < r.left || x > r.right || y < r.top || y > r.bottom) return;
+      go(x > r.left + r.width / 2 ? 1 : -1);
+    });
+    var sw = null;
+    book.addEventListener("touchstart", function (e) { sw = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY, dx: 0, dy: 0 } : null; }, { passive: true });
+    book.addEventListener("touchmove", function (e) { if (sw) { sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y; } }, { passive: true });
+    function end() { var q = sw; sw = null; if (q && Math.abs(q.dx) >= 40 && Math.abs(q.dx) > Math.abs(q.dy) * 1.2) go(q.dx < 0 ? 1 : -1); }
+    book.addEventListener("touchend", end);
+    book.addEventListener("touchcancel", function () { sw = null; });
+    var rz = 0;
+    window.addEventListener("resize", function () {
+      clearTimeout(rz);
+      rz = setTimeout(function () { if (!on) return; var sp = spreads[pos], k = sp ? srcsOf(sp)[0] : null; build(k); }, 120);
+    });
+    return {
+      on: function () { return on; }, open: open, close: close, go: go,
+      refill: function () { if (on) build(); },
+      info: function () { return { on: on, pos: pos, n: spreads.length, single: single, pw: pw, ph: ph, th: th, ratio: ratio, turning: turning, queued: queued, angle: ang, T: T, log: log, spreads: spreads }; }
+    };
+  })();
+  $("vBook").addEventListener("click", function () { BK.open(false); });
+  $("vGrid").addEventListener("click", function () { BK.close(false); });
+
+  var menuOpen = false, closeT = 0;
+  function setInert(elm, on) { if (!elm) return; if (on) elm.setAttribute("inert", ""); else elm.removeAttribute("inert"); }
+  function sync() {
+    var d = view === "detail";
+    root.classList.toggle("is-locked", menuOpen || d || lbOn);
+    setInert(track, menuOpen || d || lbOn);
+    setInert($("sub"), menuOpen || d || lbOn);
+    var bo = BK.on();
+    setInert(detail, menuOpen || lbOn || bo);
+    setInert($("book"), menuOpen);
+    setInert(menu, !menuOpen);
+    body.classList.toggle("in-book", bo);
+    $("viewsw").hidden = !d;
+    $("vGrid").setAttribute("aria-pressed", bo ? "false" : "true");
+    $("vBook").setAttribute("aria-pressed", bo ? "true" : "false");
+    $("closeDetail").setAttribute("aria-label", bo ? "本を閉じて一覧に戻る" : "一覧を閉じる");
+    body.classList.toggle("in-detail", d);
+    body.classList.toggle("lb-open", lbOn);
+    $("closeDetail").hidden = !d;
+    Array.prototype.forEach.call(menu.querySelectorAll("[data-g]"), function (a) {
+      if (d && cur && cur.g.id === a.getAttribute("data-g")) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+  }
+  sync();
+  function openMenu() {
+    if (menuOpen || lbOn) return;
+    menuOpen = true;
+    clearTimeout(closeT);
+    body.classList.remove("veil-idle", "menu-closing");
+    void menu.offsetWidth;
+    body.classList.add("menu-open", "veil-on");
+    menu.setAttribute("aria-hidden", "false");
+    menu.scrollTop = 0;
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "メニューを閉じる");
+    sync();
+  }
+  function closeMenu() {
+    if (!menuOpen) return;
+    menuOpen = false;
+    body.classList.remove("menu-open", "veil-on");
+    body.classList.add("menu-closing");
+    menu.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "メニューを開く");
+    sync();
+    closeT = setTimeout(function () {
+      body.classList.remove("menu-closing");
+      body.classList.add("veil-idle");
+    }, calm() ? 0 : 600);
+  }
+  toggle.addEventListener("click", function () { if (menuOpen) closeMenu(); else openMenu(); });
+  // メニューのジャンル名：そのジャンルの一覧を開く
+  menu.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("[data-g]") : null;
+    if (!a) return;
+    e.preventDefault();
+    var g = GROUPS[a.getAttribute("data-g")];
+    if (view === "detail") { if (cur.g !== g) swapDetail(g, true); }
+    else openDetail(g, "push");
+    closeMenu();
+    detail.focus({ preventScroll: true });
+  });
+  // メニューや拡大が開いている間、後ろのページは動かさない
+  function blockScroll(e) {
+    if (menuOpen) { if (menu.scrollHeight > menu.clientHeight + 1 && menu.contains(e.target)) return; e.preventDefault(); }
+    else if (lbOn && !lb.classList.contains("zoom") && e.type === "touchmove" && e.touches.length === 1) e.preventDefault();
+  }
+  window.addEventListener("wheel", blockScroll, { passive: false });
+  window.addEventListener("touchmove", blockScroll, { passive: false });
+
+  /* ---------- ジャンルの一覧 ---------- */
+  function fillDetail(g) {
+    var items = galleryOf(g);
+    list.textContent = "";
+    dhead.textContent = "— " + (g.en || g.title) + " —";
+    if (g.title) dhead.setAttribute("aria-label", g.title); else dhead.removeAttribute("aria-label");
+    cur = { g: g, items: items, btns: [], label: gName(g) };
+    items.forEach(function (src, n) {
+      var li = el("li"), sz = SIZES[src];
+      li.style.setProperty("--n", Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = "wide";
+      var b = el("button"); b.type = "button"; b.setAttribute("aria-label", gName(g) + " " + (n + 1) + " を拡大表示");
+      var im = el("img"); im.alt = ""; im.decoding = "async"; im.draggable = false;
+      if (n > 5) im.loading = "lazy";
+      if (sz) { im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src);                                   // 一覧は小さい画像、拡大は元の画像
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener("click", function () { openLb(cur, n); });
+      cur.btns.push(b);
+    });
+    // 一覧の最後：ほかのジャンルへ、そしてお問い合わせへ
+    more.textContent = "";
+    more.appendChild(el("p", "k small", "ほかの作品"));
+    var ul = el("ul");
+    GIDS.forEach(function (id) {
+      var o = GROUPS[id]; if (o === g || !galleryOf(o).length) return;
+      var li = el("li"), b = el("button", null, o.en || o.title); b.type = "button"; b.setAttribute("aria-label", gName(o) + "の作品を見る");
+      b.addEventListener("click", function () { swapDetail(o, false); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PROFILE.email) { var c = el("p", "c small"), m = el("a", null, "お仕事のご相談・お問い合わせ"); m.href = "mailto:" + PROFILE.email; c.appendChild(m); more.appendChild(c); }
+    BK.refill();                                             // 本を開いたままジャンルを替えたとき
+  }
+  // how: "push"（壁から）, "direct"（アドレスがジャンルを指していた）, "pop"（戻る／進む）
+  function openDetail(g, how) {
+    fillDetail(g);
+    view = "detail"; direct = how === "direct";
+    detail.classList.remove("shown");
+    detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add("shown");
+    sync();
+    detail.focus({ preventScroll: true });
+    try {
+      if (how === "direct") history.replaceState({ g: g.id, direct: 1 }, "", "#" + g.id);
+      else if (how !== "pop") history.pushState({ g: g.id }, "", "#" + g.id);
+    } catch (err) {}
+  }
+  function swapDetail(g, quick) {
+    if (view !== "detail" || lbOn) return;
+    function go() {
+      if (view !== "detail") return;
+      fillDetail(g);
+      detail.scrollTop = 0;
+      void detail.offsetWidth; detail.classList.add("shown");
+      sync();
+      detail.focus({ preventScroll: true });
+      try { var st = { g: g.id }; if (direct) st.direct = 1; if (BK.on()) st.book = 1; history.replaceState(st, "", "#" + g.id); } catch (err) {}
+    }
+    detail.classList.remove("shown");
+    if (quick || calm() || BK.on()) go(); else setTimeout(go, 260);
+  }
+  function closeDetail(fromPop) {
+    if (view !== "detail") return;
+    if (!fromPop && now() - lbShut < 450) return;      // 拡大を閉じるつもりの 2 回めの操作で一覧まで閉じない
+    if (lbOn) closeLb(true);
+    var wasBook = BK.on();
+    if (wasBook) BK.close(true);
+    view = "home";
+    detail.hidden = true; detail.classList.remove("shown"); list.textContent = ""; cur = null;
+    sync();
+    if (!fromPop) { try {
+      var st = history.state;
+      if (st && st.g) { if (direct || st.direct) history.replaceState(null, "", location.pathname + location.search); else history.go(st.lb || (wasBook && st.book) ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    toggle.focus({ preventScroll: true });
+  }
+  $("closeDetail").addEventListener("click", function () { if (BK.on()) BK.close(false); else closeDetail(false); });   // 本を見ているときの × は一覧へ戻る
+  window.addEventListener("popstate", function (e) {
+    var g = e.state && e.state.g ? GROUPS[e.state.g] : null;
+    var wantBook = !!(g && e.state.book);
+    if (lbOn) closeLb(true);
+    if (BK.on() && !wantBook) BK.close(true);
+    if (view === "detail" && !g) closeDetail(true);
+    else if (view === "detail" && g && cur.g !== g) { fillDetail(g); detail.scrollTop = 0; sync(); }
+    else if (view === "home" && g) { if (menuOpen) closeMenu(); openDetail(g, "pop"); }
+    if (wantBook && view === "detail" && !BK.on()) BK.open(true);
+  });
+  window.addEventListener("hashchange", function () {          // アドレスを手で書き換えたとき
+    var g = GROUPS[(location.hash || "").slice(1)];
+    if (!g || !galleryOf(g).length || (history.state && history.state.g)) return;
+    try { history.replaceState({ g: g.id }, "", "#" + g.id); } catch (err) {}
+    if (view === "detail") { if (cur.g !== g) { fillDetail(g); detail.scrollTop = 0; sync(); } }
+    else { if (menuOpen) closeMenu(); openDetail(g, "pop"); }
+  });
+
+  /* ---------- 拡大：1 枚を大きく、前へ／次へ、スワイプ ----------
+     一覧から開いたときはそのジャンルの中を、壁の写真から開いたときは壁の並び順で前後に送る。 */
+  var lb = $("lb"), lbFig = lb.querySelector("figure"), lbImg = lb.querySelector("img"), lbCt = lb.querySelector(".ct");
+  var lbPrev = lb.querySelector(".pv"), lbNext = lb.querySelector(".nx"), lbX = lb.querySelector(".x");
+  var S = null, lbOrder = [], lbPos = 0, lbTok = 0, got = {}, lbSrc = "", lbShut = 0;
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  // 一覧で見えている順（上の段から、左から）
+  function seenOrder(btns) {
+    var r = btns.map(function (b, i) { var q = b.getBoundingClientRect(); return { i: i, t: Math.round(q.top), l: q.left }; });
+    r.sort(function (a, b) { return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function (o) { return o.i; });
+  }
+  function full(src, then) { if (got[src]) { if (then) then(); return; } var f = new Image(); f.onload = function () { got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit() {
+    var sz = SIZES[lbSrc];
+    if (!sz) { lbImg.style.width = ""; lbImg.style.height = ""; lbImg.classList.remove("can"); return; }
+    if (lb.classList.contains("zoom")) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + "px"; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + "px";
+    lbImg.classList.toggle("can", !narrow() && k < 0.84);
+  }
+  function lbZoom(on) {
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains("can"))) return;
+    lb.classList.toggle("zoom", !!on);
+    if (on) {
+      if (lbImg.getAttribute("src") !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + "px"; lbImg.style.height = "auto";
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener("click", function () { if (fine() && !narrow()) lbZoom(!lb.classList.contains("zoom")); });
+  window.addEventListener("resize", function () { if (lbOn) lbFit(); });
+  function lbShow(pos, dir, fromX) {
+    if (lb.classList.contains("zoom")) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = S.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);
+    lbCt.textContent = two(lbPos + 1) + " / " + two(n);
+    function place() {
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src;
+      lbFit();
+      lbImg.src = first; lbImg.alt = S.label + " " + (lbOrder[lbPos] + 1);
+      if (first !== src) full(src, function () { if (my === lbTok && lbOn && lbImg.getAttribute("src") !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = "none";
+      if (quiet) { lbFig.style.transform = ""; lbFig.style.opacity = ""; void lbFig.offsetWidth; lbFig.style.transition = ""; return; }
+      lbFig.style.transform = "translate3d(" + (dir * 28) + "px,0,0)"; lbFig.style.opacity = "0";
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ""; lbFig.style.transform = ""; lbFig.style.opacity = "";
+    }
+    if (quiet) place();
+    else {
+      lbFig.style.transition = "";
+      lbFig.style.transform = "translate3d(" + ((fromX || 0) - dir * 28).toFixed(1) + "px,0,0)"; lbFig.style.opacity = "0";
+      var t0 = now(), went = false, pre = new Image();
+      var go = function () { if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function (d) { var k = S.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  // set: { items[], label, btns[]（一覧のとき）, btn（壁のとき） }
+  function openLb(set, n) {
+    if (lbOn || menuOpen) return;
+    S = set;
+    lbOrder = set.btns ? seenOrder(set.btns) : set.items.map(function (x, i) { return i; });
+    lbOn = true; lb.hidden = false; lb.classList.remove("on");
+    lb.classList.toggle("one", lbOrder.length < 2);
+    lbX.setAttribute("aria-label", set.btns ? "閉じて一覧に戻る" : "閉じる");
+    sync();
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add("on");
+    lbX.focus({ preventScroll: true });
+    try { if (view === "detail") history.pushState({ g: cur.g.id, lb: 1 }, "", "#" + cur.g.id); else history.pushState({ lb: 1 }, ""); } catch (err) {}
+  }
+  function closeLb(fromPop) {
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove("on"); lb.classList.remove("zoom");
+    sync();
+    setTimeout(function () { if (!lbOn) { lb.hidden = true; lbImg.removeAttribute("src"); lbSrc = ""; lbFit(); lbFig.style.transform = ""; lbFig.style.opacity = ""; } }, calm() ? 0 : 260);
+    var b = S && (S.btns ? S.btns[lbOrder[lbPos]] : S.btn);
+    if (b && b.isConnected) { if (S.btns && b.scrollIntoView) b.scrollIntoView({ block: "nearest" }); b.focus({ preventScroll: true }); }
+    if (!fromPop) { try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener("click", function () { closeLb(false); });
+  lbPrev.addEventListener("click", function () { lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener("click", function () { lbShow(lbPos + 1, 1); });
+  lb.addEventListener("click", function (e) {             // 写真の外
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains("zoom")) lbZoom(false); else closeLb(false);
+  });
+  var sw = null;
+  lb.addEventListener("touchstart", function (e) {
+    sw = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY, dx: 0, dy: 0, lock: "" } : null;
+  }, { passive: true });
+  lb.addEventListener("touchmove", function (e) {
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? "x" : "y";
+    if (sw.lock === "x" && lbOrder.length > 1) { lbFig.style.transition = "none"; lbFig.style.transform = "translate3d(" + sw.dx.toFixed(1) + "px,0,0)"; }
+  }, { passive: true });
+  function swEnd() {
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = "";
+    if (q.lock === "x" && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = "";
+  }
+  lb.addEventListener("touchend", swEnd);
+  lb.addEventListener("touchcancel", swEnd);
+
+  /* ---------- 壁の写真を押す：その写真を拡大（前後は壁の並び順） ---------- */
+  block.addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".ph") : null;
+    if (!b || !introDone || now() - skipAt < 400) return;
+    openLb({ items: photos, label: "作品写真", btn: b }, parseInt(b.dataset.p, 10));
+  });
+
+  doc.addEventListener("keydown", function (e) {
+    if (lbOn) {
+      if (e.key === "Escape") { if (lb.classList.contains("zoom")) lbZoom(false); else closeLb(false); }
+      else if (e.key === "ArrowLeft") lbShow(lbPos - 1, -1);
+      else if (e.key === "ArrowRight") lbShow(lbPos + 1, 1);
+      else if (e.key === "Tab") {                          // キーボードの移動は拡大の中だけ
+        var f = [lbPrev, lbNext, lbX].filter(function (b) { return b.getClientRects().length > 0; });   // 「一枚だけ」のときは × だけ
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    if (e.target && e.target.closest && e.target.closest(".fp")) return;   // 書体を選ぶ小窓の中の操作は見ない
+    if (BK.on() && !menuOpen) {
+      if (e.key === "ArrowRight") { e.preventDefault(); BK.go(1); return; }
+      if (e.key === "ArrowLeft") { e.preventDefault(); BK.go(-1); return; }
+      if (e.key === "Escape" || e.key === "Esc") { BK.close(false); return; }
+    }
+    if (e.key !== "Escape" && e.key !== "Esc") return;
+    if (menuOpen) { closeMenu(); toggle.focus(); }
+    else if (view === "detail") closeDetail(false);
+  });
+
+  window.__i12 = { book: function () { return BK.info(); }, metrics: function () { return M; }, layoutInfo: function () { return { cols: COLS, cells: C, rows: ROWS, head: HEAD, period: M.P }; }, photos: N, order: photos,
+    state: function () { return { k: curK, view: view, lb: lbOn, menu: menuOpen, book: BK.on(), group: cur ? cur.g.id : null }; } };
+  (function () {
+    var f = doc.fonts && doc.fonts.load ? doc.fonts.load('800 40px "Archivo R1"', "AKARI") : null;
+    if (f && f.then) f.then(init, init);
+    setTimeout(init, 1200);
+  })();
+})();
+</script>
+<script src="assets/js/fontpick.js"></script>
+</body>
+</html>
