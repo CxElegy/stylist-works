@@ -329,7 +329,7 @@ function clearTiles(){var id;for(id in tiles){inner.removeChild(tiles[id].el);}t
 function measure(first){
   var w=doc.documentElement.clientWidth, h=window.innerHeight;
   if(!first&&W){ox*=w/W;oy*=w/W;}
-  W=w;H=h;S=W<768?1.7:1;SPEED=W<768?32:28;G=W/3;PAD=.03*W;PW=COLS*G;PH=ROWS*G;
+  W=w;H=h;S=W<768?2:1;SPEED=W<768?32:28;G=W/3;PAD=.03*W;PW=COLS*G;PH=ROWS*G;
   inner.style.setProperty('--dot',(.06*W/S)+'px');
   if(first){ox=-.62*G*S;oy=-.38*G*S;}
   clearTiles();kx=Math.floor(-ox/(S*PW));ky=Math.floor(-oy/(S*PH));OX=kx*PW;OY=ky*PH;
@@ -346,7 +346,7 @@ function rectFor(C,R){
 function makeTile(C,R,id,cut){
   var q=rectFor(C,R), e=doc.createElement('div'), img=new Image(), dot=doc.createElement('i');
   e.className='t';e.style.cssText='left:'+(q.x-OX)+'px;top:'+(q.y-OY)+'px;width:'+q.w+'px;height:'+q.h+'px;--c:'+q.ph.c;
-  e.setAttribute('data-i',q.ph.i);
+  e.setAttribute('data-i',q.ph.i);e.setAttribute('data-k',id);
   img.alt='';img.draggable=false;
   var t={el:e,q:q,seen:false,seenAt:0,age:0};
   if(cut&&ready[q.ph.sm]){
