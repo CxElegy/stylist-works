@@ -741,7 +741,11 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     var nb = M.blanks.length, cnt = 0, i, it, r, j, rr, jj, a, b, q;
     var LOOP = [], HEADS = [], g = rnd(977 + COLS * 13 + n), use = [];
     for (q = 0; q < n; q++) use.push(0);
-    for (i = 0; i < C; i++) LOOP.push(makeSlot(i, EMPTY[i] ? -1 : (isAll ? (((cnt++ - nb) % N) + N) % N : pick(LOOP, i, n, g, use)), list));
+    var base = isAll ? null : layoutSet(SETS.all);   // ジャンルの組は「ぜんぶ」の壁と同じ場所から始め、重なるところだけ動かす
+    for (i = 0; i < C; i++) {
+      LOOP.push(makeSlot(i, EMPTY[i] ? -1 : (isAll ? (((cnt++ - nb) % N) + N) % N : pick(LOOP, i, n, g, use)), list));
+      if (base && LOOP[i].p >= 0 && base.LOOP[i].p >= 0) { LOOP[i].dx = base.LOOP[i].dx; LOOP[i].dy = base.LOOP[i].dy; }
+    }
     for (it = 0; it < 80; it++) {
       for (i = 0; i < C; i++) {
         a = LOOP[i]; if (a.p < 0) continue;
@@ -773,7 +777,10 @@ button { font: inherit; color: inherit; letter-spacing: inherit; text-transform:
     }
     // 開いた直後の 1 周目だけ：真ん中の列に空きを作り、名前・小さい字・加号にかからないようにする
     cnt = 0; for (q = 0; q < n; q++) use[q] = 0;
-    for (i = 0; i < HEAD; i++) HEADS.push(makeSlot(i, M.blanks.indexOf(i) >= 0 ? -1 : (isAll ? cnt++ : pick(HEADS, i, n, g, use)), list));
+    for (i = 0; i < HEAD; i++) {
+      HEADS.push(makeSlot(i, M.blanks.indexOf(i) >= 0 ? -1 : (isAll ? cnt++ : pick(HEADS, i, n, g, use)), list));
+      if (base && HEADS[i].p >= 0 && base.HEADS[i].p >= 0) { HEADS[i].dx = base.HEADS[i].dx; HEADS[i].dy = base.HEADS[i].dy; }
+    }
     for (it = 0; it < 80; it++) {
       for (i = 0; i < HEAD; i++) {
         a = HEADS[i]; if (a.p < 0) continue;
