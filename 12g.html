@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<style>
+@font-face{font-family:"G Serif";src:url("assets/fonts/frank-ruhl-libre-latin.woff2") format("woff2");font-weight:300;font-style:normal;font-display:block}
+@font-face{font-family:"G Sans";src:url("assets/fonts/inter-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+
+:root{
+  --paper:rgb(244,244,239);
+  --paper0:rgba(244,244,239,0);
+  --tint:#a39166;          /* 大きな文字（下の一行・ジャンル名の列） */
+  --ink:#786850;           /* 小さな文字・線・点・指しているジャンル名 */
+  --cols:12;--m:20px;--fs:13px;
+  --cell:calc((100vw - 2 * var(--m)) / var(--cols));
+  --serif:"G Serif","Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --sans:"G Sans","Helvetica Neue",Arial,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",Meiryo,sans-serif;
+  --row:44px;              /* スマホのジャンル名1行の高さ */
+}
+@media (max-width:767px){:root{--cols:6;--fs:12px}}
+@media (max-width:500px){:root{--cols:4;--m:16px}}
+@media (max-width:359px){:root{--fs:11px}}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--paper)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scrollbar-width:none}
+html::-webkit-scrollbar,#detail::-webkit-scrollbar{display:none}
+body{color:var(--ink);font:400 var(--fs)/1.4 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+a,button{color:inherit;font:inherit;text-decoration:none}
+button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0;text-align:left}
+img{display:block;border:0}
+p,h1,h2,ul,ol{margin:0;padding:0;font:inherit}
+ul,ol{list-style:none}
+:focus{outline:none}
+:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+[hidden]{display:none !important}
+.s{font:400 var(--fs)/1.4 var(--sans);white-space:nowrap}
+
+/* ---------- top row ---------- */
+#top{position:fixed;z-index:30;left:0;top:0;width:100%;height:48px;padding:0 var(--m);display:flex;align-items:center;justify-content:space-between;gap:8px;pointer-events:none}
+#top > *{pointer-events:auto}
+#top .id{display:flex;align-items:center;min-height:44px}
+#top .links{display:flex;align-items:center;gap:0 18px}
+#top .links a,#top .links button{display:flex;align-items:center;min-height:44px}
+@media (hover:hover){#top .links a:hover,#top .links button:hover{text-decoration:underline;text-underline-offset:4px}}
+.x{position:relative;width:44px;height:44px;margin-right:-10px;flex:none}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+body.in-detail #top{background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 60%,var(--paper0) 100%);height:64px;padding-bottom:16px}
+
+/* ---------- first screen ---------- */
+#home{position:fixed;left:0;top:0;width:100%;height:100%;display:flex;flex-direction:column;padding-top:48px}
+#mid{position:relative;flex:1 1 auto;min-height:0;display:flex}
+#dots{position:absolute;z-index:2;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+#dots i{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--ink);
+  left:calc(var(--m) + var(--i) * var(--cell) - 1px);top:calc(var(--m) + var(--r) * var(--cell) - 1px)}
+
+/* list: the left 40% of the width; object: 54% wide, centred at 67% */
+#side{position:relative;z-index:3;flex:none;width:40vw;display:flex;flex-direction:column;justify-content:center;padding-left:calc(var(--m) + var(--cell) - 22px)}
+#menu{display:block;touch-action:none;-webkit-user-select:none;user-select:none}
+#menu button{position:relative;display:block;width:100%;height:var(--line);padding:0 0 0 22px;font:300 var(--lfs)/var(--line) var(--serif);letter-spacing:-.02em;color:var(--tint);white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:none}
+#menu button::before{content:"";position:absolute;left:0;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;border:0 solid var(--ink)}
+#menu button[aria-current="true"]{color:var(--ink)}
+#menu button[aria-current="true"]::before{border-width:1px}
+#menu button:focus-visible{outline-offset:-2px}
+#menu button.wait{pointer-events:none}
+#side{--line:min(7.2vh,6vw);--lfs:calc(var(--line) * .78)}
+#hint{position:relative;z-index:3;padding:14px 0 0 22px;white-space:nowrap}
+#hint .t{display:none}
+
+#obj{position:relative;z-index:1;flex:none;width:54vw;display:flex;align-items:center;justify-content:center;padding:6px 0 14px}
+#shot{position:relative;display:block;flex:none;-webkit-tap-highlight-color:transparent}
+#shot img{position:absolute;left:0;top:0;visibility:hidden;-webkit-user-drag:none;user-select:none}
+#shot img.on{visibility:visible}
+
+/* the pinned line */
+#big{position:relative;z-index:3;flex:none;margin:0;padding:0 0 .21em;text-align:center;white-space:nowrap;pointer-events:none;
+  font:300 14.666vw/.72 var(--serif);letter-spacing:-.03em;color:var(--tint)}
+#gauge{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;white-space:nowrap;font:300 100px/.72 var(--serif);letter-spacing:-.03em}
+
+/* ---------- phones: photo on top, list below, the line at the bottom ---------- */
+@media (max-width:767px){
+  #mid{flex-direction:column}
+  #obj{order:1;width:100%;flex:1 1 auto;min-height:0;padding:4px var(--m) 6px}
+  #side{order:2;width:100%;display:block;padding:0 var(--m)}
+  #side{--line:var(--row);--lfs:31px}
+  #hint{padding:0 0 5px 22px;line-height:18px}
+  #hint .t{display:inline}
+  #hint .p{display:none}
+}
+@media (hover:none){
+  #hint .t{display:inline}
+  #hint .p{display:none}
+}
+
+/* ---------- category view: heading + grid of thumbnails ---------- */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:10;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:var(--paper);opacity:0;transition:opacity .3s linear}
+#detail.shown{opacity:1}
+#detail .in{max-width:1180px;margin:0 auto;padding:118px var(--m) 16vh}
+#detail h2{margin:0 0 6vh;text-align:center;font:300 clamp(26px,3vw,42px)/1 var(--serif);letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
+#detail ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail ol li.wide{grid-column:span 2}                    /* 見開きの誌面は2列ぶん */
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 300ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail h2,#detail .more{opacity:0;transition:opacity .4s linear .3s}
+#detail.shown h2,#detail.shown .more{opacity:1}
+#detail:focus-visible{outline:none}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
+@media (hover:hover){#detail ol li button:hover img{opacity:.8}}
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 20px}
+#detail .more ul{display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(22px,3.2vw,52px)}
+#detail .more li button{font:300 clamp(34px,5.2vw,72px)/1.25 var(--serif);letter-spacing:-.02em;white-space:nowrap;color:var(--tint);min-height:44px}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink)}
+#detail .more .c{margin:9vh 0 0;font-size:15px;line-height:1.6}
+#detail .more .c a{display:inline-block;padding:16px 0 4px;border-bottom:1px solid var(--ink)}
+
+/* ---------- lightbox: one photo large ---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:var(--paper);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .x{position:fixed;right:var(--m);top:8px;margin:0;z-index:2;background:rgba(244,244,239,.92);border-radius:50%}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb.one .nv{display:none}
+#lb .ct{position:fixed;left:0;right:0;bottom:20px;margin:0;text-align:center;pointer-events:none}
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
+
+/* ---------- profile ---------- */
+#about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;background:var(--paper);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#about .x{position:fixed;right:var(--m);top:2px;margin:0}
+#about .in{max-width:36em;margin:0 auto;padding:18vh var(--m) 12vh}
+#about h2{margin:0 0 .35em;font:300 min(16vw,150px)/.9 var(--serif);letter-spacing:-.03em;color:var(--tint)}
+#about p{margin:0 0 1.4em;font-size:15px;line-height:1.9}
+#about p.k{margin-bottom:2.4em;font-size:var(--fs);line-height:1.4}
+#about a{border-bottom:1px solid var(--ink)}
+
+@media (max-width:767px){
+  #detail .in{padding:96px var(--m) 16vh}
+  #detail h2{font-size:26px;margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+}
+@media (prefers-reduced-motion:reduce){
+  #detail,#detail li,#detail li img,#lb,#lb figure,#detail h2,#detail .more{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <h1 class="id s"><a id="homeLink" href="#top"></a></h1>
+  <div class="links">
+    <button class="s" id="openAbout" type="button">プロフィール</button>
+    <a class="s" id="mail" href="#">お問い合わせ</a>
+    <button class="x" id="closeDetail" type="button" aria-label="一覧を閉じる" hidden></button>
+  </div>
+</header>
+
+<main id="home">
+  <div id="mid">
+    <div id="side">
+      <nav id="menu" aria-label="ジャンル"></nav>
+      <p id="hint" class="s"><span class="p">クリックで一覧へ</span><span class="t">なぞると写真が切り替わります。もう一度押すと一覧へ</span></p>
+    </div>
+    <div id="obj"><a id="shot" href="#selected"></a></div>
+    <div id="dots" aria-hidden="true"></div>
+  </div>
+  <p id="big" aria-hidden="true"></p>
+  <span id="gauge" aria-hidden="true"></span>
+</main>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct s" aria-live="polite"></p>
+</div>
+
+<section id="about" aria-label="プロフィール" hidden tabindex="-1">
+  <button class="x" id="closeAbout" type="button" aria-label="閉じる"></button>
+  <div class="in"></div>
+</section>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SEL = window.SELECTION || {lead:[],groups:[]};
+  var SIZES = window.SIZES || {};
+  var THUMBS = window.THUMBS || {};
+  var PRO = window.PROFILE || {};
+  var doc = document, body = doc.body, root = doc.documentElement;
+  function $(id){ return doc.getElementById(id); }
+  function el(tag, cls, txt){ var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function now(){ return performance.now(); }
+
+  /* ---------- groups: Selected + the six in data/selection.js ---------- */
+  var GROUPS = {}, ORDER = [];
+  GROUPS.selected = { id:'selected', title:'セレクト', en:'Selected', items:(SEL.lead || []).slice() };
+  ORDER.push(GROUPS.selected);
+  (SEL.groups || []).forEach(function(g){ GROUPS[g.id] = g; ORDER.push(g); });
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  function small(src){ return THUMBS[src] || src; }
+
+  /* ---------- environment ---------- */
+  var mqNarrow = window.matchMedia('(max-width:767px)');
+  var mqFine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var mqCalm = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function narrow(){ return mqNarrow.matches; }
+  function calm(){ return mqCalm.matches; }
+  function fine(){ return mqFine.matches; }
+  function syncFine(){ root.classList.toggle('fine', fine()); }
+  syncFine();
+  if (mqFine.addEventListener) mqFine.addEventListener('change', syncFine);
+
+  /* ---------- text ---------- */
+  var nameEn = PRO.nameEn || 'Akari Ito', nameJa = PRO.nameJa || '伊藤 あかり';
+  $('homeLink').textContent = nameJa + '｜スタイリスト';
+  if (PRO.email) $('mail').href = 'mailto:' + PRO.email; else $('mail').hidden = true;
+
+  /* ---------- the first screen: list + one photo + the pinned line ---------- */
+  var home = $('home'), menu = $('menu'), obj = $('obj'), shot = $('shot'), big = $('big'), gauge = $('gauge'), dots = $('dots');
+  var HOLD_FIRST = 1200, HOLD = 1300;          /* a pointed genre: first step after 1.2 s, then one photo every 1.3 s */
+  var lines = [];                               /* { g, btn, shots:[{src,img,ok}], at } */
+  var cur = null;                               /* the line on show */
+  var named = false;                            /* false until something has been pointed at: the pinned line reads her name */
+  var active = false, stepT = 0;
+
+  ORDER.forEach(function(g){
+    var srcs = (g.items && g.items.length ? g.items : galleryOf(g)).slice();
+    if (!srcs.length) return;
+    var b = el('button', null, g.en || g.title); b.type = 'button';
+    b.setAttribute('aria-label', g.title + 'の作品を見る'); b.setAttribute('aria-current', 'false');
+    b.className = 'wait'; menu.appendChild(b);
+    var L = { g:g, btn:b, at:0, shots:srcs.map(function(s){ return { src:s, img:null, ok:false }; }) };
+    b._line = L; lines.push(L);
+  });
+  function lineOf(g){ for (var i = 0; i < lines.length; i++) if (lines[i].g === g) return lines[i]; return null; }
+
+  /* a genre's first photo arrives as its small file, then the full one takes its place; the line answers as soon as either is decoded */
+  function mount(L, k, done){
+    var s = L.shots[k]; if (s.img) return;
+    var th = (k === 0 && THUMBS[s.src] && THUMBS[s.src] !== s.src) ? THUMBS[s.src] : null;
+    function make(u, cb){
+      var im = el('img'); im.alt = L.g.title + ' ' + (k + 1); im.decoding = 'sync'; im.draggable = false;
+      im.onload = function(){ if (im.decode) im.decode().then(function(){ cb(im, true); }, function(){ cb(im, true); }); else cb(im, true); };
+      im.onerror = function(){ cb(im, false); };
+      im.src = u; return im;
+    }
+    function put(im){
+      var old = s.img; s.img = im; size(s);
+      if (old && old.parentNode){
+        if (old.classList.contains('on')){ im.classList.add('on'); if (onImg === old) onImg = im; }
+        shot.replaceChild(im, old);
+      } else shot.appendChild(im);
+    }
+    function answer(ok){ if (ok) s.ok = true; if (k === 0) L.btn.classList.remove('wait'); }
+    function fullOne(){
+      var f = make(s.src, function(im, ok){ if (ok && s.img !== im) put(im); answer(ok); if (done) done(); });
+      if (!s.img) put(f);
+    }
+    if (th) put(make(th, function(im, ok){ if (ok && s.img === im) answer(true); fullOne(); }));
+    else fullOne();
+  }
+  /* each photo is fitted whole into the object area (never cropped, never stretched; a small file is not blown up past 1.5x) */
+  var area = { w:0, h:0 };
+  function size(s){
+    if (!s.img || !area.w) return;
+    var z = SIZES[s.src] || (s.img.naturalWidth ? [s.img.naturalWidth, s.img.naturalHeight] : [3, 4]);
+    var k = Math.min(area.w / z[0], area.h / z[1], SIZES[s.src] ? 1.5 : 1e9);
+    s.w = Math.max(1, Math.round(z[0] * k)); s.h = Math.max(1, Math.round(z[1] * k));
+    s.img.style.width = s.w + 'px'; s.img.style.height = s.h + 'px';
+  }
+  function frame(){ var s = cur && cur.shots[cur.at]; if (s && s.w){ shot.style.width = s.w + 'px'; shot.style.height = s.h + 'px'; } }
+  var onImg = null;
+  /* the swap: photo and name change together, at once, with nothing in between */
+  function show(L, k){
+    var s = L.shots[k]; if (!s.img) mount(L, k);
+    if (onImg && onImg !== s.img) onImg.classList.remove('on');
+    s.img.classList.add('on'); onImg = s.img;
+    if (cur !== L){ if (cur) cur.btn.setAttribute('aria-current', 'false'); L.btn.setAttribute('aria-current', 'true'); }
+    cur = L; L.at = k; frame();
+    shot.href = '#' + L.g.id; shot.setAttribute('aria-label', L.g.title + 'の作品を見る');
+    var t = named ? (L.g.en || L.g.title) : nameEn;
+    if (big.textContent !== t) big.textContent = t;
+  }
+  function point(L){
+    if (L.btn.classList.contains('wait')) return;      /* its photo is not ready yet */
+    named = true;
+    if (L !== cur || big.textContent === nameEn) show(L, L === cur ? L.at : 0);
+    active = true; arm(HOLD_FIRST);
+  }
+  function rest(){ active = false; clearTimeout(stepT); }
+  function arm(ms){
+    clearTimeout(stepT);
+    if (calm() || !active) return;
+    stepT = setTimeout(step, ms);
+  }
+  function step(){
+    if (!active || !cur || view !== 'home' || !about.hidden || doc.hidden) return;
+    var L = cur, n = L.shots.length;
+    for (var d = 1; d < n; d++){ var k = (L.at + d) % n; if (L.shots[k].ok){ show(L, k); break; } }
+    arm(HOLD);
+  }
+
+  /* pointing: mouse over a line, keyboard focus on it, or a finger on it (also while it slides down the list) */
+  var touch = null, lastType = '';
+  function lineAt(x, y){ var e = doc.elementFromPoint(x, y); e = e && e.closest ? e.closest('#menu button') : null; return e ? e._line : null; }
+  menu.addEventListener('pointerover', function(e){
+    if (e.pointerType === 'touch') return;
+    var b = e.target.closest ? e.target.closest('button') : null; if (b && b._line) point(b._line);
+  });
+  menu.addEventListener('pointerleave', function(e){ if (e.pointerType !== 'touch') rest(); });
+  menu.addEventListener('pointerdown', function(e){
+    lastType = e.pointerType;
+    if (e.pointerType !== 'touch') return;
+    var L = lineAt(e.clientX, e.clientY); if (!L) return;
+    touch = { id:e.pointerId, first:L, was:(L === cur), slid:false };
+    point(L);
+  });
+  menu.addEventListener('pointermove', function(e){
+    if (!touch || e.pointerId !== touch.id) return;
+    var L = lineAt(e.clientX, e.clientY);
+    if (L && L !== cur){ touch.slid = true; point(L); }
+    else if (L && L !== touch.first) touch.slid = true;
+  });
+  function touchEnd(e){ if (touch && e.pointerId === touch.id){ var t = touch; touch = null; setTimeout(function(){ if (tapped === t) tapped = null; }, 400); tapped = t; } }
+  var tapped = null;
+  menu.addEventListener('pointerup', touchEnd);
+  menu.addEventListener('pointercancel', function(e){ if (touch && e.pointerId === touch.id) touch = null; });
+  menu.addEventListener('touchmove', function(e){ e.preventDefault(); }, { passive:false });   /* the page stays put under a sliding finger */
+  menu.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('button') : null; if (!b || !b._line) return;
+    if (lastType === 'touch' && e.detail !== 0){
+      var t = tapped; tapped = null;
+      if (!t || t.slid || !t.was || t.first !== b._line) return;      /* the first touch only points; a tap on the line already on show opens it */
+    }
+    pick(b._line);
+  });
+  menu.addEventListener('focusin', function(e){ var b = e.target; if (b._line && b.matches(':focus-visible')) point(b._line); });
+  menu.addEventListener('focusout', function(){ if (!touch) rest(); });
+  menu.addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    var b = doc.activeElement, i = b && b._line ? lines.indexOf(b._line) : -1; if (i < 0) return;
+    var j = Math.max(0, Math.min(lines.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)));
+    e.preventDefault(); lines[j].btn.focus();
+  });
+  shot.addEventListener('click', function(e){ e.preventDefault(); if (cur) pick(cur); });
+  shot.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+  /* ---------- layout: the pinned line as wide as the screen, the dots, the photo sizes ---------- */
+  var NAMES = [nameEn].concat(lines.map(function(L){ return L.g.en || L.g.title; }));
+  function cssNum(n){ return parseFloat(getComputedStyle(root).getPropertyValue(n)); }
+  var dotKey = '';
+  function layout(){
+    var W = root.clientWidth, H = window.innerHeight, m = cssNum('--m'), cols = cssNum('--cols');
+    /* the longest of the names fills the width; every name uses that one size */
+    var widest = 0;
+    NAMES.forEach(function(t){ gauge.textContent = t; widest = Math.max(widest, gauge.getBoundingClientRect().width); });
+    gauge.textContent = '';
+    if (widest > 0) big.style.fontSize = Math.min(100 * (W - 2 * m) / widest, H * 0.40).toFixed(2) + 'px';
+    /* a dot on every crossing of the grid */
+    var cell = (W - 2 * m) / cols, rows = Math.floor(($('mid').clientHeight - m - 1) / cell) + 1, key = cols + 'x' + rows;
+    if (key !== dotKey){
+      dotKey = key;
+      var f = doc.createDocumentFragment();
+      for (var r = 0; r < rows; r++) for (var i = 0; i <= cols; i++){ var d = doc.createElement('i'); d.style.cssText = '--i:' + i + ';--r:' + r; f.appendChild(d); }
+      dots.textContent = ''; dots.appendChild(f);
+    }
+    var cs = getComputedStyle(obj);
+    area.w = obj.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    area.h = obj.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    lines.forEach(function(L){ L.shots.forEach(size); });
+    frame();
+  }
+  window.addEventListener('resize', layout);
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(layout);
+
+  /* ---------- start: Selected on show, her name on the line; each line answers once its photo is ready ---------- */
+  big.textContent = nameEn;
+  layout();
+  var left = lines.length;
+  lines.forEach(function(L){ mount(L, 0, function(){ if (--left === 0) later(); }); });
+  if (lines.length) show(lines[0], 0);
+  /* the other photos of each genre arrive one at a time, the genre on show first */
+  function later(){
+    var pick = null, order = cur ? [cur].concat(lines) : lines;
+    for (var i = 0; i < order.length && !pick; i++) for (var k = 0; k < order[i].shots.length; k++) if (!order[i].shots[k].img){ pick = [order[i], k]; break; }
+    if (pick) mount(pick[0], pick[1], later);
+  }
+
+  /* ---------- category view: heading + grid of thumbnails ---------- */
+  var view = 'home';
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
+  var open1 = null;                    /* { g, items[], btns[] } while a category is open */
+  var direct = false;                  /* this visit began on a group's own address (…#beauty) */
+  function pick(L){ if (view !== 'home') return; openDetail(L.g); }
+  function fillDetail(g){
+    var items = galleryOf(g);
+    list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    open1 = { g:g, items:items, btns:[] };
+    items.forEach(function(src, n){
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src); im.setAttribute('data-src', src);      /* 一覧は小さい画像、拡大は元の画像 */
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      open1.btns.push(b);
+    });
+    more.textContent = '';
+    more.appendChild(el('p', 'k s', 'ほかの作品'));
+    var ul = el('ul');
+    ORDER.forEach(function(o){
+      if (o === g || !galleryOf(o).length) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', null, 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: undefined (from the first screen), 'direct' (the address already named the group), 'pop' (back / forward) */
+  function openDetail(g, how){
+    rest();
+    var L = lineOf(g); if (L){ named = true; if (L !== cur) show(L, 0); else show(L, L.at); }   /* the first screen waits underneath on this genre */
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    body.classList.add('in-detail');
+    home.style.visibility = 'hidden'; home.setAttribute('aria-hidden', 'true');
+    $('openAbout').hidden = true; $('mail').hidden = true; $('closeDetail').hidden = false;
+    detail.classList.remove('shown');
+    detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add('shown');
+    detail.focus({ preventScroll:true });           /* so the arrow / page keys scroll the list */
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  /* from one group's list straight to another's (the links after the last photo) */
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      var L = lineOf(g); if (L) show(L, 0);
+      fillDetail(g);
+      detail.scrollTop = 0;
+      void detail.offsetWidth; detail.classList.add('shown');
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
+  }
+  function closeDetail(fromPop){
+    if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
+    if (lbOn) closeLb(true);
+    view = 'home';
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; open1 = null;
+    body.classList.remove('in-detail');
+    home.style.visibility = ''; home.removeAttribute('aria-hidden');
+    $('openAbout').hidden = false; $('mail').hidden = !PRO.email; $('closeDetail').hidden = true;
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    layout();
+    if (cur) cur.btn.focus({ preventScroll:true });
+  }
+  $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
+  $('top').addEventListener('wheel', function(e){ if (view === 'detail' && !lbOn) detail.scrollTop += e.deltaY; }, { passive:true });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;                /* still inside a category after this step back */
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) closeDetail(true);
+    else if (view === 'detail' && keep && open1 && open1.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; }
+    else if (view === 'home' && keep && GROUPS[e.state.g] && about.hidden) openDetail(GROUPS[e.state.g], 'pop');   /* forward again into a group */
+  });
+
+  /* ---------- lightbox: one photo large, previous / next, swipe ---------- */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0;
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  /* the order the thumbnails are seen in (row by row, left to right); a spread that moves down a row changes it */
+  function seenOrder(){
+    var r = open1.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  var got = {}, lbSrc = '', lbShut = 0;
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);            /* worth enlarging to its own size */
+  }
+  /* wide screens with a mouse: a click on the photo shows it at its own size, a second click fits it again */
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
+  function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = open1.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);                        /* what can be shown straight away */
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = open1.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function(d){ var k = open1.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  function openLb(n){
+    if (!open1 || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    try { history.pushState({ g:open1.g.id, lb:1 }, '', '#' + open1.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); lb.classList.remove('zoom');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    var b = open1 && open1.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){            /* the paper around the photo */
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
+
+  /* ---------- profile ---------- */
+  var about = $('about');
+  (function(){
+    var box = about.querySelector('.in');
+    box.appendChild(el('h2', null, nameEn));
+    box.appendChild(el('p', 'k', nameJa + '｜スタイリスト'));
+    if (PRO.lead) box.appendChild(el('p', null, PRO.lead));
+    (PRO.bio || []).forEach(function(line){ box.appendChild(el('p', null, line)); });
+    if (PRO.specialty) box.appendChild(el('p', null, PRO.specialty));
+    if (PRO.email){ var p = el('p'); var m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; p.appendChild(m); box.appendChild(p); }
+    if (PRO.instagram){ var p2 = el('p'); var ig = el('a', null, 'Instagram'); ig.href = PRO.instagram; ig.rel = 'noopener'; p2.appendChild(ig); box.appendChild(p2); }
+  })();
+  var aboutFrom = null;
+  function openAbout(){ rest(); aboutFrom = doc.activeElement; about.hidden = false; about.scrollTop = 0; $('closeAbout').focus({ preventScroll:true }); }
+  function closeAbout(){ if (about.hidden) return; about.hidden = true; if (aboutFrom && aboutFrom.focus) aboutFrom.focus({ preventScroll:true }); }
+  $('openAbout').addEventListener('click', openAbout);
+  $('closeAbout').addEventListener('click', closeAbout);
+
+  $('homeLink').addEventListener('click', function(e){
+    e.preventDefault();
+    if (!about.hidden) closeAbout();
+    if (view === 'detail') closeDetail(false);
+  });
+  doc.addEventListener('keydown', function(e){
+    if (lbOn){
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    if (view === 'detail' && about.hidden && !detail.contains(doc.activeElement)){
+      var H = detail.clientHeight, onBtn = doc.activeElement && /^(BUTTON|A)$/.test(doc.activeElement.tagName);
+      var by = { ArrowDown:60, ArrowUp:-60, PageDown:H * 0.9, PageUp:-H * 0.9, End:1e7, Home:-1e7 }[e.key];
+      if (by === undefined && e.key === ' ' && !onBtn) by = H * 0.9;
+      if (by !== undefined){ detail.scrollTop += by; e.preventDefault(); return; }
+    }
+    if (e.key !== 'Escape') return;
+    if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
+  });
+
+  /* the address names a group (…#beauty): open its list straight away */
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length) openDetail(first, 'direct');
+})();
+</script>
+</body>
+</html>
