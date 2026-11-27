@@ -121,7 +121,7 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
   font-size: 13px;
 }
 #contact span { border-bottom: 1px solid var(--ink); padding-bottom: 1px; }
-@media (max-width: 768px) { #who { margin-top: 6px; font-size: 12px; } #contact { font-size: 12px; } }
+@media (max-width: 768px) { #who { margin-top: 6px; } }
 
 /* ---------- 加号 ---------- */
 #toggle {
@@ -228,12 +228,12 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
   transform: translateX(-50%);
   margin: 0;
   white-space: nowrap;
-  font-size: 11px;
+  font-size: 13px;
 }
 @media (max-width: 768px) {
   .m-items { flex-direction: column; flex-wrap: nowrap; gap: 0; }
   .m-items a { padding: 5px 12px; }
-  .m-copy { position: static; transform: none; margin-top: 14px; }
+  .m-copy { position: static; transform: none; margin-top: 14px; font-size: 13px; }
 }
 .ln { display: block; }
 .ln-i {
@@ -346,7 +346,7 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
 .pg.l::after, .face.b::after { right: 0; background: linear-gradient(to right, rgba(70, 45, 25, 0), rgba(70, 45, 25, .11)); }
 .pg.r::after, .face.f::after { left: 0; background: linear-gradient(to left, rgba(70, 45, 25, 0), rgba(70, 45, 25, .11)); }
 /* めくっている紙の下に落ちる、縁のやわらかい影（めくっている間だけ） */
-.cast { position: absolute; top: 0; bottom: 0; width: 0; opacity: 0; pointer-events: none; }
+.cast { position: absolute; top: 0; bottom: 0; width: 100%; opacity: 0; pointer-events: none; will-change: transform; }   /* 幅は変えず、ずらして見える量を変える（まわりを動かさない） */
 .pg.l .cast { right: 0; background: linear-gradient(to left, rgba(60, 40, 20, .2) 0, rgba(60, 40, 20, .2) calc(100% - 60px), rgba(60, 40, 20, 0) 100%); }
 .pg.r .cast { left: 0; background: linear-gradient(to right, rgba(60, 40, 20, .2) 0, rgba(60, 40, 20, .2) calc(100% - 60px), rgba(60, 40, 20, 0) 100%); }
 .leaf { position: absolute; z-index: 3; top: 0; left: var(--pw); width: var(--pw); height: 100%; transform-origin: 0 50%; transform-style: preserve-3d; will-change: transform; pointer-events: none; }
@@ -397,11 +397,10 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
   #detail .in { padding: calc(var(--plus-top) + var(--plus) + 44px) 10px 16vh; }
   #detail h2 { font-size: 22px; margin-bottom: 28px; }
   #detail ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  #detail .more .k { font-size: 12px; }
   #detail .more .c { font-size: 14px; }
   #lb img { max-width: calc(100vw - 20px); max-height: min(74vh, calc(100vh - 124px)); }
   #lb .nv { top: auto; bottom: 4px; height: 52px; width: 72px; }
-  #lb .ct { bottom: 23px; font-size: 12px; }
+  #lb .ct { bottom: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1023,8 +1022,20 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
       im.style.width = w + "px"; im.style.height = h + "px";
       im.style.left = (two ? (pw * 2 - w) / 2 - (f.part === "R" ? pw : 0) : Math.round((pw - w) / 2)) + "px";
       im.style.top = Math.round((ph - h) / 2) + "px";
-      im.src = f.src;
+      // 元の画像がまだ届いていないときは、小さい画像を先に出し、届いたら同じ場所で差し替える（空白のページを出さない）
+      if (isDone(f.src)) im.src = f.src;
+      else { im.src = small(f.src); load(f.src).then(function () { if (im.isConnected) im.src = f.src; }); }
       art.appendChild(im);
+    }
+    function isDone(src) { return !!(have[src] && have[src].done); }
+    function quick(src) {                                    // 元の画像か小さい画像の、どちらか早く使えるほう
+      if (isDone(src)) return have[src];
+      var sm = small(src);
+      if (sm === src) return load(src);
+      if (isDone(sm)) return have[sm];
+      var p = Promise.race([load(src), load(sm)]);
+      p.then(function () { p.done = 1; });
+      return p;
     }
     function two(n) { return (n < 10 ? "0" : "") + n; }
     function srcsOf(sp) { var o = []; if (sp) { if (sp.l) o.push(sp.l.src); if (sp.r && (!sp.l || sp.r.src !== sp.l.src)) o.push(sp.r.src); } return o; }
@@ -1059,9 +1070,9 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
       leaf.style.transform = "rotateY(" + (-a).toFixed(3) + "deg)";
       var rad = a * Math.PI / 180, s = Math.sin(rad), c = Math.abs(Math.cos(rad));
       sF.style.opacity = sB.style.opacity = (0.18 * s).toFixed(3);          // 空中の紙は少しだけ暗く（黒くしない）
-      var w = Math.min(pw, pw * c + 60) + "px";
-      if (a < 90) { cR.style.width = w; cR.style.opacity = a > 0 ? "1" : "0"; cL.style.opacity = "0"; }
-      else { cL.style.width = w; cL.style.opacity = a < 180 ? "1" : "0"; cR.style.opacity = "0"; }
+      var off = (pw - Math.min(pw, pw * c + 60)).toFixed(1);                // 影の幅 ＝ 紙の見かけの幅 ＋ ぼけた縁 60px
+      if (a < 90) { cR.style.transform = "translateX(-" + off + "px)"; cR.style.opacity = a > 0 ? "1" : "0"; cL.style.opacity = "0"; }
+      else { cL.style.transform = "translateX(" + off + "px)"; cL.style.opacity = a < 180 ? "1" : "0"; cR.style.opacity = "0"; }
     }
     function go(dir) {
       if (!on) return;
@@ -1071,7 +1082,7 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
       if (calm()) { pos = to; render(); return; }       // 動きを減らす設定：めくる動きなしで切り替える
       turning = true;
       var my = ++tok, a = spreads[Math.min(pos, to)], b = spreads[Math.max(pos, to)];
-      var need = srcsOf(a).concat(srcsOf(b)).map(load), started = false;
+      var need = srcsOf(a).concat(srcsOf(b)).map(quick), started = false;
       function start() {
         if (started || my !== tok || !on) return; started = true;
         // 紙の表＝手前の見開きの右ページ、裏＝後ろの見開きの左ページ。下に見えるのは、手前の左ページと後ろの右ページ
@@ -1091,7 +1102,7 @@ html.nf #center { visibility: hidden; }           /* 書体が届くまで出さ
         });
       }
       if (need.every(function (p) { return p.done; })) start();
-      else { Promise.all(need).then(start); setTimeout(start, 900); }
+      else { Promise.all(need).then(start); setTimeout(start, 2500); }
     }
     function build(keepSrc) {
       tok++; cancelAnimationFrame(raf); turning = false; queued = 0;

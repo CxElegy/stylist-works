@@ -30,7 +30,7 @@
     return 'html[data-font="' + f.id + '"] body, html[data-font="' + f.id + '"] body *:not(.fp):not(.fp *) { font-family: "' + f.family + '",' + JP + ' !important; font-synthesis: none; }';
   }).join("\n") +
   '\n.fp, .fp * { box-sizing: border-box; font-family: ' + JP.replace(/"Hiragino Maru Gothic ProN",/, "") + ' !important; letter-spacing: 0 !important; text-transform: none !important; }' +
-  '.fp { position: fixed; z-index: 2147483000; right: 8px; top: 42%; width: 208px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
+  '.fp { position: fixed; z-index: 2147483000; right: 8px; top: 66%; width: 208px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
   '.fp__bar { display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 4px 0 12px; background: #222; color: #fff; cursor: move; touch-action: none; }' +
   '.fp__bar span { font-size: 13px; font-weight: 700; }' +
   '.fp__fold { width: 40px; height: 40px; border: 0; background: none; color: #fff; font-size: 18px; line-height: 1; cursor: pointer; }' +
@@ -41,7 +41,7 @@
   '.fp__list button[aria-pressed="true"] { background: #222; color: #fff; } .fp__list button[aria-pressed="true"] small { color: #ddd; }' +
   '.fp__fold:focus-visible, .fp__list button:focus-visible { outline: 2px solid #1a73e8; outline-offset: -2px; }' +
   '.fp__hint { margin: 0; padding: 6px 12px 10px; font-size: 11px; color: #666; }' +
-  '.fp.is-folded { width: auto; } .fp.is-folded .fp__list, .fp.is-folded .fp__hint { display: none; }';
+  '.fp__bar b { font-weight: inherit; } .fp.is-folded .fp__bar b { display: none; } .fp.is-folded .fp__bar { padding-left: 10px; } .fp.is-folded { width: auto; box-shadow: 0 2px 8px rgba(0,0,0,.18); } .fp.is-folded .fp__list, .fp.is-folded .fp__hint { display: none; }';
   document.head.appendChild(css);
 
   var loaded = {};
@@ -57,6 +57,15 @@
   var cv = document.createElement("canvas").getContext("2d");
   function width(text, weight, family) { cv.font = weight + " 100px " + family; return cv.measureText(text).width; }
   function ownText(el) { var t = ""; for (var n = el.firstChild; n; n = n.nextSibling) if (n.nodeType === 3) t += n.nodeValue; return t.replace(/\s+/g, " ").trim(); }
+  function boxOf(el) {                                         // 文字を並べている箱（inline でないいちばん近い要素）
+    for (var e = el; e && e !== document.body; e = e.parentElement) if (getComputedStyle(e).display.indexOf("inline") !== 0) return e;
+    return el;
+  }
+  function lineWidth(bx) {                                     // 箱の中身を折り返さずに1行に並べたときの幅
+    var ws = bx.style.whiteSpace; bx.style.whiteSpace = "nowrap";
+    var r = document.createRange(); r.selectNodeContents(bx); var w = r.getBoundingClientRect().width;
+    bx.style.whiteSpace = ws; return w;
+  }
   function clear() { touched.forEach(function (t) { t.el.style.fontSize = t.fs; t.el.style.fontWeight = t.fw; }); touched = []; }
   function fit() {
     busy = true;
@@ -71,8 +80,12 @@
         if (size < BIG) continue;
         if (el.style.fontSize) continue;                       // ページが自分で幅に合わせている文字（12G の下の一行など）は、ページに任せる
         if (cs.textTransform === "uppercase") text = text.toUpperCase();
-        found.push({ el: el, text: text, size: size, weight: cs.fontWeight, family: cs.fontFamily });
+        found.push({ el: el, text: text, size: size, weight: cs.fontWeight, family: cs.fontFamily, box: boxOf(el) });
       }
+      // 文字の並ぶ箱ごとに、元の書体での「1行に並べたときの幅」を測っておく（名前が単語ごとに分かれていても箱で見る）
+      var boxes = [];
+      found.forEach(function (o) { if (boxes.indexOf(o.box) < 0) boxes.push(o.box); });
+      var before = boxes.map(lineWidth);
       root.setAttribute("data-font", cur.id);
       var fam = '"' + cur.family + '",' + JP, need = [];
       found.forEach(function (o) {
@@ -84,6 +97,15 @@
         o.el.style.fontSize = (o.size * k).toFixed(2) + "px";
         o.el.style.fontWeight = w;
         need.push([w, o.text]);
+      });
+      // 実際に並べて測り、元より広がった箱は縮める（行が増えたり、画面からはみ出したりしないように）
+      boxes.forEach(function (bx, i) {
+        if (!before[i]) return;
+        for (var t = 0; t < 3; t++) {
+          var now = lineWidth(bx); if (!now || now <= before[i] * 1.005) break;
+          var k = before[i] / now * 0.995;
+          found.forEach(function (o) { if (o.box === bx) o.el.style.fontSize = (parseFloat(o.el.style.fontSize) * k).toFixed(2) + "px"; });
+        }
       });
       // まだ届いていない文字の分が届いたら、もう一度合わせる
       if (document.fonts && document.fonts.load) need.forEach(function (n) {
@@ -129,7 +151,7 @@
   var box, list;
   function build() {
     box = document.createElement("div"); box.className = "fp"; box.setAttribute("role", "group"); box.setAttribute("aria-label", "書体を選ぶ");
-    box.innerHTML = '<div class="fp__bar"><span>書体を選ぶ</span><button class="fp__fold" type="button" aria-label="たたむ・ひらく">−</button></div>' +
+    box.innerHTML = '<div class="fp__bar"><span>書体<b>を選ぶ</b></span><button class="fp__fold" type="button" aria-label="たたむ・ひらく">−</button></div>' +
       '<ul class="fp__list"></ul><p class="fp__hint">上の黒い帯をつかむと動かせます</p>';
     list = box.querySelector(".fp__list");
     FONTS.forEach(function (f) {
@@ -174,5 +196,6 @@
   var q = /[?&]font=([a-z]+)/.exec(location.search);
   cur = byId(q && q[1]) || byId(store("fontpick")) || FONTS[0];
   if (cur.family) { loadCss(cur); root.setAttribute("data-font", cur.id); }   // 先に付けて、表示してから書体が替わる時間を短くする
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", function () { if (cur.family) refit(); });
   if (document.body) build(); else document.addEventListener("DOMContentLoaded", build);
 })();
