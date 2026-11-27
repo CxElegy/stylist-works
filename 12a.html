@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<!-- リンクを LINE・Instagram・メールなどで送ったときに出るプレビュー。公開先の住所が変わったら og:image と og:url を直す -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="伊藤 あかり｜スタイリスト">
+<meta property="og:description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで。">
+<meta property="og:url" content="https://cxelegy.github.io/stylist-works/12a.html">
+<meta property="og:image" content="https://cxelegy.github.io/stylist-works/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.className='nf';</script>
+<style>
+@font-face{font-family:"Anton";src:url("assets/fonts/anton-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+@font-face{font-family:"Instrument Sans";src:url("assets/fonts/instrument-sans-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+
+:root{
+  /* 文字色は2つの濃さで使う：--tint＝大きな文字（AKARI ITO・BEAUTY など。写真の邪魔をしない淡さ）
+                              --ink ＝小さな文字と細い線（読める濃さ。白地に対して 4.5:1 以上）          */
+  --tint:#a39166;
+  --ink:#786850;
+  --text:"Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+  --display:"Anton","Instrument Sans","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+  --small:20px;
+  --edge:20px;
+  --wm:0.28665;            /* 1 / (wordmark width ÷ font-size) */
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#fff}
+body{color:var(--ink);font-family:var(--text);font-weight:400;font-size:var(--small);line-height:1;-webkit-text-size-adjust:100%}
+a,button{color:inherit;font:inherit;text-decoration:none}
+button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0}
+img{display:block;border:0}
+:focus{outline:none}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+[hidden]{display:none !important}
+
+/* ---------- small text / wordmark ---------- */
+.s{font-family:var(--text);font-size:var(--small);font-weight:400;line-height:1;text-transform:uppercase;letter-spacing:0;white-space:nowrap}
+.wm{font-family:var(--display);font-weight:400;line-height:1;text-transform:uppercase;white-space:nowrap;display:block;color:var(--tint)}
+
+/* ---------- top bar ---------- */
+#nav{position:fixed;left:0;top:0;width:100%;height:0;z-index:30}
+#nav .l,#nav .r{position:absolute;top:var(--edge);padding:0}
+#nav .l{left:var(--edge)}
+#nav .r{right:var(--edge)}
+#nav .mark{position:absolute;left:50%;top:10px;transform:translateX(-50%);text-align:center}
+#nav .mark .wm{font-size:calc(21vw * var(--wm))}
+#nav .who{display:block;margin-top:4px;text-transform:none}
+#nav .x{position:absolute;right:var(--edge);top:var(--edge);width:34px;height:34px}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:141%;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+#nav .gname{text-transform:none}
+
+/* ---------- canvas ---------- */
+#stage{--p:1}
+.tile{display:block}
+.tile img{width:100%;height:100%}
+.tile picture{display:block;width:100%;height:100%}
+
+#title{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;text-align:center;font-family:var(--display);font-weight:400;font-size:12vw;line-height:1;text-transform:uppercase;white-space:nowrap;pointer-events:none;color:var(--tint)}
+#ring{position:fixed;left:0;top:0;z-index:25;width:0;height:0;pointer-events:none;font-size:14px}
+#ring i{position:absolute;left:0;top:0;width:7em;height:7em;border:1px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:width .05s linear,height .05s linear,opacity .05s linear;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--text);font-size:10px;line-height:1;text-transform:uppercase;white-space:nowrap}
+#ring.on i{width:15.4em;height:15.4em;opacity:1}
+
+/* ---------- opening (W): the name in the top bar stays where it is; her photos cut one after another behind it ----------
+   写真は切らない：枠（PC は画面いっぱい、スマホは名前とメニューの下）の中に、全体が収まる大きさで置く。切り替えは1コマ（動きなし）。 */
+#open{position:fixed;left:0;top:0;width:100%;height:100%;z-index:28;background:#fff;overflow:hidden}
+#open img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;visibility:hidden}
+#open img.on{visibility:visible}
+html.nf #nav .mark .wm{visibility:hidden}                 /* 書体が届くまで名前を出さない（出てから幅が変わらないように） */
+html.w-ink #nav .mark .wm{color:var(--ink)}               /* 写真の上にあるあいだは濃い色、白地に戻ったら淡い色（切り替えと同じコマ） */
+
+/* ---------- category view: heading + grid of thumbnails ---------- */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:10;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;opacity:0;transition:opacity .35s linear}
+#detail.shown{opacity:1}
+#detail .in{max-width:1180px;margin:0 auto;padding:calc(6.1vw + 90px) var(--edge) 16vh}
+#detail h2{margin:0 0 6vh;text-align:center;font-family:var(--text);font-weight:400;font-size:clamp(22px,2.4vw,34px);line-height:1;letter-spacing:.06em;text-transform:none;white-space:nowrap;color:var(--ink)}
+#detail ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail ol li.wide{grid-column:span 2}                    /* 見開きの誌面は2列ぶん */
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 380ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail h2,#detail .more{opacity:0;transition:opacity .4s linear .35s}
+#detail.shown h2,#detail.shown .more{opacity:1}
+#detail:focus-visible{outline:none}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
+#detail ol li button:hover img{opacity:.8}
+/* 一覧の最後：ほかのジャンルへ、そして相談へ（見終わったところで行き止まりにしない） */
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 20px;text-transform:none}
+#detail .more ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(22px,3.2vw,52px)}
+#detail .more li button{font-family:var(--display);font-size:clamp(34px,5.2vw,72px);line-height:1.2;text-transform:uppercase;white-space:nowrap;color:var(--tint)}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink)}
+#detail .more .c{margin:9vh 0 0;font-size:var(--small);line-height:1.6;text-transform:none}
+#detail .more .c a{border-bottom:1px solid var(--ink)}
+body.in-detail #title{z-index:5}
+/* 一覧を下へ送ったら名前は消える（一覧の写真の上に文字が乗らないように）。閉じる × だけ白い丸を敷いて残す */
+body.in-detail #nav .mark{transition:opacity .25s linear,visibility 0s linear 0s}
+body.deep #nav .mark{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .25s linear,visibility 0s linear .25s}
+body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
+
+/* ---------- lightbox: one photo large ---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .x{position:fixed;right:var(--edge);top:var(--edge);width:34px;height:34px;z-index:2;background:rgba(255,255,255,.92);border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.92)}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb.one .nv{display:none}
+#lb .ct{position:fixed;left:0;right:0;bottom:var(--edge);margin:0;text-align:center;pointer-events:none;font-size:14px}
+/* パソコン：写真（誌面）を押すと、文字が読める大きさ（元の大きさ）まで拡大。もう一度押すと戻る */
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
+
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
+
+/* ---------- profile ---------- */
+#about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;background:#fff;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#about .x{position:fixed;right:var(--edge);top:var(--edge);width:34px;height:34px}
+#about .in{max-width:34em;margin:0 auto;padding:22vh var(--edge) 12vh}
+#about h2{margin:0 0 .5em;font-family:var(--display);font-weight:400;font-size:min(12vw,120px);line-height:1;text-transform:uppercase;color:var(--tint)}
+#about p{margin:0 0 1.4em;font-size:var(--small);line-height:1.8;text-transform:none;white-space:normal}
+#about p.k{margin-bottom:.4em;line-height:1}
+#about a{border-bottom:1px solid var(--ink)}
+
+/* ---------- foot (mobile only) ---------- */
+#foot{display:none}
+.cap{display:none}
+
+/* ================= wide: fixed canvas ================= */
+@media (min-width:768px){
+  html,body{height:100%;overflow:hidden}
+  #stage{position:fixed;left:0;top:0;width:100%;height:100%;z-index:1;will-change:transform}
+  .tile{position:absolute;left:50%;top:50%;height:calc(var(--h) * 1vh);aspect-ratio:var(--ar);
+    transform:translate(calc(-50% + var(--x) * var(--p) * 1vw),calc(-50% + var(--y) * var(--p) * 1vh));
+    z-index:var(--z);transition:z-index 0s linear .25s}
+  .tile img{transform:scale(var(--s,1));transition:transform .25s ease-out;will-change:transform}
+  .tile.hot{z-index:9;transition:z-index 0s}
+  .tile.hot img{--s:1.4;transition:transform .2s ease-out}
+  .tile.grow img{transition:transform .1s ease-out}
+  .tile.gone{visibility:hidden}
+  .fine .tile{cursor:none}
+  body.busy .tile{pointer-events:none}
+}
+
+/* ================= narrow: plain list ================= */
+@media (max-width:767px){
+  :root{--small:14px;--edge:10px}
+  #ring{display:none !important}
+  #open img{left:10px;top:calc(18px + 85vw * var(--wm) + 78px);width:calc(100% - 20px);height:calc(100% - 18px - 85vw * var(--wm) - 88px)}
+  html.w-ink #nav .mark .wm{color:var(--tint)}
+  #nav{position:fixed}
+  #nav .mark{position:absolute;top:18px}
+  #nav .mark .wm{font-size:calc(85vw * var(--wm))}
+  #nav .who{margin-top:6px}
+  #nav .l,#nav .r{top:calc(18px + 85vw * var(--wm) + 26px);padding:15px 10px}
+  #nav .l{left:auto;right:50%}
+  #nav .r{right:auto;left:50%}
+  #nav .x{top:calc(18px + 85vw * var(--wm) + 22px);right:auto;left:50%;margin-left:-20px;width:40px;height:40px}
+  #nav .x::before,#nav .x::after{width:60%}
+  #stage{padding:24.6vh 10px 0}
+  .tile{height:80vh;margin:0 0 10px;overflow:hidden}
+  /* スマホには「触れると出る大きな文字」が無いので、写真の下（もともと空いていた 20vh）にジャンル名を置く */
+  .cap{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%;height:20vh;padding:2px 0 0;text-align:left;overflow:hidden}
+  .cap .wm{font-size:15vw}
+  .cap .s{text-transform:none}
+  /* 下へ読み進めているあいだは、名前とメニューを消す（写真の上に文字を乗せない）。上へ戻すと出る */
+  #nav{transition:opacity .3s linear}
+  body.away #nav{opacity:0;pointer-events:none}
+  .tile img{object-fit:cover;object-position:var(--pos,50% 50%)}
+  #title{display:none}
+  #foot{display:block;padding:0 15px 24px;font-size:24px;line-height:1;text-align:left;transform:translateY(40px);opacity:0;transition:transform .7s ease-out,opacity .7s ease-out}
+  #foot.in{transform:none;opacity:1}
+  #foot p{margin:0;padding:0 0 6px;font-size:24px;line-height:1;white-space:nowrap}
+  #foot a,#foot button{display:inline-block;font-size:24px;line-height:1;text-align:left}
+  #detail .in{padding:calc(18px + 85vw * var(--wm) + 100px) 10px 16vh}
+  #detail h2{font-size:22px;margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
+  #lb .x{width:40px;height:40px}
+  #lb .x::before,#lb .x::after{width:60%}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+  /* 上へ戻して名前とメニューが出るときは、白い帯を敷く（写真の上に直接文字を乗せない） */
+  #nav::before{content:"";position:absolute;left:0;top:0;width:100%;height:calc(18px + 85vw * var(--wm) + 78px);background:#fff;opacity:0;transition:opacity .3s linear;pointer-events:none}
+  body.over #nav::before{opacity:.96}
+  #detail .more .c{font-size:14px}
+  #nav .x{transition:top .25s ease-out,left .25s ease-out,margin-left .25s ease-out}
+  body.deep #nav .x{top:14px;left:calc(100% - 54px);margin-left:0}     /* 送ったあとは右上の角へ */
+  #about .in{padding-top:24.6vh}
+  body.locked{overflow:hidden}
+}
+@media (max-width:767px) and (min-height:1px){
+  @supports (height:1svh){
+    .tile{height:80svh}
+    .cap{height:20svh}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  #open{display:none !important}
+  .tile img,.tile.hot img,.tile.grow img{transition:none !important}
+  #foot{transform:none;opacity:1;transition:none}
+  #detail,#detail li,#detail li img,#lb,#lb figure,#nav,#nav::before,#nav .mark,#nav .x,#detail h2,#detail .more{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<div id="open" aria-hidden="true" hidden></div>
+
+<header id="nav">
+  <button class="l s" id="openAbout" type="button">プロフィール</button>
+  <span class="l s gname" id="gname" hidden></span>
+  <a class="mark" id="home" href="#top"><span class="wm" data-name></span><span class="who s" id="who"></span></a>
+  <a class="r s" id="mail" href="#">お問い合わせ</a>
+  <button class="x" id="closeDetail" type="button" aria-label="閉じる" hidden></button>
+</header>
+
+<main id="stage"></main>
+
+<footer id="foot"></footer>
+
+<p id="title" aria-hidden="true" hidden></p>
+<div id="ring" aria-hidden="true"><i>View</i></div>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct s" aria-live="polite"></p>
+</div>
+
+<section id="about" aria-label="プロフィール" hidden tabindex="-1">
+  <button class="x" id="closeAbout" type="button" aria-label="閉じる"></button>
+  <div class="in"></div>
+</section>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SEL = window.SELECTION || {lead:[],groups:[]};
+  var SIZES = window.SIZES || {};
+  var PRO = window.PROFILE || {};
+  var doc = document, body = doc.body, root = doc.documentElement;
+  function $(id){ return doc.getElementById(id); }
+  function el(tag, cls, txt){ var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+  /* ---------- groups ---------- */
+  var GROUPS = {};
+  GROUPS.selected = { id:'selected', title:'セレクト', en:'Selected', items:(SEL.lead || []).slice() };
+  (SEL.groups || []).forEach(function(g){ GROUPS[g.id] = g; });
+
+  /* ---------- the eight places: centre offset x (%VW), y (%VH), height (%VH), layer ----------
+     hand-set; photo shown whole on wide screens. `m` = photo used in the narrow list (optional),
+     `pos` = which part stays visible when the narrow list crops it.                                */
+  var PLACES = [
+    { g:'beauty',    src:'images/works/biteki-spring-cosme-2026.jpg', x:-37, y:  3, h:40, z:5, m:'images/works/biteki-portrait-01.jpg', pos:'22% 50%' },
+    { g:'kids',      src:'images/tumblr/06-kids-09.jpg',              x: 40, y:-27, h:22, z:3, pos:'42% 50%' },
+    { g:'selected',  src:'images/tumblr/08-test-shoot-02.jpg',        x: -2, y:-13, h:46, z:4, pos:'50% 50%' },
+    { g:'portrait',  src:'images/tumblr/03-mi-mollet-04.jpg',         x: 34, y:  8, h:34, z:2, pos:'40% 50%' },
+    { g:'casual',    src:'images/tumblr/01-uniqlo-04.jpg',            x:-32, y: 44, h:42, z:2, pos:'50% 50%' },
+    { g:'elegance',  src:'images/tumblr/03-mi-mollet-01.jpg',         x: 50, y: 42, h:34, z:2, pos:'42% 50%' },
+    { g:'elegance',  src:'images/tumblr/04-elura-06.jpg',             x:-27, y:-17, h:28, z:2, pos:'55% 50%' },
+    { g:'editorial', src:'images/tumblr/08-test-shoot-07.jpg',        x:  1, y: 40, h:48, z:1, pos:'45% 50%' }
+  ];
+
+  function ratioN(src){ var s = SIZES[src]; return s ? (s[0] / s[1]).toFixed(5) : '0.75'; }
+  function ratio(src){ var s = SIZES[src]; return s ? s[0] + ' / ' + s[1] : '3 / 4'; }
+
+  /* ---------- environment ---------- */
+  var mqNarrow = window.matchMedia('(max-width:767px)');
+  var mqFine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var mqCalm = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function narrow(){ return mqNarrow.matches; }
+  function calm(){ return mqCalm.matches; }
+  function fine(){ return mqFine.matches; }
+  function syncFine(){ root.classList.toggle('fine', fine()); }
+  syncFine();
+  if (mqFine.addEventListener) mqFine.addEventListener('change', syncFine);
+
+  var raf = window.requestAnimationFrame.bind(window);
+  function now(){ return performance.now(); }
+  function run(ms, ease, fn, done){
+    var t0 = now();
+    (function step(){
+      var k = Math.min(1, (now() - t0) / ms);
+      fn(ease(k));
+      if (k < 1) raf(step); else if (done) done();
+    })();
+  }
+  function outQuart(k){ var u = 1 - k; return 1 - u * u * u * u; }
+  function inOut(k){ return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
+  function outCubic(k){ var u = 1 - k; return 1 - u * u * u; }
+
+  /* ---------- text ---------- */
+  var nameEn = PRO.nameEn || 'Akari Ito';
+  Array.prototype.forEach.call(doc.querySelectorAll('[data-name]'), function(n){ n.textContent = nameEn; });
+  $('who').textContent = (PRO.nameJa || '伊藤 あかり') + '｜スタイリスト';
+  $('home').setAttribute('aria-label', (PRO.nameJa || '伊藤 あかり') + '（スタイリスト）トップへ');
+  if (PRO.email) $('mail').href = 'mailto:' + PRO.email; else $('mail').hidden = true;
+
+  /* ---------- build tiles ---------- */
+  var stage = $('stage'), titleEl = $('title'), ring = $('ring'), nav = $('nav');
+  var tiles = [];
+  PLACES.forEach(function(pl, i){
+    var g = GROUPS[pl.g]; if (!g) return;
+    var a = el('a', 'tile');
+    a.href = '#' + g.id;
+    a.setAttribute('aria-label', g.title + 'の作品を見る');
+    a.style.setProperty('--x', pl.x); a.style.setProperty('--y', pl.y); a.style.setProperty('--h', pl.h);
+    a.style.setProperty('--z', pl.z); a.style.setProperty('--ar', ratio(pl.src)); a.style.setProperty('--pos', pl.pos || '50% 50%');
+    var pic = el('picture');
+    if (pl.m){ var so = el('source'); so.media = '(max-width:767px)'; so.srcset = pl.m; pic.appendChild(so); }
+    var im = el('img'); im.alt = g.title; im.decoding = 'async'; im.draggable = false;
+    if (narrow() && i > 1) im.loading = 'lazy';          /* phones: only the first two photos are fetched up front */
+    im.src = pl.src;
+    var sz = SIZES[pl.src]; if (sz){ im.width = sz[0]; im.height = sz[1]; }
+    pic.appendChild(im); a.appendChild(pic); stage.appendChild(a);
+    var t = { a:a, img:im, pl:pl, g:g, i:i };
+    tiles.push(t);
+    /* phones have no hover, so the group's name sits under its photo (see .cap) */
+    var cap = el('button', 'cap'); cap.type = 'button';
+    cap.appendChild(el('span', 'wm', g.en || g.title));
+    cap.appendChild(el('span', 's', g.title + '\u3000' + galleryOf(g).length + '点'));
+    cap.setAttribute('aria-label', g.title + 'の作品 ' + galleryOf(g).length + '点を見る');
+    cap.addEventListener('click', function(){ pick(t); });
+    stage.appendChild(cap);
+    a.addEventListener('focus', function(){ if (a.matches(':focus-visible')) heat(t, 'key'); });
+    a.addEventListener('blur', function(){ if (hot === t && hotBy === 'key') cool(); });
+    a.addEventListener('click', function(e){ e.preventDefault(); pick(t); });
+  });
+
+  /* ---------- state ---------- */
+  var busy = true, hot = null, hotBy = '', locked = false, view = 'home', lastTile = null;
+  var mouse = { x:0, y:0, seen:false }, pan = { x:0, y:0 }, panOn = false, panLast = 0;
+  function setBusy(v){ busy = v; body.classList.toggle('busy', v); }
+  function setP(p){ stage.style.setProperty('--p', p.toFixed(5)); }
+  function setNav(n){ nav.style.transform = n >= 1 ? '' : 'translateY(' + ((n - 1) * 30).toFixed(3) + 'vh)'; }
+  function setPan(){ stage.style.transform = (pan.x || pan.y) ? 'translate3d(' + pan.x.toFixed(2) + 'px,' + pan.y.toFixed(2) + 'px,0)' : ''; }
+
+  function showTitle(g){ titleEl.textContent = g.en || g.title; titleEl.hidden = false; }
+  function hideTitle(){ titleEl.hidden = true; }
+  function heat(t, by){
+    if (locked || narrow() || view !== 'home') return;
+    if (hot && hot !== t) hot.a.classList.remove('hot');
+    hot = t; hotBy = by; t.a.classList.add('hot'); showTitle(t.g);
+    ring.classList.toggle('on', by === 'mouse');
+  }
+  function cool(){
+    if (locked) return;
+    if (hot){ hot.a.classList.remove('hot'); hot = null; hotBy = ''; hideTitle(); }
+    ring.classList.remove('on');
+  }
+  /* which photo is under the pointer right now (the canvas also slides under a still pointer) */
+  function probe(moved){
+    if (!mouse.seen || locked || busy || view !== 'home' || narrow() || !fine() || !about.hidden) return;
+    var e = doc.elementFromPoint(mouse.x, mouse.y), a = e && e.closest ? e.closest('.tile') : null, t = null;
+    if (a) for (var i = 0; i < tiles.length; i++) if (tiles[i].a === a){ t = tiles[i]; break; }
+    if (t){ if (hot !== t || hotBy !== 'mouse') heat(t, 'mouse'); }
+    else if (hot && (hotBy === 'mouse' || moved)) cool();
+  }
+
+  /* ---------- mouse: ring + opposed pan ---------- */
+  window.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.seen = true;
+    ring.style.transform = 'translate3d(' + e.clientX + 'px,' + e.clientY + 'px,0)';
+    probe(true);
+  }, { passive:true });
+  doc.addEventListener('mouseleave', function(){ if (hotBy === 'mouse') cool(); ring.classList.remove('on'); });
+
+  function panLoop(){
+    var t = now(), dt = Math.min(100, t - panLast); panLast = t;
+    if (panOn && mouse.seen && !narrow() && fine() && !calm() && view === 'home'){
+      var tx = -(mouse.x - window.innerWidth / 2) * 0.5;
+      var ty = -(mouse.y - window.innerHeight / 2) * 0.5;
+      var k = 1 - Math.exp(-dt / 110);
+      pan.x += (tx - pan.x) * k; pan.y += (ty - pan.y) * k;
+      if (Math.abs(tx - pan.x) < .05) pan.x = tx;
+      if (Math.abs(ty - pan.y) < .05) pan.y = ty;
+      var was = stage.style.transform;
+      setPan();
+      if (stage.style.transform !== was) probe(false);
+    }
+    raf(panLoop);
+  }
+
+  /* ---------- intro ----------
+     W: the name in the top bar is on screen from the first frame and is never moved; six of her photos
+     (whole, fitted inside the frame) cut behind it, each staying longer than the one before. On the last
+     cut the photos of the canvas open out from the centre (wide) / the list is simply there (narrow).   */
+  var OPEN = [                       /* light, quiet tops, so the name sits on a clean part and never on a face; lighter and lighter */
+    'images/tumblr/08-test-shoot-02.jpg', 'images/works/personal-01.jpg', 'images/works/personal-09.jpg',
+    'images/tumblr/03-mi-mollet-01.jpg', 'images/tumblr/03-mi-mollet-02.jpg', 'images/tumblr/08-test-shoot-04.jpg'
+  ];
+  var DWELL = [80, 100, 133, 200, 350, 350];          /* ms each photo stays */
+  var opener = $('open'), opening = false, endOpening = null;
+  function burst(done){
+    setP(0); setBusy(true);
+    raf(function(){ run(950, outQuart, setP, function(){ setP(1); setBusy(false); panOn = true; probe(false); if (done) done(); }); });
+  }
+  function fontsIn(){ root.classList.remove('nf'); }
+  function intro(){
+    setNav(1);
+    if (calm()){ fontsIn(); setP(1); setBusy(false); panOn = true; return; }
+    var wide = !narrow(), started = false, ended = false, imgs = [];
+    opening = true; setBusy(true); setP(wide ? 0 : 1);
+    body.classList.add('locked');
+    opener.hidden = false;
+    OPEN.forEach(function(src){
+      var im = new Image(); im.alt = ''; im.draggable = false; im.decoding = 'sync';
+      im.src = wide ? src : small(src);
+      opener.appendChild(im); imgs.push(im);
+    });
+    var skipOn = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
+    function end(ev){
+      if (ended) return; ended = true; opening = false; endOpening = null;
+      skipOn.forEach(function(k){ window.removeEventListener(k, end, true); });
+      fontsIn(); root.classList.remove('w-ink');
+      opener.hidden = true; opener.textContent = '';
+      body.classList.remove('locked');
+      if (!narrow()){ burst(); return; }
+      setP(1); panOn = true;
+      /* a tap that cut the opening short must not also open the photo that was underneath it */
+      if (ev && ev.type) setTimeout(function(){ if (!opening) setBusy(false); }, 400); else setBusy(false);
+    }
+    endOpening = end;
+    skipOn.forEach(function(k){ window.addEventListener(k, end, { capture:true, passive:true }); });
+    function play(){
+      if (started || ended) return; started = true;
+      fontsIn();
+      /* everything must be usable 2.5 s after the page began to load: if the photos arrived late, begin further along (or not at all) */
+      var left = (wide ? 1480 : 1950) - now(), k = 0, sum = 0, i;
+      for (i = 0; i < DWELL.length; i++) sum += DWELL[i];
+      while (k < DWELL.length - 2 && sum > left){ sum -= DWELL[k]; k++; }
+      if (sum > left){ end(); return; }
+      var at = -1, t0 = 0;
+      raf(function frame(){
+        if (ended) return;
+        var t = now(); if (!t0) t0 = t;
+        var e = t - t0, n = k, acc = DWELL[k];
+        while (n < DWELL.length && e >= acc){ n++; acc += DWELL[n] || 0; }
+        if (n >= DWELL.length){ end(); return; }
+        if (n !== at){
+          if (at >= 0) imgs[at].className = '';
+          imgs[n].className = 'on'; at = n;
+          root.classList.add('w-ink');
+        }
+        raf(frame);
+      });
+    }
+    var waits = imgs.map(function(im){ return im.decode ? im.decode().catch(function(){ throw 0; }) : Promise.resolve(); });
+    if (doc.fonts && doc.fonts.ready) waits.push(doc.fonts.ready);
+    if (wide) tiles.forEach(function(t){ if (!t.img.complete) waits.push(new Promise(function(ok){ t.img.addEventListener('load', ok); t.img.addEventListener('error', ok); })); });
+    Promise.all(waits).then(play, function(){ end(); });
+    setTimeout(function(){ if (!started) end(); }, 1000);      /* never hold the white screen longer than this */
+  }
+
+  /* ---------- pick a tile ---------- */
+  function pick(t){
+    if (busy || view !== 'home') return;
+    lastTile = t;
+    if (narrow() || calm()){ openDetail(t, false); return; }
+    setBusy(true); locked = true; panOn = false;
+    if (hot && hot !== t) hot.a.classList.remove('hot');
+    hot = t; hotBy = 'pick'; t.a.classList.add('hot'); showTitle(t.g);
+    ring.classList.remove('on');
+    var px = pan.x, py = pan.y;
+    run(900, inOut, function(e){ setP(1 - e); pan.x = px * (1 - e); pan.y = py * (1 - e); setPan(); });
+    setTimeout(function(){ run(200, inOut, function(e){ setNav(1 - e); }); }, 1000);
+    setTimeout(function(){
+      tiles.forEach(function(o){ if (o !== t) o.a.classList.add('gone'); });
+      t.a.classList.add('grow');
+      t.img.style.setProperty('--s', (52 / t.pl.h).toFixed(4));
+    }, 1430);
+    setTimeout(function(){ openDetail(t, true); }, 1800);
+  }
+
+  /* ---------- category view: heading + grid of thumbnails ----------
+     並べる写真は data/selection.js のまとまりごとの `gallery`（無ければ `items`）。               */
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
+  var cur = null;                      /* { g, items[], btns[] } while a category is open */
+  var direct = false;                  /* this visit began on a group's own address (…#beauty) */
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  function tileOf(g){ for (var i = 0; i < tiles.length; i++) if (tiles[i].g === g) return tiles[i]; return null; }
+  function fillDetail(g){
+    var items = galleryOf(g);
+    list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    cur = { g:g, items:items, btns:[] };
+    items.forEach(function(src, n){
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src); im.setAttribute('data-src', src);      /* 一覧は小さい画像、拡大は元の画像 */
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      cur.btns.push(b);
+    });
+    /* after the last photo: the other groups, then how to get in touch */
+    more.textContent = '';
+    more.appendChild(el('p', 'k s', 'ほかの作品'));
+    var ul = el('ul');
+    Object.keys(GROUPS).forEach(function(id){
+      var o = GROUPS[id]; if (o === g || !galleryOf(o).length) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', null, 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: 'push' (from the top page), 'direct' (the address already named the group), 'pop' (back / forward) */
+  function openDetail(t, carried, how){
+    var g = t.g;
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    body.classList.add('in-detail'); body.classList.add('locked'); body.classList.remove('away'); body.classList.remove('over');
+    $('foot').style.visibility = 'hidden';
+    $('openAbout').hidden = true; $('mail').hidden = true;
+    $('closeDetail').hidden = false;
+    detail.classList.remove('shown'); body.classList.remove('deep');
+    detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add('shown');
+    if (carried){
+      /* the canvas, with the picked photo in its centre, stays underneath while the list fades in over it */
+      setTimeout(function(){ if (view === 'detail'){ stage.style.visibility = 'hidden'; hideTitle(); } }, 380);
+      setNav(0); run(400, outCubic, setNav, function(){ setNav(1); });
+    } else { stage.style.visibility = 'hidden'; hideTitle(); setNav(1); }
+    detail.focus({ preventScroll:true });           /* so the arrow / page keys scroll the list */
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  /* from one group's list straight to another's (the links after the last photo) */
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    lastTile = tileOf(g) || lastTile;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      fillDetail(g);
+      detail.scrollTop = 0; body.classList.remove('deep');
+      void detail.offsetWidth; detail.classList.add('shown');
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
+  }
+  function closeDetail(fromPop){
+    if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
+    if (lbOn) closeLb(true);
+    view = 'home';
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; cur = null;
+    body.classList.remove('in-detail'); body.classList.remove('locked'); body.classList.remove('deep');
+    stage.style.visibility = ''; $('foot').style.visibility = '';
+    $('openAbout').hidden = false; $('mail').hidden = !PRO.email;
+    $('closeDetail').hidden = true;
+    hideTitle(); locked = false;
+    tiles.forEach(function(o){ o.a.classList.remove('gone', 'grow', 'hot'); o.img.style.removeProperty('--s'); });
+    hot = null; hotBy = ''; pan.x = pan.y = 0; setPan(); setNav(1);
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    if (narrow() || calm()){ setP(1); setBusy(false); panOn = true; }
+    else burst();                     /* photos open out from the centre again */
+    if (lastTile) lastTile.a.focus({ preventScroll:true });
+  }
+  $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
+  detail.addEventListener('scroll', function(){ body.classList.toggle('deep', view === 'detail' && detail.scrollTop > 24); }, { passive:true });
+  /* the name and the × float above the list: turning the wheel over them still moves the list */
+  [nav].forEach(function(n){ n.addEventListener('wheel', function(e){ if (view === 'detail' && !lbOn) detail.scrollTop += e.deltaY; }, { passive:true }); });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;                /* still inside a category after this step back */
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) closeDetail(true);
+    else if (view === 'detail' && keep && cur && cur.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; }
+    else if (view === 'home' && keep && !busy && GROUPS[e.state.g] && about.hidden){          /* forward again into a group */
+      lastTile = tileOf(GROUPS[e.state.g]) || lastTile; cool(); panOn = false; pan.x = pan.y = 0; setPan();
+      openDetail({ g:GROUPS[e.state.g] }, false, 'pop');
+    }
+  });
+
+  /* ---------- lightbox: one photo large, previous / next, swipe ---------- */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0;
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  /* the order the thumbnails are seen in (row by row, left to right); a spread that moves down a row changes it */
+  function seenOrder(){
+    var r = cur.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  /* the enlarged photo is laid out from its known size, so a small stand-in can be on screen at once and the full file swapped in when it arrives */
+  var THUMBS = window.THUMBS || {}, got = {}, lbSrc = '', lbShut = 0;
+  function small(src){ return THUMBS[src] || src; }
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);            /* worth enlarging to its own size */
+  }
+  /* wide screens with a mouse: a click on the photo shows it at its own size (a magazine page becomes readable), a second click fits it again */
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
+  function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = cur.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);                        /* what can be shown straight away */
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = cur.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      /* the photo leaves towards where it was pushed, the next one arrives from the other side */
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    /* have the neighbours ready: their small stand-ins, and the full file of the one we are heading towards */
+    if (n > 1) [1, -1].forEach(function(d){ var k = cur.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  function openLb(n){
+    if (!cur || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on'); body.classList.add('lb-open');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    try { history.pushState({ g:cur.g.id, lb:1 }, '', '#' + cur.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); body.classList.remove('lb-open'); lb.classList.remove('zoom');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    /* back in the list, at the photo that was just on screen */
+    var b = cur && cur.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){            /* the white around the photo */
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
+
+  /* ---------- profile ---------- */
+  var about = $('about');
+  (function(){
+    var box = about.querySelector('.in');
+    box.appendChild(el('h2', null, nameEn));
+    box.appendChild(el('p', 'k', (PRO.nameJa || '') + '｜スタイリスト'));
+    box.appendChild(el('p', null, ''));
+    if (PRO.lead) box.appendChild(el('p', null, PRO.lead));
+    (PRO.bio || []).forEach(function(line){ box.appendChild(el('p', null, line)); });
+    if (PRO.specialty) box.appendChild(el('p', null, PRO.specialty));
+    if (PRO.email){ var p = el('p'); var m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; p.appendChild(m); box.appendChild(p); }
+    if (PRO.instagram){ var p2 = el('p'); var ig = el('a', null, 'Instagram'); ig.href = PRO.instagram; ig.rel = 'noopener'; p2.appendChild(ig); box.appendChild(p2); }
+  })();
+  var aboutFrom = null;
+  function openAbout(){ cool(); aboutFrom = doc.activeElement; about.hidden = false; about.scrollTop = 0; body.classList.add('locked'); ring.classList.remove('on'); $('closeAbout').focus({ preventScroll:true }); }
+  function closeAbout(){ if (about.hidden) return; about.hidden = true; if (view === 'home') body.classList.remove('locked'); if (aboutFrom && aboutFrom.focus) aboutFrom.focus({ preventScroll:true }); }
+  $('openAbout').addEventListener('click', openAbout);
+  $('closeAbout').addEventListener('click', closeAbout);
+
+  $('home').addEventListener('click', function(e){
+    e.preventDefault();
+    if (!about.hidden) closeAbout();
+    if (view === 'detail') closeDetail(false);
+    else if (narrow()) window.scrollTo(0, 0);
+  });
+  doc.addEventListener('keydown', function(e){
+    if (lbOn){
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    /* in a group's list the keyboard moves the list even when the focus is on the × or the name above it */
+    if (view === 'detail' && about.hidden && !detail.contains(doc.activeElement)){
+      var H = detail.clientHeight, onBtn = doc.activeElement && /^(BUTTON|A)$/.test(doc.activeElement.tagName);
+      var by = { ArrowDown:60, ArrowUp:-60, PageDown:H * 0.9, PageUp:-H * 0.9, End:1e7, Home:-1e7 }[e.key];
+      if (by === undefined && e.key === ' ' && !onBtn) by = H * 0.9;
+      if (by !== undefined){ detail.scrollTop += by; e.preventDefault(); return; }
+    }
+    if (e.key !== 'Escape') return;
+    if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
+  });
+
+  /* ---------- foot (narrow list only) ---------- */
+  (function(){
+    var f = $('foot');
+    function line(node){ var p = el('p'); if (typeof node === 'string') p.textContent = node; else p.appendChild(node); f.appendChild(p); }
+    line(PRO.nameJa || '伊藤 あかり');
+    line('スタイリスト');
+    var b = el('button', null, 'プロフィール'); b.type = 'button'; b.addEventListener('click', openAbout); line(b);
+    if (PRO.instagram){ var ig = el('a', null, 'Instagram'); ig.href = PRO.instagram; ig.rel = 'noopener'; line(ig); }
+    if (PRO.email){ var m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; line(m); }
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ es.forEach(function(en){ if (en.isIntersecting) f.classList.add('in'); }); }, { threshold:.2 }).observe(f);
+    } else f.classList.add('in');
+  })();
+
+  /* ---------- phones: the fixed name and links step aside while the list is read downwards, and return on the way up ---------- */
+  (function(){
+    var last = 0;
+    window.addEventListener('scroll', function(){
+      var y = window.pageYOffset || 0;
+      body.classList.toggle('over', narrow() && view === 'home' && y >= 40);
+      if (!narrow() || view !== 'home' || y < 40) body.classList.remove('away');
+      else if (y > last + 6) body.classList.add('away');
+      else if (y < last - 6) body.classList.remove('away');
+      last = y;
+    }, { passive:true });
+  })();
+
+  /* ---------- crossing the breakpoint ---------- */
+  function onMode(){
+    if (opening && endOpening) endOpening();
+    if (view === 'home' && !locked){ setP(1); setNav(1); pan.x = pan.y = 0; setPan(); setBusy(false); panOn = true;
+      cool(); }
+  }
+  if (mqNarrow.addEventListener) mqNarrow.addEventListener('change', onMode);
+
+  panLast = now(); raf(panLoop);
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length){
+    /* the address names a group (…#beauty): open its list straight away, without the opening sequence */
+    fontsIn(); setP(1); setNav(1); setBusy(false); panOn = true;
+    lastTile = tileOf(first);
+    openDetail({ g:first }, false, 'direct');
+  } else intro();
+})();
+</script>
+</body>
+</html>
