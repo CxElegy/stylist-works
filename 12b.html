@@ -459,7 +459,6 @@ body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:
       im._g = b._g; im.onload = im.onerror = one; im.src = small(src);
       leadPh.appendChild(im); leadImgs.push(im);
     });
-    setTimeout(function(){ gm.classList.remove('wait'); }, 2500);
   }
   function leadShow(g){
     leadFill();
@@ -480,7 +479,7 @@ body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:
     b.addEventListener('mouseenter', function(){ if (fine()) aim(b); });
     b.addEventListener('focus', function(){ if (b.matches(':focus-visible')) aim(b); });
     b.addEventListener('click', function(){
-      if (now() - slidAt < 500 || busy || view !== 'home') return;        /* a slide that ended on a name only points at it */
+      if (now() - slidAt < 80 || busy || view !== 'home') return;        /* a slide that ended on a name only points at it */
       aim(b); lastBtn = b; pick(tileOf(g));
     });
     gm.appendChild(b); gmBtns.push(b);
@@ -505,7 +504,7 @@ body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:
     e.preventDefault(); gmBtns[Math.max(0, Math.min(gmBtns.length - 1, i + d))].focus();
   });
   lead.addEventListener('click', function(){ if (mCur && !busy && view === 'home'){ lastBtn = null; pick(tileOf(mCur)); } });
-  stage.addEventListener('click', function(e){ if (e.target === stage) rest(); });
+  doc.addEventListener('click', function(e){ if (e.target === stage || e.target === body || e.target === root) rest(); });     /* a press on the empty white */
 
   /* ---------- mouse: ring + opposed pan ---------- */
   window.addEventListener('mousemove', function(e){
