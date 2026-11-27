@@ -309,7 +309,7 @@ body.in-detail #names{display:none}
     if (!pair.length) return;
     var gn = shown.length; shown.push(g);
     pair.forEach(function(src, k){
-      var slot = el('div', 'slot s-' + SHAPES[gn % SHAPES.length][k]);
+      var slot = el('div', 'slot s-' + SHAPES[gn % SHAPES.length][k]); slot._g = gn;
       if (k === 0){
         var lab = el('button', 'lab s'); lab.type = 'button';
         lab.appendChild(el('b', null, g.en || g.title));
@@ -358,7 +358,7 @@ body.in-detail #names{display:none}
   function mount(s, cb){
     if (s.img) return;
     var im = el('img'); im.alt = ''; im.decoding = 'sync'; im.draggable = false; s.img = im;
-    function done(ok){ s.ok = ok; if (cb) cb(); }
+    function done(ok){ s.ok = ok; if (ok && settled && s === SEQ[LAST]) show(LAST); if (cb) cb(); }
     im.onload = function(){ if (im.decode) im.decode().then(function(){ done(true); }, function(){ done(true); }); else done(true); };
     im.onerror = function(){ done(false); };
     size(s); im.src = s.src; shot.appendChild(im);
@@ -384,7 +384,7 @@ body.in-detail #names{display:none}
     END.forEach(function(k){ window.removeEventListener(k, settle, true); });
     var s = SEQ[LAST]; if (!s) return;
     if (s.ok) show(LAST);
-    else { var cb = function(){ if (s.ok) show(LAST); }; if (s.img) s.img.addEventListener('load', function(){ setTimeout(cb, 0); }); else mount(s, cb); }
+    else if (!s.img) mount(s);            /* it takes its place as soon as it is whole */
   }
   var END = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'];
   function play(){
@@ -444,12 +444,17 @@ body.in-detail #names{display:none}
     if (!photos.length || window.scrollY < 40) return SITE;
     var H = window.innerHeight;
     if (photos[photos.length - 1].getBoundingClientRect().bottom <= H) return SITE;
-    var gi = 0;
-    for (var i = 0; i < firsts.length; i++) if (firsts[i].getBoundingClientRect().top <= H / 2) gi = i;
+    if (pointed >= 0) return shown[pointed].en || shown[pointed].title;
+    var gi = 0, best = -1e9;                                      /* the first group of the lowest row that has passed the middle */
+    for (var i = 0; i < firsts.length; i++){ var t = firsts[i].getBoundingClientRect().top; if (t <= H / 2 && t > best + 1){ best = t; gi = i; } }
     return shown[gi].en || shown[gi].title;
   }
-  var bigText = null;
-  function onScroll(){
+  var bigText = null, pointed = -1;
+  /* with a mouse: the line names the group being pointed at (several groups share a row on wide screens) */
+  grid.addEventListener('mouseover', function(e){ var sl = fine() && e.target.closest && e.target.closest('.ph, .lab'); var g = sl ? sl.parentNode._g : -1; if (g !== pointed){ pointed = g; onScroll(true); } });
+  grid.addEventListener('mouseleave', function(){ if (pointed >= 0){ pointed = -1; onScroll(true); } });
+  function onScroll(keep){
+    if (keep !== true) pointed = -1;
     var t = currentTitle();
     if (t !== bigText){ bigText = t; big.textContent = t; }       /* swapped at once: no fade, no move */
     for (var i = 0; i < photos.length; i++) photos[i].classList.remove('on');

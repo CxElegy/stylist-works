@@ -68,8 +68,8 @@ img{display:block;border:0}
    While a photo is pointed at, the same letters read that photo's genre (swapped in the same frame). The capitals' feet sit 15px from the edge. */
 #big{position:fixed;left:15px;bottom:calc(15px - var(--bigf) * 0.0775);z-index:20;margin:0;font-family:var(--display);font-weight:400;font-size:var(--bigf);line-height:1;text-transform:uppercase;white-space:nowrap;pointer-events:none;color:var(--tint)}
 #ring{position:fixed;left:0;top:0;z-index:25;width:0;height:0;pointer-events:none;font-size:14px}
-#ring i{position:absolute;left:0;top:0;width:7em;height:7em;border:1px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:width .05s linear,height .05s linear,opacity .05s linear;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--text);font-size:10px;line-height:1;text-transform:uppercase;white-space:nowrap}
-#ring.on i{width:15.4em;height:15.4em;opacity:1}
+#ring i{position:absolute;left:0;top:0;width:70px;height:70px;border:1px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);opacity:0;transition:width .05s linear,height .05s linear,opacity .05s linear;display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--text);font-size:13px;line-height:1;text-transform:uppercase;white-space:nowrap}
+#ring.on i{width:154px;height:154px;opacity:1}
 
 
 /* ---------- loader ---------- */
@@ -777,5 +777,6 @@ body.deep #nav .x{background:rgba(255,255,255,.92);border-radius:50%;box-shadow:
   } else intro();
 })();
 </script>
+<script src="assets/js/fontpick.js"></script><!-- 書体を選ぶ小窓（見比べ用。決まったら外す） -->
 </body>
 </html>
