@@ -2,7 +2,7 @@
    書体を選ぶ小窓（見比べ用）
    - 画面に浮かぶ小さな窓。上の帯をつかんで動かせる。「−」でたためる。
    - 選んだ書体はこの端末に覚える。URL に ?font=maru のように付けても選べる
-     （ima / maru / kiwi / pen / tegaki / pop）。
+     （ima / dela / rampart / train / stick / dot / reggae / potta / daruma / yuji / antique）。
    - 書体が決まったら、このファイルの読み込み（各ページの最後の script 1行）を外し、
      決まった書体をそのページの CSS に書く。
    ========================================================= */
@@ -10,12 +10,17 @@
   "use strict";
   var JP = '"Hiragino Maru Gothic ProN","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Noto Sans JP",Meiryo,sans-serif';
   var FONTS = [
-    { id: "ima",    label: "いまの書体", note: "きりっと",       family: "" },
-    { id: "maru",   label: "まるゴシック", note: "やわらかい",     family: "Zen Maru Gothic", file: "zen-maru-gothic", bold: 700 },
-    { id: "kiwi",   label: "まる明朝",   note: "やさしい",       family: "Kiwi Maru",       file: "kiwi-maru",       bold: 500 },
-    { id: "pen",    label: "ペン字",     note: "ていねい",       family: "Klee One",        file: "klee-one",        bold: 600 },
-    { id: "tegaki", label: "手書き",     note: "ゆるい",         family: "Yomogi",          file: "yomogi",          bold: 400 },
-    { id: "pop",    label: "まるポップ", note: "いちばんかわいい", family: "Hachi Maru Pop",  file: "hachi-maru-pop",  bold: 400 }
+    { id: "ima",     label: "いまの書体",   note: "きりっと",       family: "" },
+    { id: "dela",    label: "極太ゴシック", note: "ポスターの見出し", family: "Dela Gothic One", file: "dela-gothic-one" },
+    { id: "rampart", label: "立体",         note: "浮き出る",       family: "Rampart One",     file: "rampart-one" },
+    { id: "train",   label: "二重線",       note: "線の抜き",       family: "Train One",       file: "train-one" },
+    { id: "stick",   label: "棒の字",       note: "まっすぐな線",   family: "Stick",           file: "stick" },
+    { id: "dot",     label: "ドット",       note: "ゲームの文字",   family: "DotGothic16",     file: "dotgothic16" },
+    { id: "reggae",  label: "切り絵",       note: "鋭い太字",       family: "Reggae One",      file: "reggae-one" },
+    { id: "potta",   label: "筆ポップ",     note: "かわいい太字",   family: "Potta One",       file: "potta-one" },
+    { id: "daruma",  label: "ころころ",     note: "いちばんかわいい", family: "Darumadrop One", file: "darumadrop-one" },
+    { id: "yuji",    label: "筆の明朝",     note: "墨の手書き",     family: "Yuji Syuku",      file: "yuji-syuku" },
+    { id: "antique", label: "活版",         note: "古い印刷",       family: "Zen Antique",     file: "zen-antique" }
   ];
   var BIG = 30;          // これ以上の大きさの文字は「大きな文字」として、元の横幅に合わせて大きさを直す
   var base = (function () { var s = document.currentScript && document.currentScript.src || ""; return s.replace(/js\/fontpick\.js.*$/, ""); })();
@@ -30,13 +35,13 @@
     return 'html[data-font="' + f.id + '"] body, html[data-font="' + f.id + '"] body *:not(.fp):not(.fp *) { font-family: "' + f.family + '",' + JP + ' !important; font-synthesis: none; }';
   }).join("\n") +
   '\n.fp, .fp * { box-sizing: border-box; font-family: ' + JP.replace(/"Hiragino Maru Gothic ProN",/, "") + ' !important; letter-spacing: 0 !important; text-transform: none !important; }' +
-  '.fp { position: fixed; z-index: 2147483000; right: 8px; top: 66%; width: 208px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
+  '.fp { position: fixed; z-index: 2147483000; right: 8px; top: 66%; width: 236px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
   '.fp__bar { display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 4px 0 12px; background: #222; color: #fff; cursor: move; touch-action: none; }' +
   '.fp__bar span { font-size: 13px; font-weight: 700; }' +
   '.fp__fold { width: 40px; height: 40px; border: 0; background: none; color: #fff; font-size: 18px; line-height: 1; cursor: pointer; }' +
   '.fp__list { list-style: none; margin: 0; padding: 4px 0; }' +
   '.fp__list button { display: flex; align-items: baseline; gap: 8px; width: 100%; min-height: 40px; padding: 6px 12px; border: 0; background: none; color: #222; font-size: 14px; text-align: left; cursor: pointer; }' +
-  '.fp__list button small { font-size: 11px; color: #666; }' +
+  '.fp__list button small { font-size: 11px; color: #666; } .fp__list button span { font-size: 15px; }' +
   '.fp__list button:hover { background: #f1f1f1; }' +
   '.fp__list button[aria-pressed="true"] { background: #222; color: #fff; } .fp__list button[aria-pressed="true"] small { color: #ddd; }' +
   '.fp__fold:focus-visible, .fp__list button:focus-visible { outline: 2px solid #1a73e8; outline-offset: -2px; }' +
@@ -89,8 +94,8 @@
       root.setAttribute("data-font", cur.id);
       var fam = '"' + cur.family + '",' + JP, need = [];
       found.forEach(function (o) {
-        var heavy = /Anton|Archivo|Impact/i.test(o.family) || +o.weight >= 600;   // もともと太い見出しは、新しい書体でも太いほうを使う
-        var w = heavy ? cur.bold : 400;
+
+        var w = cur.bold || 400;
         var a = width(o.text, o.weight, o.family), b = width(o.text, w, fam);
         var k = b ? Math.max(0.45, Math.min(1.1, a / b)) : 1;
         touched.push({ el: o.el, fs: o.el.style.fontSize, fw: o.el.style.fontWeight });
@@ -119,7 +124,7 @@
     window.dispatchEvent(new Event("resize"));
     if (cur.family && document.fonts && document.fonts.load) {
       var f = cur, t = document.body ? document.body.innerText.slice(0, 4000) : "";
-      Promise.all([document.fonts.load('400 40px "' + f.family + '"', t), document.fonts.load(f.bold + ' 40px "' + f.family + '"', t)]).then(function () { if (cur === f) window.dispatchEvent(new Event("resize")); }, function () {});
+      Promise.all([document.fonts.load('400 40px "' + f.family + '"', t), document.fonts.load((f.bold || 400) + ' 40px "' + f.family + '"', t)]).then(function () { if (cur === f) window.dispatchEvent(new Event("resize")); }, function () {});
     }
   }
   function refit() { if (queued) return; queued = true; Promise.resolve().then(function () { queued = false; fit(); if (mo) mo.takeRecords(); }); }
@@ -158,11 +163,12 @@
       var li = document.createElement("li"), b = document.createElement("button");
       b.type = "button"; b.dataset.id = f.id; b.innerHTML = "<span></span><small></small>";
       b.firstChild.textContent = f.label; b.lastChild.textContent = f.note;
+      if (f.family) b.firstChild.style.setProperty("font-family", '"' + f.family + '",' + JP, "important");   // 名前をその書体で見せる
       b.addEventListener("click", function () { apply(f, true); });
       li.appendChild(b); list.appendChild(li);
     });
     var fold = box.querySelector(".fp__fold"), bar = box.querySelector(".fp__bar");
-    function setFold(on) { box.classList.toggle("is-folded", on); fold.textContent = on ? "＋" : "−"; fold.setAttribute("aria-expanded", on ? "false" : "true"); keepIn(); }
+    function setFold(on) { if (!on) FONTS.forEach(loadCss); box.classList.toggle("is-folded", on); fold.textContent = on ? "＋" : "−"; fold.setAttribute("aria-expanded", on ? "false" : "true"); keepIn(); }
     fold.addEventListener("click", function () { var on = !box.classList.contains("is-folded"); setFold(on); store("fontpick-fold", on ? "1" : "0"); });
     // 止めないと、下のページ（写真の拡大を閉じる・壁のスクロールなど）が反応してしまう
     ["click", "pointerdown", "mousedown", "touchstart", "wheel"].forEach(function (t) { box.addEventListener(t, function (e) { e.stopPropagation(); }, { passive: true }); });
@@ -196,6 +202,10 @@
   var q = /[?&]font=([a-z]+)/.exec(location.search);
   cur = byId(q && q[1]) || byId(store("fontpick")) || FONTS[0];
   if (cur.family) { loadCss(cur); root.setAttribute("data-font", cur.id); }   // 先に付けて、表示してから書体が替わる時間を短くする
-  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", function () { if (cur.family) refit(); });
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", function () {
+    if (!cur.family) return;
+    refit();
+    clearTimeout(window.__fpResize); window.__fpResize = setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 60);   // 文字が届いたら、ページ側の「幅に合わせる」もやり直させる
+  });
   if (document.body) build(); else document.addEventListener("DOMContentLoaded", build);
 })();
