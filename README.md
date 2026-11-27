@@ -52,3 +52,9 @@ gallery: [
 | `images/works/` `images/tumblr/` | 写真。`images/pages/` は雑誌の誌面全体 |
 | `index.html`, `a-bold.html`, `b-cool.html`, `c-simple.html` | 公開前の比較用（前の3案） |
 | `verify/` | 表示チェックの記録と道具 |
+
+## 書体を選ぶ小窓（12番台の見比べ用）
+
+12A〜 のページには、書体を見比べるための小さな窓が浮かんでいます（`assets/js/fontpick.js`、書体のファイルは `assets/fonts/jp/`）。
+上の黒い帯をつかむと動かせます。URL の最後に `?font=maru`（`ima` / `maru` / `kiwi` / `pen` / `tegaki` / `pop`）を付けると、その書体で開きます。
+書体が決まったら、各ページの最後にある `fontpick.js` の1行を外し、決まった書体をそのページの CSS に書きます。

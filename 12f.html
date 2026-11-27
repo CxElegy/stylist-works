@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<link rel="preload" href="assets/fonts/frank-ruhl-libre-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"F Serif";src:url("assets/fonts/frank-ruhl-libre-latin.woff2") format("woff2");font-weight:300;font-style:normal;font-display:block}
+@font-face{font-family:"F Sans";src:url("assets/fonts/inter-latin.woff2") format("woff2");font-weight:400;font-style:normal;font-display:block}
+
+:root{
+  --paper:rgb(244,244,239);
+  --paper0:rgba(244,244,239,0);
+  --tint:#8096a6;          /* 大きな文字（下の一行） */
+  --ink:#586a78;           /* 小さな文字・線・点 */
+  --cols:12;--m:20px;--fs:13px;
+  --cell:calc((100vw - 2 * var(--m)) / var(--cols));
+  --serif:"F Serif","Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --sans:"F Sans","Helvetica Neue",Arial,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",Meiryo,sans-serif;
+}
+@media (max-width:500px){:root{--cols:4;--m:16px;--fs:12px}}
+@media (min-width:501px) and (max-width:768px){:root{--cols:6}}
+@media (min-width:769px) and (max-width:812px){:root{--cols:8}}
+@media (min-width:813px) and (max-width:1025px){:root{--cols:10}}
+@media (min-width:1681px){:root{--cols:14}}
+@media (min-width:1921px){:root{--cols:16;--fs:14px}}
+@media (max-width:359px){:root{--fs:11px}}
+
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--paper);scrollbar-width:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html::-webkit-scrollbar,#detail::-webkit-scrollbar{display:none}
+html.locked{overflow:hidden}
+body{margin:0;min-height:100vh;min-height:100svh;overflow-x:clip;background:var(--paper);color:var(--ink);font:400 var(--fs)/1.4 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+a,button{color:inherit;font:inherit;text-decoration:none}
+button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0;text-align:left}
+img{display:block;border:0}
+p,h1,h2,ul,ol{margin:0;padding:0;font:inherit}
+ul,ol{list-style:none}
+:focus{outline:none}
+:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+[hidden]{display:none !important}
+.s{font:400 var(--fs)/1.4 var(--sans);white-space:nowrap}
+
+/* ---------- top row: who she is + contact ---------- */
+#top{position:fixed;z-index:30;left:0;top:0;width:100%;height:calc(var(--m) + .7em + 50px);padding:0 var(--m) 0 calc(var(--m) + 9px);display:flex;align-items:flex-start;justify-content:space-between;gap:8px;pointer-events:none;
+  background:linear-gradient(to bottom,var(--paper) 0,var(--paper) 30%,var(--paper0) 100%)}
+#top a,#top button{pointer-events:auto}
+#top .links{display:flex;align-items:flex-start;gap:0 18px}
+#top .t{display:block;padding:calc(var(--m) - .7em) 0 calc(44px - var(--m) - .7em);white-space:nowrap}   /* the text sits on the first row of dots */
+@media (hover:hover){#top .t:hover,#names a:hover,.row a:hover,.row button:hover{text-decoration:underline;text-underline-offset:4px}}
+#names{position:absolute;left:calc(var(--m) + 9px);top:calc(var(--m) + 1.1em);white-space:nowrap}
+@media (max-width:500px){#names{display:none}#top .links{gap:0 14px}}
+body.in-detail #names{display:none}
+.x{position:relative;width:44px;height:44px;margin-right:-10px;flex:none}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* ---------- the paper ---------- */
+#home{position:relative}
+#dots{position:absolute;z-index:20;left:0;top:0;width:100%;height:100%;overflow:hidden;pointer-events:none}
+#dots i{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--ink);
+  left:calc(var(--m) + var(--i) * var(--cell) - 1px);top:calc(var(--m) + var(--r) * var(--cell) - 1px)}
+
+/* ---------- first screen: one whole photo at a time, cut after cut ---------- */
+#stage{position:relative;z-index:1;height:100vh;height:100svh}
+#shot{position:absolute;display:block;-webkit-tap-highlight-color:transparent}
+#shot img{position:absolute;right:0;top:0;display:none;-webkit-user-drag:none;user-select:none}
+#shot img.on{display:block}
+#lead{display:none;position:absolute;left:calc(var(--m) + 9px);top:calc(var(--m) + 2 * var(--cell) - .7em);width:calc(3 * var(--cell) - 29px)}
+#lead p + p{margin-top:1.4em}
+@media (min-width:813px){#lead{display:block}}
+
+/* ---------- the groups on the paper ---------- */
+.grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-auto-rows:minmax(calc(2 * var(--cell)),auto);padding:0 var(--m)}
+.slot{position:relative;grid-column:span 2;display:flex;justify-content:flex-end;align-items:flex-start}
+.ph{display:block;position:relative;flex:none;overflow:hidden;isolation:isolate;background:var(--paper);
+  width:calc(var(--w) * var(--cell));height:calc(var(--h) * var(--cell));-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+.ph img{width:100%;height:100%;object-fit:cover;object-position:var(--op,50% 50%);filter:grayscale(1);mix-blend-mode:multiply;-webkit-user-drag:none;user-select:none}
+.ph.on img,.ph:focus-visible img{filter:none;mix-blend-mode:normal}
+@media (hover:hover){.ph:hover img{filter:none;mix-blend-mode:normal}}
+.ph:focus-visible{outline-offset:-1px}
+.s-a{--w:1;--h:1}
+.s-b{--w:2;--h:2}
+.s-c{--w:2;--h:3;grid-column:span 3}
+.s-d{--w:1.5;--h:2}
+/* the group's name, in the empty column beside its first photo, on a dot */
+.lab{position:absolute;z-index:21;left:0;top:calc(var(--cell) - .7em - 12px);width:var(--cell);padding:12px 0 12px 9px;white-space:nowrap}
+.lab b{display:block;font-weight:400}
+.lab u{display:block;text-decoration:underline;text-underline-offset:4px}
+.lab::after{content:"";position:absolute;left:-5px;top:calc(12px + .7em - 5px);width:10px;height:10px;border-radius:50%;border:0 solid var(--ink)}
+@media (hover:hover){.lab:hover::after{border-width:1px}}
+@media (max-width:500px){
+  .grid{grid-auto-rows:calc(4 * var(--cell))}
+  .slot,.slot.s-c{grid-column:1 / -1}
+  .s-a{--w:3;--h:3}
+  .s-b{--w:4;--h:4}
+  .s-c,.s-d{--w:3;--h:4}
+}
+
+/* ---------- the pinned line + the bottom row ---------- */
+.bottom{position:sticky;z-index:10;bottom:0;margin-top:calc(-47px - 8.333vw);padding:48px 0 var(--m);pointer-events:none;
+  background:linear-gradient(to bottom,var(--paper0) 30%,var(--paper) 70%)}
+.bottom a,.bottom button{pointer-events:auto}
+#big{display:block;overflow:hidden;white-space:nowrap;padding:0 15px;color:var(--tint);
+  font:300 14.666vw/.72 var(--serif);letter-spacing:-.03em;font-kerning:normal;font-synthesis:none}
+#gauge{position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;white-space:nowrap;font:300 100px/.72 var(--serif);letter-spacing:-.03em}
+.row{position:relative;margin-top:22px;min-height:2.8em}
+.row > *{position:absolute;top:0;left:calc(var(--m) + var(--c,0) * var(--cell));white-space:nowrap}
+.row .mid{--c:calc(var(--cols) / 2)}
+.row .r1{--c:calc(var(--cols) - 2)}
+@media (max-width:500px){
+  .bottom{display:contents}
+  #big{position:sticky;z-index:10;bottom:0;pointer-events:none;padding:25vw var(--m) 16px;font-size:14.1vw;
+    background:linear-gradient(to bottom,var(--paper0) 30%,var(--paper) 70%)}
+  .row{z-index:10;margin:0;padding:0 var(--m) var(--m);background:var(--paper);min-height:0;display:grid;grid-template-columns:1fr 1fr}
+  .row > *{position:static;min-height:44px;display:flex;align-items:center}
+  .row .who{grid-column:1 / -1}
+}
+
+/* ---------- category view: heading + grid of thumbnails ---------- */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:25;overscroll-behavior:contain;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:var(--paper);opacity:0;transition:opacity .3s linear}
+#detail.shown{opacity:1}
+#detail .in{max-width:1180px;margin:0 auto;padding:118px var(--m) 16vh}
+#detail h2{margin:0 0 6vh;text-align:center;font:300 clamp(26px,3vw,42px)/1 var(--serif);letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
+#detail ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail ol li.wide{grid-column:span 2}                    /* 見開きの誌面は2列ぶん */
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 300ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail h2,#detail .more{opacity:0;transition:opacity .4s linear .3s}
+#detail.shown h2,#detail.shown .more{opacity:1}
+#detail:focus-visible{outline:none}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s linear}   /* 写真は切らない：幅に合わせて高さは成り行き */
+@media (hover:hover){#detail ol li button:hover img{opacity:.8}}
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 20px}
+#detail .more ul{display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(22px,3.2vw,52px)}
+#detail .more li button{font:300 clamp(34px,5.2vw,72px)/1.25 var(--serif);letter-spacing:-.02em;white-space:nowrap;color:var(--tint);min-height:44px}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink)}
+#detail .more .c{margin:9vh 0 0;font-size:15px;line-height:1.6}
+#detail .more .c a{display:inline-block;padding:16px 0 4px;border-bottom:1px solid var(--ink)}
+
+/* ---------- lightbox: one photo large ---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:var(--paper);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .x{position:fixed;right:var(--m);top:8px;margin:0;z-index:2;background:rgba(244,244,239,.92);border-radius:50%}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb.one .nv{display:none}
+#lb .ct{position:fixed;left:0;right:0;bottom:20px;margin:0;text-align:center;pointer-events:none}
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
+
+/* ---------- profile ---------- */
+#about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;background:var(--paper);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#about .x{position:fixed;right:var(--m);top:2px;margin:0}
+#about .in{max-width:36em;margin:0 auto;padding:18vh var(--m) 12vh}
+#about h2{margin:0 0 .35em;font:300 min(16vw,150px)/.9 var(--serif);letter-spacing:-.03em;color:var(--tint)}
+#about p{margin:0 0 1.4em;font-size:15px;line-height:1.9}
+#about p.k{margin-bottom:2.4em;font-size:var(--fs);line-height:1.4}
+#about a{border-bottom:1px solid var(--ink)}
+
+@media (max-width:767px){
+  #detail .in{padding:96px var(--m) 16vh}
+  #detail h2{font-size:26px;margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+}
+@media (prefers-reduced-motion:reduce){
+  #detail,#detail li,#detail li img,#lb,#lb figure,#detail h2,#detail .more{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <h1 class="id s"><a class="t" id="homeLink" href="#top"></a></h1>
+  <p id="names" class="s"></p>
+  <div class="links">
+    <button class="s t" id="openAbout" type="button">プロフィール</button>
+    <a class="s t" id="mail" href="#">お問い合わせ</a>
+    <button class="x" id="closeDetail" type="button" aria-label="一覧を閉じる" hidden></button>
+  </div>
+</header>
+
+<div id="home">
+  <div id="dots" aria-hidden="true"></div>
+  <main>
+    <section id="stage" aria-label="作品">
+      <div id="lead"></div>
+      <a id="shot" href="#selected"></a>
+    </section>
+    <div class="grid" id="grid"></div>
+  </main>
+  <footer class="bottom" id="bottom">
+    <p id="big" aria-hidden="true"></p>
+    <div class="row">
+      <p class="who" id="who"></p>
+      <a class="mid" id="mail2" href="#">お問い合わせ</a>
+      <button class="r1" id="openAbout2" type="button">プロフィール</button>
+    </div>
+  </footer>
+  <span id="gauge" aria-hidden="true"></span>
+</div>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1"><div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div></section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct s" aria-live="polite"></p>
+</div>
+
+<section id="about" aria-label="プロフィール" hidden tabindex="-1">
+  <button class="x" id="closeAbout" type="button" aria-label="閉じる"></button>
+  <div class="in"></div>
+</section>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SEL = window.SELECTION || {lead:[],groups:[]};
+  var SIZES = window.SIZES || {};
+  var THUMBS = window.THUMBS || {};
+  var PRO = window.PROFILE || {};
+  var doc = document, body = doc.body, root = doc.documentElement;
+  function $(id){ return doc.getElementById(id); }
+  function el(tag, cls, txt){ var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function now(){ return performance.now(); }
+
+  /* ---------- groups: Selected + the six in data/selection.js ---------- */
+  var GROUPS = {}, ORDER = [];
+  GROUPS.selected = { id:'selected', title:'セレクト', en:'Selected', items:(SEL.lead || []).slice() };
+  ORDER.push(GROUPS.selected);
+  (SEL.groups || []).forEach(function(g){ GROUPS[g.id] = g; ORDER.push(g); });
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  function small(src){ return THUMBS[src] || src; }
+
+  /* ---------- environment ---------- */
+  var mqNarrow = window.matchMedia('(max-width:767px)');
+  var mqPhone = window.matchMedia('(max-width:500px)');
+  var mqFine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var mqCalm = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function narrow(){ return mqNarrow.matches; }
+  function calm(){ return mqCalm.matches; }
+  function fine(){ return mqFine.matches; }
+  function syncFine(){ root.classList.toggle('fine', fine()); }
+  syncFine();
+  if (mqFine.addEventListener) mqFine.addEventListener('change', syncFine);
+
+  /* ---------- text ---------- */
+  var nameEn = PRO.nameEn || 'Akari Ito', nameJa = PRO.nameJa || '伊藤 あかり';
+  var who = nameJa + '｜スタイリスト';
+  var SITE = nameEn + (PRO.role ? ', ' + PRO.role : '');
+  $('homeLink').textContent = who; $('who').textContent = who;
+  [$('mail'), $('mail2')].forEach(function(a){ if (PRO.email) a.href = 'mailto:' + PRO.email; else a.hidden = true; });
+  $('lead').appendChild(el('p', null, who));
+  if (PRO.lead) $('lead').appendChild(el('p', null, PRO.lead));
+
+  var home = $('home'), stage = $('stage'), shot = $('shot'), grid = $('grid'), big = $('big'), gauge = $('gauge'), dots = $('dots'), bottom = $('bottom');
+  var opener = null;                           /* what to give the focus back to when a list closes */
+  var startHash = (location.hash || '').slice(1);
+
+  /* ---------- the groups on the paper: two photos each, the name beside the first ---------- */
+  /* 写真ごとの切り抜き位置（顔が切れないように、写真を見て決めた） */
+  var POS = {
+    'images/works/biteki-portrait-03.jpg': '50% 15%',
+    'images/tumblr/08-test-shoot-02.jpg': '50% 8%',
+    'images/works/biteki-neo-nude-eye.jpg': '50% 12%',
+    'images/works/biteki-portrait-01.jpg': '50% 22%',
+    'images/tumblr/01-uniqlo-01.jpg': '50% 4%',
+    'images/tumblr/01-uniqlo-04.jpg': '50% 6%',
+    'images/tumblr/07-global-work-01.jpg': '50% 4%',
+    'images/tumblr/07-global-work-02.jpg': '50% 30%',
+    'images/works/orangepage-04.jpg': '50% 30%',
+    'images/tumblr/04-elura-03.jpg': '50% 50%',
+    'images/tumblr/06-kids-04.jpg': '50% 8%',
+    'images/tumblr/06-kids-06.jpg': '50% 6%',
+    'images/works/personal-02.jpg': '50% 18%',
+    'images/works/personal-09.jpg': '50% 45%'
+  };
+  /* 枠の形（a=小 b=大 c=縦長大 d=縦長）。各ジャンルの1枚めは小さい枠（左の1列が空いて、そこにジャンル名） */
+  var SHAPES = [['a','b'], ['a','b'], ['a','c'], ['a','b'], ['a','d'], ['a','c'], ['a','b']];
+  var firsts = [], photos = [], shown = [];
+  ORDER.forEach(function(g, gi){
+    var pair = (g === GROUPS.selected ? g.items.slice(1, 3) : g.items.slice(0, 2));
+    if (!pair.length) return;
+    var gn = shown.length; shown.push(g);
+    pair.forEach(function(src, k){
+      var slot = el('div', 'slot s-' + SHAPES[gn % SHAPES.length][k]);
+      if (k === 0){
+        var lab = el('button', 'lab s'); lab.type = 'button';
+        lab.appendChild(el('b', null, g.en || g.title));
+        lab.appendChild(el('u', null, '一覧 ' + galleryOf(g).length));
+        lab.setAttribute('aria-label', g.title + 'の一覧を見る（' + galleryOf(g).length + '点）');
+        lab.addEventListener('click', function(){ opener = lab; openDetail(g); });
+        slot.appendChild(lab);
+        firsts.push(slot);
+      }
+      var a = el('a', 'ph'); a.href = '#' + g.id;
+      a.setAttribute('aria-label', g.title + ' ' + (k + 1) + '（一覧を見る）');
+      var img = new Image(); img.alt = ''; img.decoding = 'async'; img.loading = 'lazy'; img.draggable = false;
+      if (POS[src]) img.style.setProperty('--op', POS[src]);
+      img.src = src;
+      a.appendChild(img);
+      a.addEventListener('click', function(e){ e.preventDefault(); opener = a; openDetail(g); });
+      slot.appendChild(a); grid.appendChild(slot); photos.push(a);
+    });
+  });
+  /* colour while a finger is on the photo */
+  grid.addEventListener('pointerdown', function(e){ var a = e.target.closest('.ph'); if (a && e.pointerType !== 'mouse') a.classList.add('on'); });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(function(t){
+    grid.addEventListener(t, function(e){ var a = e.target.closest && e.target.closest('.ph'); if (a) a.classList.remove('on'); }, true);
+  });
+  grid.addEventListener('contextmenu', function(e){ if (e.target.closest('.ph.on')) e.preventDefault(); });
+
+  /* all the groups in one sentence (wide screens) */
+  shown.forEach(function(g, i){
+    if (i) $('names').appendChild(doc.createTextNode('、'));
+    var a = el('a', null, g.title); a.href = '#' + g.id;
+    a.addEventListener('click', function(e){ e.preventDefault(); opener = a; openDetail(g); });
+    $('names').appendChild(a);
+  });
+
+  /* ---------- the first screen: whole photos, cut after cut, slower each time, then still ---------- */
+  var lead = GROUPS.selected.items;
+  var SEQ = [];
+  (SEL.groups || []).forEach(function(g){ var s = g.items && (g.items[2] || g.items[0]); if (s) SEQ.push({ src:s, g:g }); });
+  if (lead[3]) SEQ.push({ src:lead[3], g:GROUPS.selected });
+  if (lead[0]) SEQ.push({ src:lead[0], g:GROUPS.selected });           /* the still it ends on */
+  var DWELL = [133, 133, 167, 233, 300, 400, 400];                      /* ms each photo stays before the next cut */
+  if (SEQ.length - 1 > DWELL.length) SEQ = SEQ.slice(SEQ.length - 1 - DWELL.length);
+  if (SEQ.length - 1 < DWELL.length) DWELL = DWELL.slice(DWELL.length - (SEQ.length - 1));
+  var LAST = SEQ.length - 1, at = -1, playing = false, settled = false;
+  var frame = { w:0, h:0 };
+  function mount(s, cb){
+    if (s.img) return;
+    var im = el('img'); im.alt = ''; im.decoding = 'sync'; im.draggable = false; s.img = im;
+    function done(ok){ s.ok = ok; if (cb) cb(); }
+    im.onload = function(){ if (im.decode) im.decode().then(function(){ done(true); }, function(){ done(true); }); else done(true); };
+    im.onerror = function(){ done(false); };
+    size(s); im.src = s.src; shot.appendChild(im);
+  }
+  /* every photo is fitted whole into the same frame: never cropped, never stretched */
+  function size(s){
+    if (!s.img || !frame.w) return;
+    var z = SIZES[s.src] || [2, 3], k = Math.min(frame.w / z[0], frame.h / z[1], 1.5);
+    s.w = Math.max(1, Math.round(z[0] * k)); s.h = Math.max(1, Math.round(z[1] * k));
+    s.img.style.width = s.w + 'px'; s.img.style.height = s.h + 'px';
+  }
+  function show(i){
+    var s = SEQ[i]; if (!s || !s.img) return;
+    if (at >= 0 && at !== i && SEQ[at].img) SEQ[at].img.classList.remove('on');
+    s.img.classList.add('on'); at = i;
+    shot.style.width = s.w + 'px'; shot.style.height = s.h + 'px';
+    shot.setAttribute('aria-label', s.g.title + 'の一覧を見る');
+  }
+  /* the end: the last photo, and nothing changes after that */
+  function settle(){
+    if (settled) return;
+    settled = true; playing = false;
+    END.forEach(function(k){ window.removeEventListener(k, settle, true); });
+    var s = SEQ[LAST]; if (!s) return;
+    if (s.ok) show(LAST);
+    else { var cb = function(){ if (s.ok) show(LAST); }; if (s.img) s.img.addEventListener('load', function(){ setTimeout(cb, 0); }); else mount(s, cb); }
+  }
+  var END = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'];
+  function play(){
+    if (settled || playing) return;
+    if (window.scrollY > 40 || view !== 'home' || now() > 2500){ settle(); return; }
+    playing = true;
+    var t0 = now();
+    show(0);
+    (function tick(){
+      if (!playing) return;
+      var e = now() - t0, n = 0, acc = 0;
+      while (n < DWELL.length && e >= acc + DWELL[n]){ acc += DWELL[n]; n++; }
+      if (n !== at) show(n);
+      if (n >= LAST){ settle(); return; }
+      requestAnimationFrame(tick);
+    })();
+  }
+  shot.addEventListener('click', function(e){ e.preventDefault(); var s = SEQ[at < 0 ? LAST : at]; settle(); opener = shot; if (s) openDetail(s.g); });
+  shot.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+  /* ---------- layout: one size for the pinned line, the photo frame, the dots ---------- */
+  var NAMES = [SITE].concat(shown.map(function(g){ return g.en || g.title; }));
+  function cssNum(n){ return parseFloat(getComputedStyle(root).getPropertyValue(n)); }
+  var dotKey = '';
+  function layout(){
+    var W = root.clientWidth, H = window.innerHeight, m = cssNum('--m'), cols = cssNum('--cols'), cell = (W - 2 * m) / cols, phone = mqPhone.matches;
+    /* the longest name decides the size; every name uses it, so the line never changes height */
+    var widest = 0, pad = phone ? m : 15;
+    NAMES.forEach(function(t){ gauge.textContent = t; widest = Math.max(widest, gauge.getBoundingClientRect().width); });
+    gauge.textContent = '';
+    var fit = widest > 0 ? 100 * (W - 2 * pad) / widest : 1e9;
+    var fs = Math.min(W >= 813 ? fit : Math.min(W * 0.141, fit), H * 0.3);
+    big.style.fontSize = fs.toFixed(2) + 'px';
+    /* the photo frame: top and right edge on grid lines, as tall as the room above the line allows */
+    var top = m + cell * (phone ? 1 : 0.5);
+    var under = phone ? fs * 0.72 + 16 + 24 : bottom.offsetHeight - 48 + 14;
+    var rcol = phone ? cols : Math.round(cols * 2 / 3);
+    frame.w = cell * (phone ? cols : Math.min(5, rcol)); frame.h = Math.max(120, H - top - under);
+    var tall = 0;
+    SEQ.forEach(function(s){ var z = SIZES[s.src] || [2, 3]; tall = Math.max(tall, Math.round(z[1] * Math.min(frame.w / z[0], frame.h / z[1], 1.5))); size(s); });
+    shot.style.top = top + 'px'; shot.style.right = (W - m - rcol * cell) + 'px';
+    if (at >= 0) show(at);
+    /* the groups begin on the next grid line under the frame */
+    var rows = Math.ceil((top + tall + cell * 0.5 - m) / cell);
+    stage.style.height = (m + rows * cell) + 'px';
+    /* a dot on every crossing of the grid */
+    var n = Math.floor((home.offsetHeight - m - 1) / cell) + 1, key = cols + 'x' + n;
+    if (key !== dotKey){
+      dotKey = key;
+      var f = doc.createDocumentFragment();
+      for (var r = 0; r < n; r++) for (var i = 0; i <= cols; i++){ var d = doc.createElement('i'); d.style.cssText = '--i:' + i + ';--r:' + r; f.appendChild(d); }
+      dots.textContent = ''; dots.appendChild(f);
+    }
+  }
+  /* the pinned line names the group in view; her name at the very top and at the very end */
+  function currentTitle(){
+    if (!photos.length || window.scrollY < 40) return SITE;
+    var H = window.innerHeight;
+    if (photos[photos.length - 1].getBoundingClientRect().bottom <= H) return SITE;
+    var gi = 0;
+    for (var i = 0; i < firsts.length; i++) if (firsts[i].getBoundingClientRect().top <= H / 2) gi = i;
+    return shown[gi].en || shown[gi].title;
+  }
+  var bigText = null;
+  function onScroll(){
+    var t = currentTitle();
+    if (t !== bigText){ bigText = t; big.textContent = t; }       /* swapped at once: no fade, no move */
+    for (var i = 0; i < photos.length; i++) photos[i].classList.remove('on');
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', function(){ layout(); onScroll(); });
+  if (window.ResizeObserver) new ResizeObserver(function(){ layout(); }).observe(home);
+
+  /* ---------- start ---------- */
+  var view = 'home';
+  big.textContent = bigText = SITE;
+  big.style.visibility = 'hidden';             /* the line appears once its typeface is there, already at its final size */
+  var unveil = function(){ layout(); onScroll(); big.style.visibility = ''; };
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(unveil); else unveil();
+  setTimeout(unveil, 3000);
+  layout();
+  var direct0 = GROUPS[startHash] && galleryOf(GROUPS[startHash]).length;
+  if (!SEQ.length){ settled = true; }
+  else if (calm() || direct0){ mount(SEQ[LAST], function(){ settle(); }); }
+  else {
+    var left = SEQ.length, fontsOk = !(doc.fonts && doc.fonts.ready);
+    var go = function(){ if (left === 0 && fontsOk) { layout(); if (SEQ.every(function(s){ return s.ok; })) play(); else settle(); } };
+    mount(SEQ[0], function(){ if (SEQ[0].ok && !settled && at < 0) show(0); left--; go(); });   /* shown only once it is whole */
+    SEQ.slice(1).forEach(function(s){ mount(s, function(){ left--; go(); }); });
+    if (!fontsOk) doc.fonts.ready.then(function(){ fontsOk = true; layout(); onScroll(); go(); });
+    END.forEach(function(k){ window.addEventListener(k, settle, { capture:true, passive:true }); });
+  }
+  $('openAbout2').addEventListener('click', function(){ openAbout(); });
+
+  /* ---------- category view: heading + grid of thumbnails ---------- */
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
+  var open1 = null;                    /* { g, items[], btns[] } while a category is open */
+  var direct = false;                  /* this visit began on a group's own address (…#beauty) */
+  function fillDetail(g){
+    var items = galleryOf(g);
+    list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    open1 = { g:g, items:items, btns:[] };
+    items.forEach(function(src, n){
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src); im.setAttribute('data-src', src);      /* 一覧は小さい画像、拡大は元の画像 */
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      open1.btns.push(b);
+    });
+    more.textContent = '';
+    more.appendChild(el('p', 'k s', 'ほかの作品'));
+    var ul = el('ul');
+    ORDER.forEach(function(o){
+      if (o === g || !galleryOf(o).length) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', null, 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: undefined (from the first screen), 'direct' (the address already named the group), 'pop' (back / forward) */
+  function openDetail(g, how){
+    settle();
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    body.classList.add('in-detail'); root.classList.add('locked');
+    home.style.visibility = 'hidden'; home.setAttribute('aria-hidden', 'true');
+    $('openAbout').hidden = true; $('mail').hidden = true; $('closeDetail').hidden = false;
+    detail.classList.remove('shown');
+    detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add('shown');
+    detail.focus({ preventScroll:true });           /* so the arrow / page keys scroll the list */
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  /* from one group's list straight to another's (the links after the last photo) */
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      fillDetail(g);
+      detail.scrollTop = 0;
+      void detail.offsetWidth; detail.classList.add('shown');
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
+  }
+  function closeDetail(fromPop){
+    if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
+    if (lbOn) closeLb(true);
+    view = 'home';
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; open1 = null;
+    body.classList.remove('in-detail');
+    home.style.visibility = ''; home.removeAttribute('aria-hidden');
+    $('openAbout').hidden = false; $('mail').hidden = !PRO.email; $('closeDetail').hidden = true;
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    root.classList.remove('locked'); layout(); onScroll();
+    if (opener && opener.focus) opener.focus({ preventScroll:true });
+    opener = null;
+  }
+  $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
+  $('top').addEventListener('wheel', function(e){ if (view === 'detail' && !lbOn) detail.scrollTop += e.deltaY; }, { passive:true });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;                /* still inside a category after this step back */
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) closeDetail(true);
+    else if (view === 'detail' && keep && open1 && open1.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; }
+    else if (view === 'home' && keep && GROUPS[e.state.g] && about.hidden) openDetail(GROUPS[e.state.g], 'pop');   /* forward again into a group */
+  });
+
+  /* ---------- lightbox: one photo large, previous / next, swipe ---------- */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0;
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  /* the order the thumbnails are seen in (row by row, left to right); a spread that moves down a row changes it */
+  function seenOrder(){
+    var r = open1.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  var got = {}, lbSrc = '', lbShut = 0;
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);            /* worth enlarging to its own size */
+  }
+  /* wide screens with a mouse: a click on the photo shows it at its own size, a second click fits it again */
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
+  function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = open1.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);                        /* what can be shown straight away */
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = open1.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function(d){ var k = open1.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  function openLb(n){
+    if (!open1 || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    try { history.pushState({ g:open1.g.id, lb:1 }, '', '#' + open1.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); lb.classList.remove('zoom');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    var b = open1 && open1.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){            /* the paper around the photo */
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
+
+  /* ---------- profile ---------- */
+  var about = $('about');
+  (function(){
+    var box = about.querySelector('.in');
+    box.appendChild(el('h2', null, nameEn));
+    box.appendChild(el('p', 'k', nameJa + '｜スタイリスト'));
+    if (PRO.lead) box.appendChild(el('p', null, PRO.lead));
+    (PRO.bio || []).forEach(function(line){ box.appendChild(el('p', null, line)); });
+    if (PRO.specialty) box.appendChild(el('p', null, PRO.specialty));
+    if (PRO.email){ var p = el('p'); var m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; p.appendChild(m); box.appendChild(p); }
+    if (PRO.instagram){ var p2 = el('p'); var ig = el('a', null, 'Instagram'); ig.href = PRO.instagram; ig.rel = 'noopener'; p2.appendChild(ig); box.appendChild(p2); }
+  })();
+  var aboutFrom = null;
+  function openAbout(){ settle(); aboutFrom = doc.activeElement; about.hidden = false; about.scrollTop = 0; $('closeAbout').focus({ preventScroll:true }); }
+  function closeAbout(){ if (about.hidden) return; about.hidden = true; if (aboutFrom && aboutFrom.focus) aboutFrom.focus({ preventScroll:true }); }
+  $('openAbout').addEventListener('click', openAbout);
+  $('closeAbout').addEventListener('click', closeAbout);
+
+  $('homeLink').addEventListener('click', function(e){
+    e.preventDefault();
+    if (!about.hidden) closeAbout();
+    if (view === 'detail') closeDetail(false);
+    else window.scrollTo(0, 0);
+  });
+  doc.addEventListener('keydown', function(e){
+    if (lbOn){
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    if (view === 'detail' && about.hidden && !detail.contains(doc.activeElement)){
+      var H = detail.clientHeight, onBtn = doc.activeElement && /^(BUTTON|A)$/.test(doc.activeElement.tagName);
+      var by = { ArrowDown:60, ArrowUp:-60, PageDown:H * 0.9, PageUp:-H * 0.9, End:1e7, Home:-1e7 }[e.key];
+      if (by === undefined && e.key === ' ' && !onBtn) by = H * 0.9;
+      if (by !== undefined){ detail.scrollTop += by; e.preventDefault(); return; }
+    }
+    if (e.key !== 'Escape') return;
+    if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
+  });
+
+  /* the address names a group (…#beauty): open its list straight away */
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length) openDetail(first, 'direct');
+})();
+</script>
+</body>
+</html>
