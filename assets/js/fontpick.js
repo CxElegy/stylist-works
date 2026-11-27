@@ -30,7 +30,7 @@
     return 'html[data-font="' + f.id + '"] body, html[data-font="' + f.id + '"] body *:not(.fp):not(.fp *) { font-family: "' + f.family + '",' + JP + ' !important; font-synthesis: none; }';
   }).join("\n") +
   '\n.fp, .fp * { box-sizing: border-box; font-family: ' + JP.replace(/"Hiragino Maru Gothic ProN",/, "") + ' !important; letter-spacing: 0 !important; text-transform: none !important; }' +
-  '.fp { position: fixed; z-index: 2147483000; right: 12px; bottom: 12px; width: 208px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
+  '.fp { position: fixed; z-index: 2147483000; right: 8px; top: 42%; width: 208px; background: #fff; color: #222; border: 1px solid #222; font-size: 13px; line-height: 1.4; box-shadow: 0 4px 18px rgba(0,0,0,.18); -webkit-user-select: none; user-select: none; }' +
   '.fp__bar { display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 4px 0 12px; background: #222; color: #fff; cursor: move; touch-action: none; }' +
   '.fp__bar span { font-size: 13px; font-weight: 700; }' +
   '.fp__fold { width: 40px; height: 40px; border: 0; background: none; color: #fff; font-size: 18px; line-height: 1; cursor: pointer; }' +
@@ -164,7 +164,7 @@
 
     document.body.appendChild(box);
     var folded = store("fontpick-fold");
-    setFold(folded === null || folded === undefined ? window.innerWidth < 700 : folded === "1");   // スマホでは最初たたんでおく
+    setFold(folded !== "0");   // 最初はたたんでおく（メニューや一覧に重ならないように、画面の右の中ほどに置く）
     var pos = (store("fontpick-pos") || "").split(",");
     if (pos.length === 2 && !isNaN(parseFloat(pos[0]))) place(parseFloat(pos[0]), parseFloat(pos[1]));
     if (mo) mo.observe(document.body, { childList: true, subtree: true, characterData: true });
