@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="ja" data-mood="cold">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<script>
+/* 気分（確認用）：既定は COLD。?mood=warm で WARM。最初の表示から決める（あとで切り替わってちらつかないように） */
+(function(){var m='cold';try{var q=/[?&]mood=([a-z]+)/.exec(location.search);if(q&&q[1]==='warm')m='warm'}catch(e){}document.documentElement.setAttribute('data-mood',m)})();
+</script>
+<style>
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:block}
+@font-face{font-family:"Frank Ruhl Libre";src:url("assets/fonts/frank-ruhl-libre-latin.woff2") format("woff2");font-weight:300;font-style:normal;font-display:block}
+
+/* ================= 2 つの気分。変わるのは 書体・色・余白・カードの形 だけ ================= */
+:root{
+  --gothic:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+  --mincho:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP","IPAMincho",serif;
+  --head:72px;                 /* ヘッダーの高さ（PC） */
+  --edge:48px;                 /* 左右の余白 */
+  --top:calc(100vh - var(--head));
+}
+@supports (height:1svh){ :root{--top:calc(100svh - var(--head))} }
+/* COLD：Balenciaga 概念稿・ANNA ANNA。近い白 + 近い黒、無装飾体の細い大文字、直角 */
+html[data-mood="cold"]{
+  --bg:#F7F7F7; --ink:#111111; --sub:#5E5E5E; --hair:rgba(17,17,17,.12); --veil:rgba(247,247,247,.94);
+  --text:"Archivo",var(--gothic); --text-st:100%; --text-wt:400;
+  --disp:"Archivo",var(--gothic); --disp-st:112%; --disp-wt:200; --disp-ls:-.01em;
+  --wm:"Archivo",var(--gothic); --wm-st:118%; --wm-wt:500; --wm-ls:.24em; --wm-size:17px;
+  --gap:12px; --sec:120px; --rad:0px; --lead:var(--gothic);
+}
+/* WARM：ADORN・LKNLN。淡いピンクの白 + 暖かい濃い色、字間の広い細いセリフ、角丸のカード */
+html[data-mood="warm"]{
+  --bg:#F9F1EF; --ink:#4A3631; --sub:#7D625A; --hair:rgba(74,54,49,.14); --veil:rgba(249,241,239,.94);
+  --text:"Frank Ruhl Libre",var(--mincho); --text-st:100%; --text-wt:300;
+  --disp:"Frank Ruhl Libre",var(--mincho); --disp-st:100%; --disp-wt:300; --disp-ls:.14em;
+  --wm:"Frank Ruhl Libre",var(--mincho); --wm-st:100%; --wm-wt:300; --wm-ls:.46em; --wm-size:19px;
+  --gap:16px; --sec:136px; --rad:22px; --lead:var(--mincho);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg)}
+html.locked,html.locked body{overflow:hidden}
+body{color:var(--ink);font-family:var(--text);font-stretch:var(--text-st);font-weight:var(--text-wt);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;overflow-x:hidden}
+a,button{color:inherit;font:inherit;text-decoration:none}
+button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0}
+img{display:block;border:0;max-width:100%}
+p,h1,h2,ul,ol{margin:0;padding:0}
+ul,ol{list-style:none}
+:focus{outline:none}
+:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+[hidden]{display:none !important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- 細く長い矢印（Balenciaga の「See more ⟶」）---------- */
+.arr{display:inline-block;position:relative;width:56px;height:9px;flex:none;vertical-align:middle;transition:width .25s cubic-bezier(.4,0,.2,1)}
+.arr::before{content:"";position:absolute;left:0;right:0;top:4px;height:1px;background:currentColor}
+.arr::after{content:"";position:absolute;right:0;top:0;width:8px;height:8px;border-top:1px solid currentColor;border-right:1px solid currentColor;transform:translate(-1px,.5px) rotate(45deg)}
+a:hover .arr,a:focus-visible .arr{width:64px}
+.all{display:inline-flex;align-items:center;gap:14px;min-height:40px;font-size:13px;line-height:1;letter-spacing:.02em;white-space:nowrap;color:var(--ink)}
+html[data-mood="warm"] .all{font-size:14px;letter-spacing:.06em}
+
+/* ---------- ヘッダー：左に名前、真ん中に字標、右にプロフィール／お問い合わせ ---------- */
+.top{position:sticky;top:0;z-index:20;height:var(--head);padding:0 var(--edge);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;background:var(--bg);box-shadow:0 1px 0 var(--hair)}
+.top .who{grid-area:1/1;justify-self:start;font-family:var(--gothic);font-weight:400;font-size:13px;line-height:1;letter-spacing:.04em;white-space:nowrap}
+html[data-mood="warm"] .top .who{font-family:var(--mincho)}
+.wm{grid-area:1/2;justify-self:center;display:inline-flex;align-items:center;min-height:40px;font-family:var(--wm);font-stretch:var(--wm-st);font-weight:var(--wm-wt);font-size:var(--wm-size);line-height:1;letter-spacing:var(--wm-ls);margin-right:calc(-1 * var(--wm-ls));text-transform:uppercase;white-space:nowrap}
+.top .links{grid-area:1/3;justify-self:end;display:flex;align-items:center;gap:28px;white-space:nowrap}
+.top .links .l{display:inline-flex;align-items:center;min-height:40px;font-family:var(--gothic);font-weight:400;font-size:13px;line-height:1;letter-spacing:.04em}
+html[data-mood="warm"] .top .links .l{font-family:var(--mincho)}
+.mood{display:inline-flex;align-items:center;font-family:"Archivo",sans-serif;font-stretch:100%;font-size:11px;line-height:1;letter-spacing:.12em;color:var(--sub)}
+.mood button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;min-width:40px;padding:0 2px;border-bottom:1px solid transparent;color:var(--sub)}
+.mood button[aria-pressed="true"]{color:var(--ink)}
+.mood button[aria-pressed="true"] span{border-bottom:1px solid var(--ink)}
+.mood i{font-style:normal;padding:0 4px}
+
+/* ---------- 首屏：代表作 2 枚 + あいだの柱（PROFILE.lead）----------
+   写真は切らない。高さ＝画面の高さ − ヘッダー。2 枚の幅の残りを柱にする（左右に空きを作らない）*/
+.hero{display:flex;align-items:stretch;width:100%}
+.hp{flex:none;display:block;width:max(calc((100% - 640px) / 2), min(calc(var(--top) * var(--r)), calc((100% - 300px) / 2)))}
+.hp img{width:100%;height:auto;aspect-ratio:var(--ar)}
+.mid{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:40px 28px 32px;text-align:center}
+.eyebrow{font-family:var(--text);font-size:12px;line-height:1;letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;white-space:nowrap}
+html[data-mood="warm"] .eyebrow{font-size:13px}
+.lead{font-family:var(--lead);font-weight:400;font-size:17px;line-height:2.05;letter-spacing:.06em;word-break:auto-phrase;text-wrap:balance}
+html[data-mood="cold"] .lead{font-size:16px;letter-spacing:.08em}
+.lead .ph{display:inline-block}
+.mid .all{flex-direction:column;gap:12px}
+html[data-mood="warm"] .hp img{border-radius:0}
+
+/* ---------- ジャンルの段 ---------- */
+main{padding:0 var(--edge)}
+.g{padding-top:var(--sec)}
+.g:last-child{padding-bottom:var(--sec)}
+.gh{display:grid;grid-template-columns:1fr auto;grid-template-areas:"t a" "j a";align-items:end;column-gap:32px;margin:0 0 28px}
+.gt{grid-area:t;font-family:var(--disp);font-stretch:var(--disp-st);font-weight:var(--disp-wt);font-size:clamp(40px,5vw,84px);line-height:.92;letter-spacing:var(--disp-ls);text-transform:uppercase;white-space:nowrap}
+.gj{grid-area:j;margin-top:14px;font-family:var(--gothic);font-size:14px;line-height:1.3;letter-spacing:.06em;white-space:nowrap}
+.gj .n{margin-left:14px;color:var(--sub)}
+.gh .all{grid-area:a;align-self:end;margin-bottom:-6px}
+/* 暖：見出しは真ん中（LKNLN の NEW DROP、ADORN の New arrivals）*/
+html[data-mood="warm"] .gh{grid-template-columns:1fr;grid-template-areas:"t" "j" "a";justify-items:center;text-align:center;margin-bottom:36px}
+html[data-mood="warm"] .gt{font-size:clamp(30px,3.6vw,56px);line-height:1;margin-right:calc(-1 * var(--disp-ls))}
+html[data-mood="warm"] .gj{font-family:var(--mincho);margin-top:12px}
+html[data-mood="warm"] .gh .all{margin:10px 0 0}
+
+/* 写真の列：枠の高さが同じ、写真は切らない。幅 ∝ 縦横比（flex-grow に縦横比）なので、行の幅ちょうどで高さがそろう */
+.row{display:flex;gap:var(--gap)}
+.pair{display:contents}
+.row li{flex:var(--r) 1 0;min-width:0}
+.row a{display:block;position:relative;overflow:hidden;border-radius:var(--rad);background:var(--hair)}
+.row img{width:100%;height:auto;aspect-ratio:var(--ar);transition:opacity .25s cubic-bezier(.4,0,.2,1),transform .4s cubic-bezier(.22,1,.36,1)}
+.row a:hover img{opacity:.86}
+html[data-mood="warm"] .row a:hover img{opacity:1;transform:scale(1.03)}
+/* 暖：1 枚目は分類カード（左下にジャンル名、右下に丸い矢印）。冷では出さない */
+.lab,.go{display:none}
+html[data-mood="warm"] .lab{display:block;position:absolute;left:14px;bottom:14px;padding:9px 14px 8px;border-radius:999px;background:var(--veil);font-family:var(--disp);font-size:13px;line-height:1;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+html[data-mood="warm"] .go{display:block;position:absolute;right:14px;bottom:14px;width:32px;height:32px;border-radius:50%;background:var(--ink)}
+.go::before{content:"";position:absolute;left:9px;right:9px;top:15.5px;height:1px;background:var(--bg)}
+.go::after{content:"";position:absolute;right:9px;top:12px;width:7px;height:7px;border-top:1px solid var(--bg);border-right:1px solid var(--bg);transform:rotate(45deg)}
+
+/* ---------- 終わり：お問い合わせ ---------- */
+.foot{padding:72px var(--edge) 96px;text-align:center;box-shadow:0 -1px 0 var(--hair)}
+.foot .k{font-family:var(--text);font-size:12px;line-height:1;letter-spacing:.32em;margin-right:-.32em;text-transform:uppercase;color:var(--sub)}
+.foot .c{display:inline-block;margin-top:20px;font-family:var(--gothic);font-size:18px;line-height:1.6;letter-spacing:.06em;border-bottom:1px solid var(--ink)}
+html[data-mood="warm"] .foot .c{font-family:var(--mincho)}
+.foot .e{margin-top:10px;font-size:14px;color:var(--sub)}
+.foot .e a{display:inline-block;min-height:40px;line-height:40px}
+
+/* ---------- ジャンルの一覧（r4-snog から）---------- */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg);opacity:0;transition:opacity .35s linear}
+#detail.shown{opacity:1}
+#detail:focus-visible{outline:none}
+#detail .in{max-width:1180px;margin:0 auto;padding:120px 20px 16vh}
+#detail h2{margin:0 0 6vh;text-align:center;font-family:var(--disp);font-stretch:var(--disp-st);font-weight:var(--disp-wt);font-size:clamp(26px,2.8vw,40px);line-height:1;letter-spacing:.04em;white-space:nowrap}
+#detail ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail ol li.wide{grid-column:span 2}
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s ease-out;transition-delay:calc(var(--n,0) * 35ms + 200ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s linear}
+#detail ol li button:hover img{opacity:.8}
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 20px;font-family:var(--gothic);font-size:14px;line-height:1}
+html[data-mood="warm"] #detail .more .k{font-family:var(--mincho)}
+#detail .more ul{display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(22px,3.2vw,52px)}
+#detail .more li button{font-family:var(--disp);font-stretch:var(--disp-st);font-weight:var(--disp-wt);font-size:clamp(30px,4.4vw,60px);line-height:1.3;letter-spacing:var(--disp-ls);text-transform:uppercase;white-space:nowrap;color:var(--sub)}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink)}
+#detail .more .c{margin:9vh 0 0;font-family:var(--gothic);font-size:16px;line-height:1.6}
+html[data-mood="warm"] #detail .more .c{font-family:var(--mincho)}
+#detail .more .c a{border-bottom:1px solid var(--ink)}
+.x{position:fixed;right:20px;top:16px;z-index:3;width:40px;height:40px;border-radius:50%;background:var(--veil)}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:26px;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+/* ---------- 拡大表示（r4-snog から）---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s linear;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s linear;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
+#lb.one .nv{display:none}
+#lb .ct{position:fixed;left:0;right:0;bottom:20px;margin:0;text-align:center;pointer-events:none;font-family:"Archivo",sans-serif;font-size:13px;line-height:1;letter-spacing:.12em}
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
+
+/* ---------- プロフィール ---------- */
+#about{position:fixed;left:0;top:0;width:100%;height:100%;z-index:42;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch}
+#about .in{max-width:34em;margin:0 auto;padding:20vh 20px 12vh}
+#about h2{margin:0 0 .6em;font-family:var(--disp);font-stretch:var(--disp-st);font-weight:var(--disp-wt);font-size:clamp(40px,7vw,84px);line-height:1;letter-spacing:var(--disp-ls);text-transform:uppercase}
+#about p{margin:0 0 1.3em;font-family:var(--lead);font-size:15px;line-height:1.9}
+#about p.k{margin-bottom:1.6em;line-height:1}
+#about a{border-bottom:1px solid var(--ink)}
+
+/* ================= 狭い画面 ================= */
+@media (max-width:1023px){
+  :root{--edge:28px}
+}
+@media (max-width:767px){
+  :root{--head:auto;--edge:16px}
+  html[data-mood="cold"]{--sec:80px;--gap:8px;--wm-size:15px;--wm-ls:.2em}
+  html[data-mood="warm"]{--sec:88px;--gap:10px;--rad:14px;--wm-size:16px;--wm-ls:.3em}
+  .top{position:relative;height:auto;padding:6px var(--edge) 0;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-rows:44px 40px;column-gap:8px}
+  .top .links{display:contents}
+  .top .links .l{font-size:12px}
+  #openAbout{grid-area:1/1;justify-self:start}
+  #mail{grid-area:1/3;justify-self:end}
+  .wm{grid-area:1/2}
+  .top .who{grid-area:2/1/2/3;font-size:12px}
+  .mood{grid-area:2/3;justify-self:end}
+  .gh{grid-template-columns:1fr auto;grid-template-areas:"t t" "j a";margin-bottom:18px}
+  .gt{font-size:clamp(30px,10.4vw,44px)}
+  .gj{margin-top:10px;font-size:13px}
+  .gh .all{margin-bottom:-12px}
+  html[data-mood="warm"] .gt{font-size:clamp(26px,8.4vw,36px)}
+  /* 4 枚は 2 枚ずつ 2 行（どちらの行も高さがそろい、幅いっぱい）*/
+  .row{flex-direction:column}
+  .pair{display:flex;gap:var(--gap)}
+  html[data-mood="warm"] .lab{left:10px;bottom:10px;padding:8px 11px 7px;font-size:12px;letter-spacing:.1em}
+  html[data-mood="warm"] .go{right:10px;bottom:10px;width:28px;height:28px}
+  .go::before{left:8px;right:8px;top:13.5px}
+  .go::after{right:8px;top:10px}
+  .foot{padding:56px var(--edge) 72px}
+  @media (max-width:360px){
+    html[data-mood="cold"]{--wm-size:14px;--wm-ls:.14em}
+    html[data-mood="warm"]{--wm-size:15px;--wm-ls:.18em}
+    html[data-mood="warm"] .go{display:none}            /* 細いカードでは札と丸い矢印がぶつかるので、矢印は出さない */
+  }
+  .foot .c{font-size:16px}
+  #detail .in{padding:84px 10px 16vh}
+  #detail h2{font-size:24px;margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .x{right:12px;top:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+}
+/* 首屏（スマホと縦長の画面）：2 枚を 2px のすき間で並べ、文字は下へ（写真の上に乗せない）。
+   縦長の画面で柱を作ると写真が小さくなりすぎるので（768×1024 で 234px 幅）、こちらにする */
+@media (max-width:767px), (max-aspect-ratio:1/1){
+  .hero{flex-wrap:wrap;column-gap:2px}
+  .hp{flex:var(--r) 1 0;width:auto;min-width:0}
+  .mid{order:3;flex:0 0 100%;padding:28px var(--edge) 0;gap:18px}
+}
+@media (max-width:767px){
+  .lead{font-size:14px;line-height:1.95}
+  html[data-mood="cold"] .lead{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:0s !important;transition-delay:0s !important;animation:none !important}
+  #detail ol li{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <p class="who" id="who"></p>
+  <a class="wm" id="home" href="#top"></a>
+  <div class="links">
+    <button class="l" id="openAbout" type="button">プロフィール</button>
+    <a class="l" id="mail" href="#">お問い合わせ</a>
+    <span class="mood" role="group" aria-label="気分の切り替え（確認用）"><button type="button" data-m="cold"><span>COLD</span></button><i aria-hidden="true">｜</i><button type="button" data-m="warm"><span>WARM</span></button></span>
+  </div>
+</header>
+
+<div class="hero" id="hero"></div>
+
+<main id="genres"></main>
+
+<footer class="foot" id="foot"></footer>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1">
+  <button class="x" id="closeDetail" type="button" aria-label="閉じる"></button>
+  <div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div>
+</section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct" aria-live="polite"></p>
+</div>
+
+<section id="about" aria-label="プロフィール" hidden tabindex="-1">
+  <button class="x" id="closeAbout" type="button" aria-label="閉じる"></button>
+  <div class="in"></div>
+</section>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SEL = window.SELECTION || {lead:[],groups:[]};
+  var SIZES = window.SIZES || {};
+  var THUMBS = window.THUMBS || {};
+  var PRO = window.PROFILE || {};
+  var doc = document, body = doc.body, root = doc.documentElement;
+  function $(id){ return doc.getElementById(id); }
+  function el(tag, cls, txt){ var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+  var mqNarrow = window.matchMedia('(max-width:767px)');
+  var mqFine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var mqCalm = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function narrow(){ return mqNarrow.matches; }
+  function calm(){ return mqCalm.matches; }
+  function fine(){ return mqFine.matches; }
+  function syncFine(){ root.classList.toggle('fine', fine()); }
+  syncFine();
+  if (mqFine.addEventListener) mqFine.addEventListener('change', syncFine);
+  function now(){ return performance.now(); }
+
+  /* ---------- groups ---------- */
+  var GROUPS = {}, ORDER = [];
+  GROUPS.selected = { id:'selected', title:'セレクト', en:'Selected', items:(SEL.lead || []).slice() };
+  ORDER.push('selected');
+  (SEL.groups || []).forEach(function(g){ GROUPS[g.id] = g; ORDER.push(g.id); });
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  function size(src){ return SIZES[src] || null; }
+  function ar(src){ var s = size(src); return s ? s[0] + ' / ' + s[1] : '3 / 4'; }
+  function rn(src){ var s = size(src); return s ? s[0] / s[1] : 0.75; }
+  function small(src){ return THUMBS[src] || src; }
+  /* 小さい画像（横 720px）と元の画像を、表示の幅で選ばせる */
+  function img(src, sizes, lazy){
+    var im = el('img'), s = size(src), t = THUMBS[src];
+    im.alt = ''; im.decoding = 'async'; im.draggable = false;
+    if (s){ im.width = s[0]; im.height = s[1]; }
+    if (t && s){ im.srcset = t + ' 720w, ' + src + ' ' + s[0] + 'w'; im.sizes = sizes; }
+    im.src = t || src;
+    im.style.setProperty('--ar', ar(src));
+    if (lazy) im.loading = 'lazy';
+    return im;
+  }
+
+  /* ---------- header ---------- */
+  var nameEn = PRO.nameEn || 'Akari Ito', nameJa = PRO.nameJa || '伊藤 あかり';
+  $('who').textContent = nameJa + '｜スタイリスト';
+  $('home').textContent = nameEn;
+  $('home').setAttribute('aria-label', nameJa + '（スタイリスト）ページの先頭へ');
+  if (PRO.email) $('mail').href = 'mailto:' + PRO.email; else $('mail').hidden = true;
+
+  /* ---------- hero: two lead photos of the same shape, the lead sentence between them ----------
+     SELECTION.lead のうち personal-01 と 08-test-shoot-02（どちらも 960×1440、灰色のスタジオ）。
+     無い場合は、縦横比がいちばん近い 2 枚を選ぶ。                                               */
+  var HERO = ['images/works/personal-01.jpg', 'images/tumblr/08-test-shoot-02.jpg'];
+  (function(){
+    var lead = (SEL.lead || []).filter(size);
+    if (HERO.every(function(s){ return lead.indexOf(s) >= 0; })) return;
+    var best = null;
+    for (var i = 0; i < lead.length; i++) for (var j = i + 1; j < lead.length; j++){
+      var d = Math.abs(rn(lead[i]) - rn(lead[j]));
+      if (!best || d < best.d) best = { d:d, a:lead[i], b:lead[j] };
+    }
+    if (best) HERO = [best.a, best.b];
+  })();
+  var heroEl = $('hero'), selN = galleryOf(GROUPS.selected).length;
+  function heroPhoto(src, n){
+    var a = el('a', 'hp'); a.href = '#selected';
+    a.setAttribute('aria-label', GROUPS.selected.title + 'の作品 ' + selN + '点を見る');
+    a.style.setProperty('--r', rn(src).toFixed(5));
+    var im = img(src, '(max-width:767px) 50vw, 40vw', false);
+    im.alt = GROUPS.selected.title + ' ' + n; im.fetchPriority = 'high';
+    a.appendChild(im);
+    a.addEventListener('click', function(e){ e.preventDefault(); openDetail(GROUPS.selected, 'push', a); });
+    return a;
+  }
+  heroEl.appendChild(heroPhoto(HERO[0], 1));
+  var mid = el('div', 'mid');
+  mid.appendChild(el('p', 'eyebrow', GROUPS.selected.en));
+  var lead = el('p', 'lead');
+  /* 文の切れ目（。）で改行。行の中は文節で折り返す（「手が｜けて」のように語の途中で切らない）：
+     Intl.Segmenter の語に、後ろに続くひらがな・記号だけの語（助詞・語尾）をくっつけて 1 つのかたまりにする */
+  function phrases(s){
+    if (!window.Intl || !Intl.Segmenter) return [s];
+    var out = [];
+    Array.from(new Intl.Segmenter('ja', { granularity:'word' }).segment(s)).forEach(function(w){
+      var t = w.segment;
+      if (out.length && /^[぀-ゟー、。・」』）]+$/.test(t)) out[out.length - 1] += t;
+      else if (out.length && /[「『（・]$/.test(out[out.length - 1])) out[out.length - 1] += t;
+      else out.push(t);
+    });
+    return out;
+  }
+  (String(PRO.lead || '').match(/[^。]+。?/g) || []).forEach(function(part, i){
+    if (i) lead.appendChild(el('br'));
+    phrases(part).forEach(function(ph){ lead.appendChild(el('span', 'ph', ph)); });
+  });
+  mid.appendChild(lead);
+  var hAll = el('a', 'all'); hAll.href = '#selected';
+  hAll.appendChild(el('span', null, 'See all')); hAll.appendChild(el('i', 'arr'));
+  hAll.setAttribute('aria-label', GROUPS.selected.title + 'の作品 ' + selN + '点をすべて見る');
+  hAll.addEventListener('click', function(e){ e.preventDefault(); openDetail(GROUPS.selected, 'push', hAll); });
+  mid.appendChild(hAll);
+  heroEl.appendChild(mid);
+  heroEl.appendChild(heroPhoto(HERO[1], 2));
+  heroEl.style.setProperty('--r', rn(HERO[0]).toFixed(5));
+
+  /* ---------- one section per genre: title, Japanese name, count, See all ⟶, then 4 whole photos ---------- */
+  var main = $('genres');
+  (SEL.groups || []).forEach(function(g, gi){
+    var n = galleryOf(g).length; if (!n) return;
+    var sec = el('section', 'g'); sec.id = 'g-' + g.id; sec.setAttribute('aria-labelledby', 'gt-' + g.id);
+    var head = el('div', 'gh');
+    var t = el('h2', 'gt', g.en || g.title); t.id = 'gt-' + g.id; t.lang = 'en';
+    var j = el('p', 'gj'); j.appendChild(doc.createTextNode(g.title)); j.appendChild(el('span', 'n', n + '点'));
+    var all = el('a', 'all'); all.href = '#' + g.id;
+    all.appendChild(el('span', null, 'See all')); all.appendChild(el('i', 'arr'));
+    all.setAttribute('aria-label', g.title + 'の作品 ' + n + '点をすべて見る');
+    all.addEventListener('click', function(e){ e.preventDefault(); openDetail(g, 'push', all); });
+    head.appendChild(t); head.appendChild(j); head.appendChild(all);
+    sec.appendChild(head);
+    /* the first four photos of the genre that are a usable shape (not a thin strip) */
+    var pics = (g.items || []).filter(function(s){ var z = size(s); return z && z[0] / z[1] >= 0.5 && z[0] >= 500; }).slice(0, 4);
+    if (pics.length < 3) pics = galleryOf(g).filter(size).slice(0, 4);
+    var ul = el('ul', 'row'), pair = null;
+    pics.forEach(function(src, k){
+      if (k % 2 === 0){ pair = el('div', 'pair'); ul.appendChild(pair); }
+      var li = el('li'); li.style.setProperty('--r', rn(src).toFixed(5));
+      var a = el('a'); a.href = '#' + g.id;
+      a.setAttribute('aria-label', g.title + 'の作品を見る（' + (k + 1) + '）');
+      var im = img(src, '(max-width:767px) 50vw, 25vw', gi > 0); im.alt = g.title + ' ' + (k + 1);
+      a.appendChild(im);
+      if (k === 0){                                   /* WARM: this one is the category card */
+        var lab = el('span', 'lab', g.en || g.title); lab.setAttribute('aria-hidden', 'true'); a.appendChild(lab);
+        var go = el('span', 'go'); go.setAttribute('aria-hidden', 'true'); a.appendChild(go);
+      }
+      a.addEventListener('click', function(e){ e.preventDefault(); openDetail(g, 'push', a); });
+      li.appendChild(a); pair.appendChild(li);
+    });
+    sec.appendChild(ul);
+    main.appendChild(sec);
+  });
+
+  /* ---------- foot ---------- */
+  (function(){
+    var f = $('foot');
+    f.appendChild(el('p', 'k', 'Contact'));
+    if (PRO.email){
+      var c = el('a', 'c', 'お仕事のご相談・お問い合わせ'); c.href = 'mailto:' + PRO.email; f.appendChild(c);
+      var e = el('p', 'e'), m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; e.appendChild(m); f.appendChild(e);
+    }
+  })();
+
+  /* ---------- mood toggle (for review): same content, only type / colour / spacing / card shapes ---------- */
+  var moodBtns = Array.prototype.slice.call(doc.querySelectorAll('.mood button'));
+  function setMood(m, write){
+    m = m === 'warm' ? 'warm' : 'cold';
+    root.setAttribute('data-mood', m);
+    moodBtns.forEach(function(b){ b.setAttribute('aria-pressed', String(b.getAttribute('data-m') === m)); b.setAttribute('aria-label', b.getAttribute('data-m') === 'warm' ? '暖かい気分で見る' : '冷たい気分で見る'); });
+    if (write){
+      try {
+        var q = location.search.replace(/[?&]mood=[a-z]*/g, '').replace(/^&/, '?');
+        if (m === 'warm') q = (q && q !== '?' ? q + '&' : '?') + 'mood=warm';
+        if (q === '?') q = '';
+        history.replaceState(history.state, '', location.pathname + q + location.hash);
+      } catch (err) {}
+    }
+  }
+  setMood(root.getAttribute('data-mood'), false);
+  moodBtns.forEach(function(b){ b.addEventListener('click', function(){ setMood(b.getAttribute('data-m'), true); }); });
+
+  /* ================= category view + lightbox: ported from r4-snog.html ================= */
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
+  var view = 'home', cur = null, direct = false, opener = null;
+  function fillDetail(g){
+    var items = galleryOf(g);
+    list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    cur = { g:g, items:items, btns:[] };
+    items.forEach(function(src, n){
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src); im.setAttribute('data-src', src);
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      cur.btns.push(b);
+    });
+    more.textContent = '';
+    more.appendChild(el('p', 'k', 'ほかの作品'));
+    var ul = el('ul');
+    ORDER.forEach(function(id){
+      var o = GROUPS[id]; if (o === g || !galleryOf(o).length) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', null, 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: 'push' (from this page), 'direct' (the address already named the group), 'pop' (back / forward) */
+  function openDetail(g, how, from){
+    if (view === 'detail' || !about.hidden) return;
+    opener = from || opener;
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    root.classList.add('locked');
+    detail.classList.remove('shown');
+    detail.hidden = false; detail.scrollTop = 0;
+    void detail.offsetWidth;
+    detail.classList.add('shown');
+    detail.focus({ preventScroll:true });
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      fillDetail(g);
+      detail.scrollTop = 0;
+      void detail.offsetWidth; detail.classList.add('shown');
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
+  }
+  function closeDetail(fromPop){
+    if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
+    if (lbOn) closeLb(true);
+    view = 'home';
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; cur = null;
+    root.classList.remove('locked');
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    if (opener && opener.focus) opener.focus({ preventScroll:true });
+  }
+  $('closeDetail').addEventListener('click', function(){ closeDetail(false); });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) closeDetail(true);
+    else if (view === 'detail' && keep && cur && cur.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; }
+    else if (view === 'home' && keep && GROUPS[e.state.g] && about.hidden) openDetail(GROUPS[e.state.g], 'pop');
+  });
+
+  /* ---------- lightbox ---------- */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0, got = {}, lbSrc = '', lbShut = 0;
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  function seenOrder(){
+    var r = cur.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);
+  }
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
+  function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = cur.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = cur.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function(d){ var k = cur.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  function openLb(n){
+    if (!cur || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    try { history.pushState({ g:cur.g.id, lb:1 }, '', '#' + cur.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); lb.classList.remove('zoom');
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    var b = cur && cur.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
+
+  /* ---------- profile ---------- */
+  var about = $('about');
+  (function(){
+    var box = about.querySelector('.in');
+    box.appendChild(el('h2', null, nameEn));
+    box.appendChild(el('p', 'k', nameJa + '｜スタイリスト'));
+    if (PRO.lead) box.appendChild(el('p', null, PRO.lead));
+    (PRO.bio || []).forEach(function(line){ box.appendChild(el('p', null, line)); });
+    if (PRO.specialty) box.appendChild(el('p', null, PRO.specialty));
+    if (PRO.email){ var p = el('p'); var m = el('a', null, PRO.email); m.href = 'mailto:' + PRO.email; p.appendChild(m); box.appendChild(p); }
+    if (PRO.instagram){ var p2 = el('p'); var ig = el('a', null, 'Instagram'); ig.href = PRO.instagram; ig.rel = 'noopener'; p2.appendChild(ig); box.appendChild(p2); }
+  })();
+  var aboutFrom = null;
+  function openAbout(){ if (view !== 'home') return; aboutFrom = doc.activeElement; about.hidden = false; about.scrollTop = 0; root.classList.add('locked'); $('closeAbout').focus({ preventScroll:true }); }
+  function closeAbout(){ if (about.hidden) return; about.hidden = true; root.classList.remove('locked'); if (aboutFrom && aboutFrom.focus) aboutFrom.focus({ preventScroll:true }); }
+  $('openAbout').addEventListener('click', openAbout);
+  $('closeAbout').addEventListener('click', closeAbout);
+
+  $('home').addEventListener('click', function(e){
+    e.preventDefault();
+    window.scrollTo({ top:0, behavior: calm() ? 'auto' : 'smooth' });
+  });
+  doc.addEventListener('keydown', function(e){
+    if (e.target && e.target.closest && e.target.closest('.fp')) return;      /* the shared font picker */
+    if (lbOn){
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    if (e.key !== 'Escape') return;
+    if (!about.hidden) closeAbout(); else if (view === 'detail') closeDetail(false);
+  });
+
+  /* ---------- the address names a group (…#beauty): open its list straight away ---------- */
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length) openDetail(first, 'direct', null);
+})();
+</script>
+<script src="assets/js/fontpick.js"></script>
+</body>
+</html>

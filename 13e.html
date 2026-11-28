@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>伊藤 あかり｜スタイリスト</title>
+<meta name="description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで、雑誌・広告・カタログのスタイリング。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="伊藤 あかり｜スタイリスト">
+<meta property="og:description" content="スタイリスト 伊藤 あかり の作品集。ビューティーからファッション、キッズまで。">
+<meta property="og:url" content="https://cxelegy.github.io/stylist-works/13e.html">
+<meta property="og:image" content="https://cxelegy.github.io/stylist-works/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script>document.documentElement.className += ' js';</script>
+<style>
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-var-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:block}
+@font-face{font-family:"Instrument Serif";src:url("assets/fonts/instrument-serif-italic-latin.woff2") format("woff2");font-weight:400;font-style:italic;font-display:block}
+
+/* 配色：AESTHETIC §7「2 + 1」の 1 組目。米白と墨が地と文字、焦橙はお問い合わせのボタンだけ。
+   濃淡は新しい色を足さず、墨・米白の透明度で付ける。                                           */
+:root{
+  --cream:#F3EEE3;
+  --ink:#111111;
+  --accent:#D9541E;
+  --ink-2:rgba(17,17,17,.62);       /* 小さな添え文字（米白の上で 4.7:1） */
+  --ink-3:rgba(17,17,17,.55);       /* 名前の斜体の 1 語（大きな文字、3.9:1） */
+  --ink-line:rgba(17,17,17,.18);
+  --cream-2:rgba(243,238,227,.62);  /* 墨の上の小さな添え文字（6.9:1） */
+  --cream-line:rgba(243,238,227,.2);
+  --jp:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","YuGothic","Noto Sans JP","Meiryo",sans-serif;
+  --sans:"Archivo",var(--jp);
+  --serif:"Instrument Serif","Times New Roman",serif;
+  --g:48px;                         /* 左右の余白 */
+  --out:cubic-bezier(.16,1,.3,1);   /* expo.out */
+  --inout:cubic-bezier(.76,0,.24,1);
+}
+*{box-sizing:border-box}
+html{scrollbar-gutter:stable}
+html,body{margin:0;padding:0;background:var(--cream)}
+body{color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%;overflow-x:hidden}
+a,button{color:inherit;font:inherit;text-decoration:none}
+button{background:none;border:0;padding:0;margin:0;cursor:pointer;border-radius:0}
+img{display:block;border:0}
+:focus{outline:none}
+:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+[hidden]{display:none !important}
+html.locked,html.locked body{overflow:hidden}
+
+.lbl{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;line-height:1.3}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 18px;border-radius:20px;background:var(--accent);color:var(--ink);font-family:var(--jp);font-size:14px;font-weight:600;line-height:1;white-space:nowrap;transition:transform .2s var(--out)}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:scale(.97)}
+
+/* ================= 1. 最初の画面：名前＋拖尾 ================= */
+#hero{position:relative;height:100vh;min-height:520px;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;overflow:clip}
+@supports (height:1svh){#hero{height:100svh}}
+.bar{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px var(--g) 0}
+.bar .who{font-family:var(--jp);font-size:15px;line-height:40px;white-space:nowrap}
+#nameZone{position:relative;z-index:1;display:flex;align-items:center;padding:0 var(--g);container-type:inline-size;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+#name{margin:0;width:100%;font-weight:400;line-height:1;white-space:nowrap;font-size:calc(100cqw * var(--k));padding:.04em 0 .06em}
+#name .w1{font-family:"Archivo",sans-serif;font-stretch:125%;font-weight:400;letter-spacing:-.035em}
+#name .w2{font-family:var(--serif);font-style:italic;color:var(--ink-3);letter-spacing:-.01em}
+#name .ch{display:inline-block}
+:root{--k:.206}                     /* 1 ÷（名前の幅 ÷ 文字の大きさ＝実測 4.811）を少し小さく：斜体のはみ出しぶん */
+@supports not (width:1cqw){#name{font-size:calc((100vw - 2 * var(--g) - 16px) * var(--k))}}
+#trail{position:absolute;inset:0;z-index:3;pointer-events:none}
+#trail img{position:absolute;left:0;top:0;transform-origin:50% 50%;box-shadow:0 4px 14px rgba(17,17,17,.16);border-radius:3px;will-change:transform,opacity}
+.low{position:relative;z-index:5;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;padding:0 var(--g) 32px}
+.low .lead{margin:0;max-width:30em;font-family:var(--jp);font-size:15px;line-height:1.75;color:var(--ink)}
+.genres{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:0 20px;margin:0;padding:0;list-style:none;max-width:560px}
+.genres button{display:inline-flex;align-items:center;min-height:40px;font-family:var(--serif);font-style:italic;font-size:22px;line-height:1;color:var(--ink)}
+.genres button:hover{color:var(--ink-2)}
+
+/* ================= 2. 固定の横画廊 ================= */
+#works{position:relative;background:var(--ink);color:var(--cream)}
+.pin{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow:hidden;overflow:clip}
+.whead{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:32px var(--g) 0}
+.whead .eyebrow{margin:0;font-family:var(--jp);font-size:13px;letter-spacing:.08em;color:var(--cream-2)}
+.count{margin:0;font-family:var(--serif);font-style:italic;font-size:44px;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums}
+.count i{font-style:italic;color:var(--cream-2)}
+.track{flex:1;display:flex;align-items:center;gap:72px;padding:0 var(--g);will-change:transform}
+.card{flex:none;display:block;transform-origin:50% 50%;color:var(--cream);will-change:transform}
+.card .ph{display:block;height:var(--hc);aspect-ratio:var(--ar);background:rgba(243,238,227,.06)}
+.card .ph img{width:100%;height:100%}
+.card .cap{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:14px}
+.card .en{font-family:var(--serif);font-style:italic;font-size:32px;line-height:1}
+.card .ja{font-family:var(--jp);font-size:13px;color:var(--cream-2);white-space:nowrap}
+.card .no{font-family:var(--sans);font-size:13px;letter-spacing:.12em;margin-right:10px;color:var(--cream-2);vertical-align:.5em}
+.card:focus-visible{outline:none}
+.card:focus-visible .ph{outline:1px solid var(--cream);outline-offset:6px}
+.wfoot{padding:0 var(--g) 32px}
+.prog{display:block;height:1px;background:var(--cream-line);position:relative}
+.prog i{position:absolute;left:0;top:0;height:1px;width:100%;background:var(--cream);transform-origin:0 0;transform:scaleX(0)}
+:root{--hc:min(58vh, calc(100vh - 250px))}
+
+/* ---- phones: a strip you swipe sideways ---- */
+.strip .pin{position:relative;height:auto;padding:40px 0 32px}
+.strip .whead{padding:0 16px}
+.strip .count{font-size:34px}
+.strip .track{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:16px;padding:28px 0 22px;align-items:flex-start;flex:none}
+.strip .track::-webkit-scrollbar{display:none}
+.strip .card{scroll-snap-align:center}
+.strip .card .en{font-size:28px}
+.strip .wfoot{padding:0 16px}
+.strip{--hc:min(54vh, 480px)}
+@supports (height:1svh){.strip{--hc:min(54svh, 480px)}}
+
+/* ---- reduced motion: a plain list ---- */
+.plain .pin{position:relative;height:auto;padding:56px 0 48px}
+.plain .count{display:none}
+.plain .track{flex-wrap:wrap;justify-content:center;gap:48px 40px;padding:40px var(--g) 8px}
+.plain .card{transform:none !important}
+.plain .wfoot{display:none}
+.plain{--hc:min(46vh, 420px)}
+
+/* ================= 3. 終わり ================= */
+#end{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px;padding:88px var(--g) 56px}
+#end .who{margin:0 0 6px;font-family:var(--jp);font-size:20px;line-height:1.4}
+#end .sp{margin:0;font-family:var(--jp);font-size:13px;color:var(--ink-2)}
+#end .ct{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+#end .ml{font-family:var(--sans);font-size:15px;border-bottom:1px solid var(--ink);line-height:1.3}
+
+/* ================= 幕 ================= */
+#curtain{position:fixed;left:0;top:0;width:100%;height:100%;z-index:60;background:var(--ink);color:var(--cream);transform:translate3d(0,100%,0);visibility:hidden;pointer-events:none}
+#curtain.on{visibility:visible;pointer-events:auto}
+#curtain .cl{position:absolute;left:var(--g);bottom:40px;margin:0;color:var(--cream-2)}
+#curtain .cn{position:absolute;right:var(--g);bottom:24px;margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(96px,14vw,210px);line-height:.9;font-variant-numeric:tabular-nums;color:var(--cream)}
+
+/* ================= ジャンルの一覧（r4-snog.html から） ================= */
+#detail{position:fixed;left:0;top:0;width:100%;height:100%;z-index:40;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--cream)}
+#detail:focus-visible{outline:none}
+.dbar{position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px;padding:0 var(--g);background:var(--cream)}
+.dbar .who{font-family:var(--jp);font-size:15px;line-height:40px;white-space:nowrap}
+.x{position:relative;flex:none;width:40px;height:40px}
+.x::before,.x::after{content:"";position:absolute;left:50%;top:50%;width:60%;height:1px;background:var(--ink);transform:translate(-50%,-50%) rotate(45deg)}
+.x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+#detail .in{max-width:1180px;margin:0 auto;padding:4vh var(--g) 14vh}
+#detail h2{margin:0 0 6vh;text-align:center;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(44px,6vw,92px);line-height:1.05;white-space:nowrap;color:var(--ink);clip-path:inset(0 0 0 0);transition:clip-path .7s var(--out)}
+#detail h2.pre{clip-path:inset(100% 0 0 0);transition:none}
+#detail ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3.4vw,52px);align-items:start;grid-auto-flow:dense}
+#detail ol li.wide{grid-column:span 2}                    /* 見開きの誌面は2列ぶん */
+#detail ol li{opacity:0;transform:translateY(18px);transition:opacity .5s ease-out,transform .5s var(--out);transition-delay:calc(var(--n,0) * 35ms + 120ms)}
+#detail.shown ol li{opacity:1;transform:none}
+#detail .more{opacity:0;transition:opacity .4s ease-out .3s}
+#detail.shown .more{opacity:1}
+#detail ol li button{display:block;width:100%;cursor:zoom-in}
+#detail ol li img{width:100%;height:auto;transition:opacity .2s ease-out}   /* 写真は切らない */
+#detail ol li button:hover img{opacity:.85}
+#detail .more{margin:14vh 0 0;text-align:center}
+#detail .more .k{margin:0 0 16px;font-family:var(--jp);font-size:13px;color:var(--ink-2)}
+#detail .more ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:0 clamp(18px,2.4vw,36px)}
+#detail .more li button{font-family:var(--serif);font-style:italic;font-size:clamp(32px,3.6vw,52px);line-height:1.25;white-space:nowrap;color:var(--ink)}
+#detail .more li button:hover,#detail .more li button:focus-visible{color:var(--ink-2)}
+#detail .more .c{margin:9vh 0 0}
+
+/* ---------- 拡大（r4-snog.html から） ---------- */
+#lb{position:fixed;left:0;top:0;width:100%;height:100%;z-index:45;background:var(--cream);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s ease-out;touch-action:pan-y pinch-zoom;-webkit-user-select:none;user-select:none}
+#lb.on{opacity:1}
+#lb figure{flex:none;margin:auto;transition:transform .17s ease-out,opacity .17s ease-out;will-change:transform}
+#lb img{max-width:calc(100vw - 2 * max(64px,9vw) - 20px);max-height:min(86vh,calc(100vh - 96px));width:auto;height:auto;object-fit:contain}
+#lb .x{position:fixed;right:var(--g);top:16px;z-index:2;background:var(--cream);border-radius:50%}
+#lb .nv{position:fixed;top:0;bottom:0;width:max(64px,9vw);z-index:1;display:flex;align-items:center;justify-content:center}
+#lb .pv{left:0}
+#lb .nx{right:0}
+#lb .nv::before{content:"";width:16px;height:16px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:translateX(4px) rotate(45deg)}
+#lb .nx::before{transform:translateX(-4px) rotate(-135deg)}
+#lb.one .nv{display:none}
+#lb .ct{position:fixed;left:0;right:0;bottom:20px;margin:0;text-align:center;pointer-events:none;font-family:var(--sans);font-size:14px;letter-spacing:.08em}
+#lb .nv:focus-visible{outline:none}
+#lb .nv:focus-visible::before{outline:1px solid var(--ink);outline-offset:12px}
+.fine #lb img.can{cursor:zoom-in}
+#lb.zoom{overflow:auto;align-items:flex-start}
+#lb.zoom figure{padding:56px 0 64px}
+#lb.zoom img{max-width:none;max-height:none;cursor:zoom-out}
+#lb.zoom .nv,#lb.zoom .ct{display:none}
+
+/* ================= 光標（マウスの PC だけ） ================= */
+#cur{position:fixed;left:0;top:0;z-index:70;width:0;height:0;pointer-events:none;opacity:0;transition:opacity .2s ease-out}
+#cur.on{opacity:1}
+#cur .dot,#cur .ring{position:absolute;left:0;top:0;border-radius:50%;mix-blend-mode:difference}
+#cur .dot{width:6px;height:6px;margin:-3px 0 0 -3px;background:var(--cream);transition:opacity .15s ease-out}
+#cur .ring{width:88px;height:88px;margin:-44px 0 0 -44px}
+#cur .ring i{position:absolute;inset:0;border-radius:50%;border:1px solid var(--cream);transform:scale(.409);transition:transform .35s var(--out),background-color .25s ease-out,border-color .25s ease-out;display:flex;align-items:center;justify-content:center;font-style:normal}
+#cur .ring b{font-family:var(--sans);font-weight:500;font-size:12px;letter-spacing:.16em;color:var(--ink);opacity:0;transition:opacity .2s ease-out}
+#cur.link .ring i{transform:scale(.6)}
+#cur.view .ring{mix-blend-mode:normal}
+#cur.view .ring i{transform:scale(1);background:var(--cream);border-color:var(--cream)}
+#cur.view .ring b{opacity:1;transition-delay:.08s}
+#cur.view .dot{opacity:0}
+/* on the cream list page the bubble is ink, so it never disappears into the page around a photo */
+#cur.view.inv .ring i{background:var(--ink);border-color:var(--ink)}
+#cur.view.inv .ring b{color:var(--cream)}
+html.cc,html.cc body,html.cc a,html.cc button,html.cc #detail ol li button,html.cc .fine #lb img.can{cursor:none}
+html.cc .fp{cursor:default}
+
+/* ================= 幅の狭い画面 ================= */
+@media (max-width:767px){
+  :root{--g:16px}
+  .bar{padding-top:12px}
+  /* phones: the first screen is as tall as what is in it (room for the trail above and below the name), so the works already show at its foot */
+  #hero{height:auto;min-height:0}
+  #nameZone{padding-top:clamp(64px,13vh,132px);padding-bottom:clamp(64px,13vh,132px)}
+  .bar .who{font-size:14px}
+  .btn{height:44px;border-radius:22px;padding:0 16px}
+  .low{flex-direction:column;align-items:flex-start;gap:14px;padding-bottom:22px}
+  .low .lead{font-size:14px}
+  .genres{justify-content:flex-start;gap:0 16px}
+  .genres button{font-size:21px;min-height:42px}
+  #end{padding:64px 16px 40px}
+  #curtain .cl{bottom:28px}
+  #curtain .cn{bottom:20px}
+  .dbar{height:64px}
+  #detail .in{padding:12px 10px 16vh}
+  #detail h2{font-size:clamp(40px,12vw,56px);margin-bottom:28px}
+  #detail ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  #lb img{max-width:calc(100vw - 20px);max-height:min(74vh,calc(100vh - 124px))}
+  #lb .nv{top:auto;bottom:4px;height:52px;width:72px}
+  #lb .ct{bottom:23px}
+}
+@media (max-width:359px){
+  .bar .who{font-size:13px}
+  .btn{padding:0 12px;font-size:13px}
+  .low .lead{font-size:13px}
+}
+@media (prefers-reduced-motion:reduce){
+  #detail li,#detail h2,#detail .more,#lb,#lb figure,.btn,#cur{transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<section id="hero" aria-label="伊藤 あかり">
+  <header class="bar">
+    <a class="who" id="who" href="#works"></a>
+    <a class="btn" id="mail" href="#">お問い合わせ</a>
+  </header>
+  <div id="nameZone"><h1 id="name"><span class="w1">AKARI</span> <span class="w2">Ito</span></h1></div>
+  <div class="low">
+    <p class="lead" id="lead"></p>
+    <ul class="genres" id="genres" aria-label="ジャンル"></ul>
+  </div>
+  <div id="trail" aria-hidden="true"></div>
+</section>
+
+<section id="works" aria-label="ジャンル">
+  <div class="pin" id="pin">
+    <div class="whead">
+      <p class="eyebrow" id="eyebrow"></p>
+      <p class="count" aria-hidden="true"><span id="cNow">01</span> <i>/ <span id="cAll">07</span></i></p>
+    </div>
+    <div class="track" id="track"></div>
+    <div class="wfoot"><span class="prog"><i id="prog"></i></span></div>
+  </div>
+</section>
+
+<footer id="end">
+  <div>
+    <p class="who" id="endWho"></p>
+    <p class="sp" id="endSp"></p>
+  </div>
+  <div class="ct"><a class="ml" id="endMail" href="#"></a><a class="btn" id="endBtn" href="#">お問い合わせ</a></div>
+</footer>
+
+<div id="curtain" aria-hidden="true"><p class="cl lbl" id="cLabel"></p><p class="cn" id="cNum">0</p></div>
+
+<section id="detail" aria-label="作品の一覧" hidden tabindex="-1">
+  <div class="dbar"><a class="who" id="dHome" href="#"></a><button class="x" id="closeDetail" type="button" aria-label="閉じる"></button></div>
+  <div class="in"><h2></h2><ol></ol><nav class="more" aria-label="ほかの作品と、お問い合わせ"></nav></div>
+</section>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="写真の拡大表示" hidden>
+  <figure><img alt="" draggable="false"></figure>
+  <button class="nv pv" type="button" aria-label="前の写真"></button>
+  <button class="nv nx" type="button" aria-label="次の写真"></button>
+  <button class="x" type="button" aria-label="閉じて一覧に戻る"></button>
+  <p class="ct" aria-live="polite"></p>
+</div>
+
+<div id="cur" aria-hidden="true"><span class="ring"><i><b>VIEW</b></i></span><span class="dot"></span></div>
+
+<script src="data/works.js"></script>
+<script src="data/sizes.js"></script>
+<script src="data/thumbs.js"></script>
+<script src="data/selection.js"></script>
+<script src="data/profile.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SEL = window.SELECTION || {lead:[],groups:[]};
+  var SIZES = window.SIZES || {};
+  var THUMBS = window.THUMBS || {};
+  var PRO = window.PROFILE || {};
+  var doc = document, body = doc.body, root = doc.documentElement;
+  function $(id){ return doc.getElementById(id); }
+  function el(tag, cls, txt){ var e = doc.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function two(n){ return (n < 10 ? '0' : '') + n; }
+  function inFp(t){ return !!(t && t.closest && t.closest('.fp')); }       /* the shared font picker: never ours to handle */
+  var raf = window.requestAnimationFrame.bind(window);
+  function now(){ return performance.now(); }
+  function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+  function outPow(p){ return function(k){ return 1 - Math.pow(1 - k, p); }; }
+  var power3out = outPow(3);
+
+  /* ---------- environment ---------- */
+  var mqNarrow = window.matchMedia('(max-width:767px)');
+  var mqFine = window.matchMedia('(hover:hover) and (pointer:fine)');
+  var mqCalm = window.matchMedia('(prefers-reduced-motion:reduce)');
+  function narrow(){ return mqNarrow.matches; }
+  function fine(){ return mqFine.matches; }
+  function calm(){ return mqCalm.matches; }
+  function syncFine(){ root.classList.toggle('fine', fine()); }
+  syncFine();
+  function onMq(mq, fn){ if (mq.addEventListener) mq.addEventListener('change', fn); else if (mq.addListener) mq.addListener(fn); }
+
+  /* ---------- groups ---------- */
+  var GROUPS = {}, ORDER = [];
+  GROUPS.selected = { id:'selected', title:'セレクト', en:'Selected', items:(SEL.lead || []).slice() };
+  ORDER.push(GROUPS.selected);
+  (SEL.groups || []).forEach(function(g){ GROUPS[g.id] = g; ORDER.push(g); });
+  function galleryOf(g){ return (g.gallery && g.gallery.length ? g.gallery : (g.items || [])).slice(); }
+  ORDER = ORDER.filter(function(g){ return galleryOf(g).length; });
+  /* the photo that stands for a genre on its card: the first of its photos (`items`), not a magazine page */
+  function leadOf(g){ return (g.items && g.items[0]) || galleryOf(g)[0]; }
+  function small(src){ return THUMBS[src] || src; }
+  function ratio(src){ var s = SIZES[src]; return s ? s[0] + ' / ' + s[1] : '3 / 4'; }
+
+  /* ---------- text (PROFILE only) ---------- */
+  var jaLine = (PRO.nameJa || '伊藤 あかり') + '｜スタイリスト';
+  $('who').textContent = jaLine; $('dHome').textContent = jaLine; $('endWho').textContent = jaLine;
+  $('lead').textContent = PRO.lead || '';
+  $('eyebrow').textContent = PRO.specialty || '';
+  $('endSp').textContent = PRO.specialty || '';
+  if (PRO.email){
+    ['mail', 'endBtn'].forEach(function(id){ $(id).href = 'mailto:' + PRO.email; });
+    $('endMail').href = 'mailto:' + PRO.email; $('endMail').textContent = PRO.email;
+  } else { ['mail', 'endBtn', 'endMail'].forEach(function(id){ $(id).hidden = true; }); }
+  /* the name: nameEn as one huge word, its second half in the serif italic */
+  (function(){
+    var parts = String(PRO.nameEn || 'Akari Ito').split(/\s+/);
+    var n = $('name'), w1 = n.querySelector('.w1'), w2 = n.querySelector('.w2');
+    w1.textContent = (parts[0] || '').toUpperCase();
+    w2.textContent = parts.slice(1).join(' ');
+    n.setAttribute('aria-label', parts.join(' '));
+  })();
+
+  /* ---------- genre links under the name ---------- */
+  ORDER.forEach(function(g){
+    var li = el('li'), b = el('button', null, g.en || g.title); b.type = 'button';
+    b.setAttribute('aria-label', g.title + 'の作品を見る');
+    b.addEventListener('click', function(){ openGenre(g, b); });
+    li.appendChild(b); $('genres').appendChild(li);
+  });
+
+  /* ============ 1. name: letters rise one by one (03 split text, only here) ============ */
+  (function(){
+    var n = $('name');
+    var chars = [];
+    [n.querySelector('.w1'), n.querySelector('.w2')].forEach(function(w){
+      var t = w.textContent; w.textContent = '';
+      for (var i = 0; i < t.length; i++){ var s = el('span', 'ch', t[i]); s.setAttribute('aria-hidden', 'true'); w.appendChild(s); chars.push(s); }
+    });
+    if (calm() || !n.animate) return;
+    n.style.clipPath = 'inset(-0.2em -1em 0 -1em)';
+    var last = null;
+    chars.forEach(function(c, i){
+      last = c.animate([{ transform:'translateY(110%)' }, { transform:'translateY(0)' }],
+        { duration:900, delay:120 + i * 30, easing:'cubic-bezier(.16,1,.3,1)', fill:'backwards' });
+    });
+    if (last) last.onfinish = function(){ n.style.clipPath = ''; };
+    [doc.querySelector('.bar'), doc.querySelector('.low')].forEach(function(b, i){
+      b.animate([{ opacity:0, transform:'translateY(24px)' }, { opacity:1, transform:'none' }],
+        { duration:800, delay:300 + i * 150, easing:'cubic-bezier(.22,1,.36,1)', fill:'backwards' });
+    });
+  })();
+
+  /* ============ 1b. image trail over the name (04) ============ */
+  var trail = $('trail'), zone = $('nameZone'), hero = $('hero');
+  var POOL = Object.keys(THUMBS).filter(function(src){ return src.indexOf('images/pages/') !== 0 && SIZES[src]; });
+  (function(a){ for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } })(POOL);
+  var loaded = [], poolAt = 0, preIdx = 0, zTop = 1;
+  function preload(n){
+    for (var k = 0; k < n && preIdx < POOL.length; k++, preIdx++){
+      (function(src){ var im = new Image(); im.decoding = 'async'; im.onload = function(){ loaded.push(src); }; im.src = small(src); })(POOL[preIdx]);
+    }
+  }
+  function trailH(){ return narrow() ? clamp(window.innerHeight * 0.22, 130, 210) : clamp(window.innerHeight * 0.28, 160, 320); }
+  function spawn(x, y){
+    if (calm() || !loaded.length || !trail.animate) return;
+    var src = loaded[poolAt++ % loaded.length], sz = SIZES[src];
+    var h = Math.round(trailH()), w = Math.round(h * sz[0] / sz[1]);
+    var r = (Math.random() < .5 ? -1 : 1) * (3 + Math.random() * 5);
+    var hr = hero.getBoundingClientRect();
+    var im = el('img'); im.alt = ''; im.draggable = false; im.width = w; im.height = h;
+    im.style.width = w + 'px'; im.style.height = h + 'px'; im.style.zIndex = ++zTop;
+    im.src = small(src);
+    var base = 'translate3d(' + (x - hr.left - w / 2).toFixed(1) + 'px,' + (y - hr.top - h / 2).toFixed(1) + 'px,0) rotate(' + r.toFixed(2) + 'deg)';
+    im.style.transform = base + ' scale(0)';
+    im.setAttribute('data-born', now().toFixed(0));
+    trail.appendChild(im);
+    im.animate([{ transform:base + ' scale(0)' }, { transform:base + ' scale(1)' }], { duration:300, easing:'cubic-bezier(.16,1,.3,1)', fill:'forwards' });
+    var out = im.animate([{ transform:base + ' scale(1)', opacity:1 }, { transform:base + ' scale(.72)', opacity:0 }],
+      { duration:350, delay:1000, easing:'cubic-bezier(.55,0,.45,1)', fill:'forwards' });
+    out.onfinish = function(){ if (im.parentNode) im.parentNode.removeChild(im); };
+    while (trail.children.length > 9) trail.removeChild(trail.firstChild);
+  }
+  var tr = null;          /* { x, y, d } while a pointer is moving over the name */
+  function step(){ return narrow() || !fine() ? window.innerWidth / 5 : window.innerWidth / 8; }
+  function inZone(x, y){ var r = zone.getBoundingClientRect(); return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
+  function trailMove(x, y){
+    if (!inZone(x, y)){ tr = null; return; }
+    if (!tr){ tr = { x:x, y:y, d:0 }; return; }
+    tr.d += Math.hypot(x - tr.x, y - tr.y); tr.x = x; tr.y = y;
+    if (tr.d >= step()){ tr.d = 0; spawn(x, y); }
+  }
+  zone.addEventListener('pointermove', function(e){
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen' || e.pointerType === 'touch') trailMove(e.clientX, e.clientY);
+  }, { passive:true });
+  zone.addEventListener('pointerleave', function(){ tr = null; });
+  zone.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse'){ tr = { x:e.clientX, y:e.clientY, d:step() * .6 }; } }, { passive:true });
+  zone.addEventListener('pointercancel', function(){ tr = null; });
+  /* phones (no hover): once after the page opens, a slow trail crosses the name by itself, so the effect is seen */
+  function autoTrail(){
+    if (calm() || fine() || view !== 'home') return;
+    var r = zone.getBoundingClientRect(), W = r.width, n = 7, t0 = now(), dur = 2600, last = -1;
+    (function go(){
+      var k = Math.min(1, (now() - t0) / dur), i = Math.floor(k * n);
+      if (i > last && i < n && window.scrollY < r.height){
+        last = i;
+        var f = (i + .5) / n, x = r.left + W * (0.1 + 0.8 * f), y = r.top + r.height * (0.5 + 0.18 * Math.sin(f * Math.PI * 2));
+        spawn(x, y);
+      }
+      if (k < 1) raf(go);
+    })();
+  }
+  if (!calm()){
+    preload(fine() ? 12 : 8);
+    var more = function(){ preload(POOL.length); window.removeEventListener('pointermove', more); };
+    window.addEventListener('pointermove', more, { passive:true });
+  }
+
+  /* ============ 2. pinned horizontal gallery (07) ============ */
+  var works = $('works'), pin = $('pin'), track = $('track'), cNow = $('cNow'), prog = $('prog');
+  var cards = [];
+  $('cAll').textContent = two(ORDER.length);
+  ORDER.forEach(function(g, i){
+    var src = leadOf(g), sz = SIZES[src];
+    var a = el('a', 'card'); a.href = '#' + g.id;
+    a.setAttribute('aria-label', g.title + '（' + (g.en || '') + '）の作品 ' + galleryOf(g).length + '点を見る');
+    var ph = el('span', 'ph'); ph.style.setProperty('--ar', ratio(src));
+    var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+    if (sz){ im.width = sz[0]; im.height = sz[1]; }
+    if (i > 2) im.loading = 'lazy';
+    im.src = small(src);
+    ph.appendChild(im); a.appendChild(ph);
+    var cap = el('span', 'cap');
+    var l = el('span'); l.appendChild(el('span', 'no', two(i + 1))); l.appendChild(el('span', 'en', g.en || g.title));
+    cap.appendChild(l); cap.appendChild(el('span', 'ja', g.title + '　' + galleryOf(g).length + '点'));
+    a.appendChild(cap); track.appendChild(a);
+    var c = { a:a, g:g, i:i, x:0, w:0 };
+    cards.push(c);
+    a.addEventListener('click', function(e){ e.preventDefault(); openGenre(g, a); });
+    a.addEventListener('focus', function(){ if (mode === 'pin' && a.matches(':focus-visible')) toCard(i); });   /* keyboard only; the strip scrolls itself */
+  });
+
+  var mode = '', D = 0, O = 0, secTop = 0, pShown = 0, pTarget = 0, loopOn = false, lastT = 0, cur = -1;
+  function setMode(){
+    var m = calm() ? 'plain' : (narrow() ? 'strip' : 'pin');
+    if (m !== mode){
+      mode = m;
+      works.classList.toggle('strip', m === 'strip'); works.classList.toggle('plain', m === 'plain');
+      track.style.transform = ''; track.scrollLeft = 0;
+      cards.forEach(function(c){ c.a.style.transform = ''; });
+    }
+    layout();
+  }
+  function layout(){
+    if (mode === 'pin'){
+      var vw = pin.clientWidth;
+      cards.forEach(function(c){ c.x = c.a.offsetLeft + c.a.offsetWidth / 2; c.w = c.a.offsetWidth; });
+      O = Math.max(0, track.scrollWidth - vw);
+      D = Math.round(O * 1.1);
+      works.style.height = (window.innerHeight + D) + 'px';
+      secTop = works.getBoundingClientRect().top + window.scrollY;
+      pTarget = readP(); pShown = pTarget; paint();
+    } else {
+      works.style.height = '';
+      if (mode === 'strip'){
+        /* the first and the last card can come to the middle */
+        var vw2 = track.clientWidth, f = cards[0].a.offsetWidth, l = cards[cards.length - 1].a.offsetWidth;
+        track.style.paddingLeft = Math.max(16, (vw2 - f) / 2) + 'px';
+        track.style.paddingRight = Math.max(16, (vw2 - l) / 2) + 'px';
+        stripPaint();
+      } else { track.style.paddingLeft = track.style.paddingRight = ''; setCount(0); }
+    }
+  }
+  function readP(){ return D > 0 ? clamp((window.scrollY - secTop) / D, 0, 1) : 0; }
+  function setCount(i){ if (i !== cur){ cur = i; cNow.textContent = two(i + 1); } }
+  /* the focus point slides from the first card's centre (start) to the last card's centre (end), so the card that is large is the card that is counted */
+  function paint(){
+    var p = pShown, tx = -p * O;
+    track.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,0,0)';
+    var x0 = cards[0].x, xn = cards[cards.length - 1].x - O;
+    var focus = x0 + (xn - x0) * p, best = 0, bd = 1e9, reach = 0;
+    cards.forEach(function(c){ reach += c.w; }); reach = reach / cards.length + 72;
+    cards.forEach(function(c, i){
+      var d = Math.abs(c.x + tx - focus);
+      if (d < bd){ bd = d; best = i; }
+      var s = 1 - 0.1 * Math.min(1, d / reach);
+      c.a.style.transform = 'scale(' + s.toFixed(4) + ')';
+    });
+    setCount(best);
+    prog.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+  }
+  function loop(){
+    var t = now(), dt = Math.min(64, t - lastT); lastT = t;
+    pTarget = readP();
+    var k = 1 - Math.exp(-dt / 260);                /* ≈ scrub:1 – it catches up in about a second */
+    pShown += (pTarget - pShown) * k;
+    if (Math.abs(pTarget - pShown) < 0.0004) pShown = pTarget;
+    paint();
+    if (pShown !== pTarget && mode === 'pin') raf(loop); else loopOn = false;
+  }
+  function kick(){ if (mode !== 'pin' || loopOn) return; loopOn = true; lastT = now(); raf(loop); }
+  window.addEventListener('scroll', kick, { passive:true });
+  /* the hidden overflow must never be scrolled sideways by the browser (e.g. when a card takes the focus) */
+  pin.addEventListener('scroll', function(){ if (pin.scrollLeft) pin.scrollLeft = 0; });
+  function toCard(i){
+    if (mode !== 'pin') return;
+    var x0 = cards[0].x, xn = cards[cards.length - 1].x;
+    var p = xn > x0 ? (cards[i].x - x0) / (xn - x0) : 0;
+    window.scrollTo(0, Math.round(secTop + p * D));
+    kick();
+  }
+  /* phones: the strip */
+  function stripPaint(){
+    if (mode !== 'strip') return;
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+    cards.forEach(function(c, i){
+      var x = c.a.offsetLeft + c.a.offsetWidth / 2, d = Math.abs(x - mid);
+      if (d < bd){ bd = d; best = i; }
+      c.a.style.transform = 'scale(' + (1 - 0.1 * Math.min(1, d / (c.a.offsetWidth + 16))).toFixed(4) + ')';
+    });
+    setCount(best);
+    var max = track.scrollWidth - track.clientWidth;
+    prog.style.transform = 'scaleX(' + (max > 0 ? track.scrollLeft / max : 0).toFixed(4) + ')';
+  }
+  var stripReq = false;
+  track.addEventListener('scroll', function(){ if (!stripReq){ stripReq = true; raf(function(){ stripReq = false; stripPaint(); }); } }, { passive:true });
+
+  /* ============ custom cursor (02): fine pointer only ============ */
+  var curEl = $('cur'), dotEl = curEl.querySelector('.dot'), ringEl = curEl.querySelector('.ring');
+  var cc = { on:false, mx:0, my:0, rx:0, ry:0, sx:0, sy:0, t0:0, run:false, seen:false };
+  function ccAllowed(){ return fine() && !calm(); }
+  function ccSync(){
+    cc.on = ccAllowed();
+    root.classList.toggle('cc', cc.on);
+    if (!cc.on) curEl.className = '';
+  }
+  ccSync(); onMq(mqFine, function(){ syncFine(); ccSync(); }); onMq(mqCalm, ccSync);
+  function ringLoop(){
+    var k = Math.min(1, (now() - cc.t0) / 400), e = power3out(k);       /* quickTo(ring, { duration:0.4, ease:"power3" }) */
+    cc.rx = cc.sx + (cc.mx - cc.sx) * e; cc.ry = cc.sy + (cc.my - cc.sy) * e;
+    ringEl.style.transform = 'translate3d(' + cc.rx.toFixed(2) + 'px,' + cc.ry.toFixed(2) + 'px,0)';
+    if (k < 1) raf(ringLoop); else cc.run = false;
+  }
+  function stateFor(t){
+    if (!t || !t.closest || busy) return '';
+    if (t.closest('.card')) return 'view';
+    if (t.closest('#detail ol button')) return 'view inv';
+    if (t.closest('a,button,#lb img.can')) return 'link';
+    return '';
+  }
+  window.addEventListener('pointermove', function(e){
+    if (!cc.on || e.pointerType !== 'mouse') return;
+    if (inFp(e.target)){ curEl.className = ''; return; }       /* over the font picker: the system arrow, ours hidden */
+    cc.mx = e.clientX; cc.my = e.clientY;
+    dotEl.style.transform = 'translate3d(' + cc.mx + 'px,' + cc.my + 'px,0)';
+    if (!cc.seen){ cc.seen = true; cc.rx = cc.mx; cc.ry = cc.my; }
+    cc.sx = cc.rx; cc.sy = cc.ry; cc.t0 = now();
+    if (!cc.run){ cc.run = true; raf(ringLoop); }
+    var s = stateFor(e.target);
+    curEl.className = 'on' + (s ? ' ' + s : '');
+  }, { passive:true });
+  doc.addEventListener('mouseleave', function(){ curEl.className = ''; });
+  window.addEventListener('blur', function(){ curEl.className = ''; });
+  /* the page moves under a still mouse (scrolling, the gallery gliding): look again at what is under it */
+  function ccProbe(){
+    if (!cc.on || !cc.seen || !curEl.classList.contains('on')) return;
+    var t = doc.elementFromPoint(cc.mx, cc.my);
+    if (inFp(t)){ curEl.className = ''; return; }
+    var s = stateFor(t); curEl.className = 'on' + (s ? ' ' + s : '');
+  }
+  window.addEventListener('scroll', function(){ raf(ccProbe); }, { passive:true });
+  doc.getElementById('detail').addEventListener('scroll', function(){ raf(ccProbe); }, { passive:true });
+
+  /* ============ curtain (08) ============ */
+  var curtain = $('curtain'), cNum = $('cNum'), cLabel = $('cLabel');
+  var view = 'home', busy = false, homeY = 0, lastOpener = null;
+  function slide(from, to, ms, done){
+    var a = curtain.animate([{ transform:'translate3d(0,' + from + '%,0)' }, { transform:'translate3d(0,' + to + '%,0)' }],
+      { duration:ms, easing:'cubic-bezier(.76,0,.24,1)', fill:'forwards' });
+    a.onfinish = function(){ curtain.style.transform = 'translate3d(0,' + to + '%,0)'; if (done) done(); };
+    return a;
+  }
+  function count(ms){
+    var t0 = now(), ease = outPow(2.5);
+    cNum.textContent = '0';
+    (function go(){ var k = Math.min(1, (now() - t0) / ms); cNum.textContent = String(Math.round(100 * ease(k))); if (k < 1) raf(go); })();
+  }
+  /* open a genre: cover from the bottom while counting to 100, change the page underneath, lift away upwards */
+  function openGenre(g, from){
+    if (busy || view !== 'home') return;
+    lastOpener = from || null;
+    homeY = window.scrollY;
+    if (curEl.classList.contains('on')) curEl.className = 'on';
+    if (calm() || !curtain.animate){ openDetail(g, 'push'); showDetail(true); return; }
+    busy = true;
+    cLabel.textContent = (g.en || '') + ' — ' + g.title + '　' + galleryOf(g).length + '点';
+    cNum.textContent = '0'; cNum.style.visibility = ''; cLabel.style.visibility = '';
+    curtain.classList.add('on');
+    slide(100, 0, 400, function(){ openDetail(g, 'push'); });
+    setTimeout(function(){ count(1080); }, 320);
+    setTimeout(function(){
+      showDetail(false);
+      slide(0, -100, 500, function(){ curtain.classList.remove('on'); busy = false; ccProbe(); });
+    }, 1750);
+  }
+  /* back to the top page: the panel comes down over the list and carries on down */
+  function leaveGenre(fromPop){
+    if (view !== 'detail') return;
+    if (!fromPop && now() - lbShut < 450) return;      /* a second press meant for the enlarged photo must not also close the list */
+    if (busy) return;
+    if (calm() || !curtain.animate){ closeDetail(fromPop); return; }
+    busy = true;
+    if (curEl.classList.contains('on')) curEl.className = 'on';
+    cNum.style.visibility = 'hidden'; cLabel.style.visibility = 'hidden';
+    curtain.classList.add('on');
+    slide(-100, 0, 400, function(){
+      closeDetail(fromPop);
+      slide(0, 100, 450, function(){ curtain.classList.remove('on'); busy = false; ccProbe(); });
+    });
+  }
+
+  /* ============ genre list: heading + grid of thumbnails (from r4-snog.html) ============ */
+  var detail = $('detail'), list = detail.querySelector('ol'), dhead = detail.querySelector('h2'), more = detail.querySelector('.more');
+  var curG = null;                     /* { g, items[], btns[] } while a genre is open */
+  var direct = false;                  /* this visit began on a genre's own address (…#beauty) */
+  function fillDetail(g){
+    var items = galleryOf(g);
+    list.textContent = '';
+    dhead.textContent = '— ' + (g.en || g.title) + ' —';
+    dhead.setAttribute('aria-label', g.title);
+    curG = { g:g, items:items, btns:[] };
+    items.forEach(function(src, n){
+      var li = el('li'), sz = SIZES[src];
+      li.style.setProperty('--n', Math.min(n, 14));
+      if (sz && sz[0] / sz[1] > 1.25) li.className = 'wide';
+      var b = el('button'); b.type = 'button'; b.setAttribute('aria-label', g.title + ' ' + (n + 1) + ' を拡大表示');
+      var im = el('img'); im.alt = ''; im.decoding = 'async'; im.draggable = false;
+      if (n > 5) im.loading = 'lazy';
+      if (sz){ im.width = sz[0]; im.height = sz[1]; }
+      im.src = small(src); im.setAttribute('data-src', src);      /* 一覧は小さい画像、拡大は元の画像 */
+      b.appendChild(im); li.appendChild(b); list.appendChild(li);
+      b.addEventListener('click', function(){ openLb(n); });
+      curG.btns.push(b);
+    });
+    /* after the last photo: the other genres, then how to get in touch */
+    more.textContent = '';
+    more.appendChild(el('p', 'k', 'ほかの作品'));
+    var ul = el('ul');
+    ORDER.forEach(function(o){
+      if (o === g) return;
+      var li = el('li'), b = el('button', null, o.en || o.title); b.type = 'button'; b.setAttribute('aria-label', o.title + 'の作品を見る');
+      b.addEventListener('click', function(){ swapDetail(o); });
+      li.appendChild(b); ul.appendChild(li);
+    });
+    more.appendChild(ul);
+    if (PRO.email){ var c = el('p', 'c'), m = el('a', 'btn', 'お仕事のご相談・お問い合わせ'); m.href = 'mailto:' + PRO.email; c.appendChild(m); more.appendChild(c); }
+  }
+  /* how: 'push' (from the top page), 'direct' (the address already named the genre), 'pop' (back / forward) */
+  function openDetail(g, how){
+    fillDetail(g);
+    view = 'detail'; direct = how === 'direct';
+    root.classList.add('locked');
+    detail.classList.remove('shown');
+    dhead.classList.add('pre');
+    detail.hidden = false; detail.scrollTop = 0;
+    detail.focus({ preventScroll:true });           /* so the arrow / page keys scroll the list */
+    try {
+      if (how === 'direct') history.replaceState({ g:g.id, direct:1 }, '', '#' + g.id);
+      else if (how !== 'pop') history.pushState({ g:g.id }, '', '#' + g.id);
+    } catch (err) {}
+  }
+  /* the curtain has lifted (or there is none): the heading is uncovered from the bottom, the photos rise in */
+  function showDetail(instant){
+    void detail.offsetWidth;
+    detail.classList.add('shown');
+    if (instant) dhead.classList.remove('pre');
+    else setTimeout(function(){ dhead.classList.remove('pre'); }, 150);
+  }
+  function swapDetail(g){
+    if (view !== 'detail' || lbOn) return;
+    detail.classList.remove('shown');
+    setTimeout(function(){
+      if (view !== 'detail') return;
+      fillDetail(g);
+      detail.scrollTop = 0;
+      dhead.classList.add('pre');
+      showDetail(calm());
+      detail.focus({ preventScroll:true });
+      try { history.replaceState(direct ? { g:g.id, direct:1 } : { g:g.id }, '', '#' + g.id); } catch (err) {}
+    }, calm() ? 0 : 260);
+  }
+  function closeDetail(fromPop){
+    if (view !== 'detail') return;
+    if (lbOn) closeLb(true);
+    view = 'home';
+    detail.hidden = true; detail.classList.remove('shown'); list.textContent = ''; curG = null;
+    root.classList.remove('locked');
+    window.scrollTo(0, homeY);
+    if (!fromPop){ try {
+      var st = history.state;
+      if (st && st.g){ if (direct) history.replaceState(null, '', location.pathname + location.search); else history.go(st.lb ? -2 : -1); }
+    } catch (err) {} }
+    direct = false;
+    kick();
+    if (lastOpener && lastOpener.focus) lastOpener.focus({ preventScroll:true });
+  }
+  $('closeDetail').addEventListener('click', function(){ leaveGenre(false); });
+  $('dHome').addEventListener('click', function(e){ e.preventDefault(); leaveGenre(false); });
+  $('who').addEventListener('click', function(e){ e.preventDefault(); works.scrollIntoView({ behavior:calm() ? 'auto' : 'smooth' }); });
+  window.addEventListener('popstate', function(e){
+    var keep = e.state && e.state.g;                /* still inside a genre after this step back */
+    if (lbOn){ closeLb(true); if (keep) return; }
+    if (view === 'detail' && !keep) leaveGenre(true);
+    else if (view === 'detail' && keep && curG && curG.g.id !== e.state.g && GROUPS[e.state.g]){ fillDetail(GROUPS[e.state.g]); detail.scrollTop = 0; showDetail(true); }
+    else if (view === 'home' && keep && !busy && GROUPS[e.state.g]){          /* forward again into a genre */
+      homeY = window.scrollY; openDetail(GROUPS[e.state.g], 'pop'); showDetail(true);
+    }
+  });
+
+  /* the address is changed by hand to a genre (…#beauty) while the page is open */
+  window.addEventListener('hashchange', function(){
+    var g = GROUPS[(location.hash || '').slice(1)];
+    if (g && galleryOf(g).length && view === 'home' && !busy){ homeY = window.scrollY; openDetail(g, 'direct'); showDetail(true); }
+  });
+
+  /* ============ lightbox: one photo large, previous / next, swipe (from r4-snog.html) ============ */
+  var lb = $('lb'), lbFig = lb.querySelector('figure'), lbImg = lb.querySelector('img'), lbCt = lb.querySelector('.ct');
+  var lbPrev = lb.querySelector('.pv'), lbNext = lb.querySelector('.nx'), lbX = lb.querySelector('.x');
+  var lbOn = false, lbOrder = [], lbPos = 0, lbTok = 0, got = {}, lbSrc = '', lbShut = 0;
+  function seenOrder(){
+    var r = curG.btns.map(function(b, i){ var q = b.getBoundingClientRect(); return { i:i, t:Math.round(q.top), l:q.left }; });
+    r.sort(function(a, b){ return (a.t - b.t) || (a.l - b.l); });
+    return r.map(function(o){ return o.i; });
+  }
+  function full(src, then){ if (got[src]){ if (then) then(); return; } var f = new Image(); f.onload = function(){ got[src] = 1; if (then) then(); }; f.src = src; }
+  function lbFit(){
+    var sz = SIZES[lbSrc];
+    if (!sz){ lbImg.style.width = ''; lbImg.style.height = ''; lbImg.classList.remove('can'); return; }
+    if (lb.classList.contains('zoom')) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    var mw = narrow() ? W - 20 : W - 2 * Math.max(64, W * 0.09) - 20;
+    var mh = narrow() ? Math.min(H * 0.74, H - 124) : Math.min(H * 0.86, H - 96);
+    var k = Math.min(mw / sz[0], mh / sz[1], 1);
+    lbImg.style.width = Math.max(1, Math.round(sz[0] * k)) + 'px'; lbImg.style.height = Math.max(1, Math.round(sz[1] * k)) + 'px';
+    lbImg.classList.toggle('can', !narrow() && k < 0.84);
+  }
+  function lbZoom(on){
+    var sz = SIZES[lbSrc];
+    if (on && (!sz || !lbImg.classList.contains('can'))) return;
+    lb.classList.toggle('zoom', !!on);
+    if (on){
+      if (lbImg.getAttribute('src') !== lbSrc) lbImg.src = lbSrc;
+      lbImg.style.width = Math.min(sz[0], 2000) + 'px'; lbImg.style.height = 'auto';
+      lb.scrollTop = 0; lb.scrollLeft = Math.max(0, (lb.scrollWidth - lb.clientWidth) / 2);
+    } else { lb.scrollTop = 0; lb.scrollLeft = 0; lbFit(); }
+  }
+  lbImg.addEventListener('click', function(){ if (fine() && !narrow()) lbZoom(!lb.classList.contains('zoom')); });
+  function lbShow(pos, dir, fromX){
+    if (lb.classList.contains('zoom')) lbZoom(false);
+    var n = lbOrder.length; lbPos = ((pos % n) + n) % n;
+    var src = curG.items[lbOrder[lbPos]], my = ++lbTok, quiet = calm() || !dir;
+    var first = got[src] ? src : small(src);
+    lbCt.textContent = two(lbPos + 1) + ' / ' + two(n);
+    function place(){
+      if (my !== lbTok || !lbOn) return;
+      lbSrc = src; lbImg.setAttribute('data-src', src);
+      lbFit();
+      lbImg.src = first; lbImg.alt = curG.g.title + ' ' + (lbPos + 1);
+      if (first !== src) full(src, function(){ if (my === lbTok && lbOn && lbImg.getAttribute('src') !== src) lbImg.src = src; });
+      else got[src] = 1;
+      lbFig.style.transition = 'none';
+      if (quiet){ lbFig.style.transform = ''; lbFig.style.opacity = ''; void lbFig.offsetWidth; lbFig.style.transition = ''; return; }
+      lbFig.style.transform = 'translate3d(' + (dir * 28) + 'px,0,0)'; lbFig.style.opacity = '0';
+      void lbFig.offsetWidth;
+      lbFig.style.transition = ''; lbFig.style.transform = ''; lbFig.style.opacity = '';
+    }
+    if (quiet) place();
+    else {
+      lbFig.style.transition = '';
+      lbFig.style.transform = 'translate3d(' + ((fromX || 0) - dir * 28).toFixed(1) + 'px,0,0)'; lbFig.style.opacity = '0';
+      var t0 = now(), went = false, pre = new Image();
+      var go = function(){ if (went) return; went = true; var w = 170 - (now() - t0); setTimeout(place, w > 0 ? w : 0); };
+      pre.onload = pre.onerror = go; pre.src = first; if (pre.complete) go();
+      setTimeout(go, 1500);
+    }
+    if (n > 1) [1, -1].forEach(function(d){ var k = curG.items[lbOrder[(lbPos + d + n) % n]], p = new Image(); p.src = small(k); if (d === (dir || 1)) full(k); });
+  }
+  function openLb(n){
+    if (!curG || lbOn) return;
+    lbOrder = seenOrder();
+    lbOn = true; lb.hidden = false; lb.classList.remove('on');
+    lb.classList.toggle('one', lbOrder.length < 2);
+    lbShow(lbOrder.indexOf(n), 0);
+    void lb.offsetWidth; lb.classList.add('on');
+    lbX.focus({ preventScroll:true });
+    raf(ccProbe);
+    try { history.pushState({ g:curG.g.id, lb:1 }, '', '#' + curG.g.id); } catch (err) {}
+  }
+  function closeLb(fromPop){
+    if (!lbOn) return;
+    lbOn = false; lbTok++; lbShut = now();
+    lb.classList.remove('on'); lb.classList.remove('zoom');
+    setTimeout(ccProbe, calm() ? 0 : 280);
+    setTimeout(function(){ if (!lbOn){ lb.hidden = true; lbImg.removeAttribute('src'); lbImg.removeAttribute('data-src'); lbSrc = ''; lbFit(); lbFig.style.transform = ''; lbFig.style.opacity = ''; } }, calm() ? 0 : 260);
+    var b = curG && curG.btns[lbOrder[lbPos]];
+    if (b && view === 'detail'){ if (b.scrollIntoView) b.scrollIntoView({ block:'nearest' }); b.focus({ preventScroll:true }); }
+    if (!fromPop){ try { if (history.state && history.state.lb) history.back(); } catch (err) {} }
+  }
+  lbX.addEventListener('click', function(){ closeLb(false); });
+  lbPrev.addEventListener('click', function(){ lbShow(lbPos - 1, -1); });
+  lbNext.addEventListener('click', function(){ lbShow(lbPos + 1, 1); });
+  lb.addEventListener('click', function(e){
+    if (e.target !== lb && e.target !== lbFig) return;
+    if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false);
+  });
+  window.addEventListener('resize', function(){ if (lbOn) lbFit(); });
+  var sw = null;
+  lb.addEventListener('touchstart', function(e){
+    sw = e.touches.length === 1 ? { x:e.touches[0].clientX, y:e.touches[0].clientY, dx:0, dy:0, lock:'' } : null;
+  }, { passive:true });
+  lb.addEventListener('touchmove', function(e){
+    if (!sw) return;
+    sw.dx = e.touches[0].clientX - sw.x; sw.dy = e.touches[0].clientY - sw.y;
+    if (!sw.lock && (Math.abs(sw.dx) > 8 || Math.abs(sw.dy) > 8)) sw.lock = Math.abs(sw.dx) > Math.abs(sw.dy) ? 'x' : 'y';
+    if (sw.lock === 'x' && lbOrder.length > 1){ lbFig.style.transition = 'none'; lbFig.style.transform = 'translate3d(' + sw.dx.toFixed(1) + 'px,0,0)'; }
+  }, { passive:true });
+  function swEnd(){
+    if (!sw) return;
+    var q = sw; sw = null;
+    lbFig.style.transition = '';
+    if (q.lock === 'x' && Math.abs(q.dx) > 48 && lbOrder.length > 1) lbShow(lbPos + (q.dx < 0 ? 1 : -1), q.dx < 0 ? 1 : -1, q.dx);
+    else lbFig.style.transform = '';
+  }
+  lb.addEventListener('touchend', swEnd);
+  lb.addEventListener('touchcancel', swEnd);
+
+  /* ---------- keys ---------- */
+  doc.addEventListener('keydown', function(e){
+    if (inFp(e.target)) return;
+    if (lbOn){
+      if (e.key === 'Escape'){ if (lb.classList.contains('zoom')) lbZoom(false); else closeLb(false); }
+      else if (e.key === 'ArrowLeft') lbShow(lbPos - 1, -1);
+      else if (e.key === 'ArrowRight') lbShow(lbPos + 1, 1);
+      else if (e.key === 'Tab'){                       /* keep the keyboard inside the enlarged view */
+        var f = [lbPrev, lbNext, lbX].filter(function(b){ return b.offsetParent !== null; });
+        e.preventDefault();
+        f[(f.indexOf(doc.activeElement) + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+      return;
+    }
+    if (view === 'detail' && e.key === 'Escape') leaveGenre(false);
+  });
+
+  /* ---------- size changes (also sent by the font picker) ---------- */
+  var rz = 0;
+  window.addEventListener('resize', function(){ clearTimeout(rz); rz = setTimeout(setMode, 80); });
+  onMq(mqNarrow, setMode); onMq(mqCalm, setMode);
+  if (doc.fonts && doc.fonts.ready) doc.fonts.ready.then(function(){ layout(); });
+
+  /* ---------- start ---------- */
+  setMode();
+  var first = GROUPS[(location.hash || '').slice(1)];
+  if (first && galleryOf(first).length){
+    /* the address names a genre (…#beauty): its list at once, without the curtain */
+    openDetail(first, 'direct'); showDetail(true);
+  } else {
+    setTimeout(autoTrail, 1100);
+  }
+  window.addEventListener('load', function(){ layout(); });
+})();
+</script>
+<script src="assets/js/fontpick.js"></script>
+</body>
+</html>
